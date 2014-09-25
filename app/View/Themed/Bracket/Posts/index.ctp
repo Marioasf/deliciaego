@@ -32,7 +32,7 @@
                             <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                            <h4 class="text-primary">'.$friend_info[$i][0]['User']['first_name'].$friend_info[$i][0]['User']['last_name'].'<small> shared photo</small></h4>
+                            <h4 class="text-primary">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'<small> shared photo</small></h4>
                             <small class="text-muted"></small>
                         </div>
                     </div><!-- media -->
@@ -54,7 +54,7 @@
                 <div class="panel-footer">
                     <div class="media">
                         <a href="#" class="pull-left">
-                            <img alt="" src="images/photos/user3.png" class="media-object">
+                            <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
                             <input type="text" class="form-control" placeholder="Write a comment" />
