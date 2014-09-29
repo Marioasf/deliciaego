@@ -54,8 +54,9 @@
       
       <h5 class="sidebartitle">Menu</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
-        <li class="active"><a href=""><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li><a href="/Items"><i class="fa fa-envelope-o"></i> <span>Items</span></a></li>
+        <li class="active"><a href="/"><i class="fa fa-home"></i> <span>Página inicial</span></a></li>
+        <li><a href="/Items"><i class="fa fa-envelope-o"></i> <span>Produtos</span></a></li>
+        <li><a href="/People"><i class="fa fa-envelope-o"></i> <span>Utilizadores</span></a></li>
         <li class="nav-parent"><a href=""><i class="fa fa-edit"></i> <span>Forms</span></a>
           <ul class="children">
             <li><a href=""><i class="fa fa-caret-right"></i> General Forms</a></li>
