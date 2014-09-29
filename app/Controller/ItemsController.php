@@ -19,7 +19,7 @@ class ItemsController extends AppController {
 		$this->set('items', $this->Paginator->paginate());
 
 				$items = $this->Item->find('all', array(
-			'order' => array("Item.name")
+			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price')
 			));
 
 			$this->set('items', $items);

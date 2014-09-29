@@ -68,11 +68,6 @@ public function logout() {
 
 			$this->set('items', $items);
 	}
-	public function people() {
-		$this->view = '/People/index';
-	}
-
-
 
 /**
  * view method
