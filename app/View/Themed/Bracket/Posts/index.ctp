@@ -19,27 +19,32 @@
     </div>
     
     <div class="contentpanel">
-      
-      <div id="timeline-list" class="row" style="max-width: 950px;">      
+      <div id="timeline-list" class="row" style="max-width: 950px;">   
       <?php 
-        for($i=0; $i<count($friends); $i++){
+      var_dump($friend_posts);
+      var_dump("__________________");
+      var_dump($friend_plist);
+      var_dump("__________________");
+      var_dump($friend_info);
+      for($i=0; $i<count($friend_posts); $i++){
+        if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == ""){
             echo '        <div class="col-sm-6">
               <div class="panel panel-default panel-timeline">
                 <div class="panel-heading">
                     
                     <div class="media">
                         <a href="#" class="pull-left">
-                            <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="media-object">
+                            <img alt="" src="'.$friend_info[$i]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                            <h4 class="text-primary">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'<small> shared photo</small></h4>
+                            <h4 class="text-primary">'.''.'<small> shared photo</small></h4>
                             <small class="text-muted"></small>
                         </div>
                     </div><!-- media -->
                     
                 </div><!-- panel-heading -->
                 <div class="panel-body">
-                    <a href="#"><img src="images/photos/media2.png" class="img-responsive" alt="" /></a>
+                    <a href="#"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 225px; height: 250px;" /></a>
                     <div class="timeline-btns">
                         <div class="pull-left">
                             <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
@@ -54,7 +59,7 @@
                 <div class="panel-footer">
                     <div class="media">
                         <a href="#" class="pull-left">
-                            <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="media-object">
+                            <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
                             <input type="text" class="form-control" placeholder="Write a comment" />
@@ -64,6 +69,7 @@
               </div><!-- panel -->
             </div><!-- col-sm-6 -->
             ';
+            }
         }
       ?>
         <div class="col-sm-6">
