@@ -40,9 +40,18 @@ class PostsController extends AppController {
 					'conditions' => array('User.username'=> $friend_plist)
 			));
 		}
+		$user_friend;
+		for($i=0; $i<count($friend_posts); $i++){
+			for($j=0; $j<count($friend_info); $j++){
+				if($friend_posts[$i]['Post']['user']==$friend_info[$j]['User']['username']){
+					$user_friend[$i] = $friend_info[$j];
+				}
+			}
+		}
 		$this->set('friend_plist', $friend_plist);
 		$this->set('friend_info', $friend_info);
 		$this->set('friend_posts', $friend_posts);
 		$this->set('friends', $friends);
+		$this->set('user_friend', $user_friend);
 	}
 }

@@ -21,11 +21,13 @@
     <div class="contentpanel">
       <div id="timeline-list" class="row" style="max-width: 950px;">   
       <?php 
-      var_dump($friend_posts);
+      /*var_dump($friend_posts);
       var_dump("__________________");
       var_dump($friend_plist);
       var_dump("__________________");
       var_dump($friend_info);
+      var_dump("__________________");
+      var_dump($user_friend);*/
       for($i=0; $i<count($friend_posts); $i++){
         if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == ""){
             echo '        <div class="col-sm-6">
@@ -34,17 +36,17 @@
                     
                     <div class="media">
                         <a href="#" class="pull-left">
-                            <img alt="" src="'.$friend_info[$i]['User']['picture'].'" class="media-object">
+                            <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                            <h4 class="text-primary">'.''.'<small> shared photo</small></h4>
-                            <small class="text-muted"></small>
+                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>shared a photo</small></h4>
+                            <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                         </div>
                     </div><!-- media -->
                     
                 </div><!-- panel-heading -->
                 <div class="panel-body">
-                    <a href="#"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 225px; height: 250px;" /></a>
+                    <a href="#"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
                     <div class="timeline-btns">
                         <div class="pull-left">
                             <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
@@ -69,6 +71,104 @@
               </div><!-- panel -->
             </div><!-- col-sm-6 -->
             ';
+            }
+            if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] != ""){
+                echo '        <div class="col-sm-6">
+                  <div class="panel panel-default panel-timeline">
+                    <div class="panel-heading">
+                        
+                        <div class="media">
+                            <a href="#" class="pull-left">
+                                <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>shared a photo</small></h4>
+                                <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
+                            </div>
+                        </div><!-- media -->
+                        
+                    </div><!-- panel-heading -->
+                    <div class="panel-body">
+                        
+                        <div class="media">
+                        <a href="#" class="pull-left">
+                          <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
+                        </a>
+                        <div class="media-body">
+                          <h4><a href="#">My Favorite Place</a></h4>
+                          <p>'.$friend_posts[$i]['Post']['content'].'</p>
+                        </div>
+                      </div>
+                        
+                        <div class="timeline-btns">
+                            <div class="pull-left">
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <small class="text-muted">1 people like this</small>
+                            </div>
+                        </div>
+                    </div><!-- panel-body -->
+                    <div class="panel-footer">
+                        <div class="media">
+                            <a href="#" class="pull-left">
+                                <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
+                            </a>
+                            <div class="media-body">
+                                <input type="text" class="form-control" placeholder="Write a comment" />
+                            </div>
+                        </div><!-- media -->
+                    </div>
+                  </div><!-- panel -->
+                </div><!-- col-sm-6 -->';
+            }
+            if($friend_posts[$i]['Post']['content'] = "" && $friend_posts[$i]['Post']['picture'] = ""){
+                echo ' <div class="col-sm-6">
+                  <div class="panel panel-default panel-timeline">
+                    <div class="panel-heading">
+                        
+                        <div class="media">
+                            <a href="#" class="pull-left">
+                                <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>shared a photo</small></h4>
+                                <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
+                            </div>
+                        </div><!-- media -->
+                        
+                    </div><!-- panel-heading -->
+                    <div class="panel-body">
+                        
+                        <div class="timeline-video">
+                            <iframe src="'.$friend_posts[$i]['Post']['video'].'" allowfullscreen></iframe>
+                        </div>
+                        
+                        <div class="timeline-btns">
+                            <div class="pull-left">
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <small class="text-muted">6 people like this</small>
+                            </div>
+                        </div>
+                    </div><!-- panel-body -->
+                    <div class="panel-footer">
+                        <div class="media">
+                            <a href="#" class="pull-left">
+                                <img alt="" src="images/photos/user3.png" class="media-object">
+                            </a>
+                            <div class="media-body">
+                                <input type="text" class="form-control" placeholder="Write a comment" />
+                            </div>
+                        </div><!-- media -->
+                    </div>
+                  </div><!-- panel -->
+                </div><!-- col-sm-6 -->';
             }
         }
       ?>
