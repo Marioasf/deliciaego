@@ -29,7 +29,8 @@
       var_dump("__________________");
       var_dump($user_friend);*/
       for($i=0; $i<count($friend_posts); $i++){
-        if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == ""){
+      	//if a post has picture only
+        if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == "" && $friend_posts[$i]['Post']['picture'] != ""){
             echo '        <div class="col-sm-6">
               <div class="panel panel-default panel-timeline">
                 <div class="panel-heading">
@@ -72,7 +73,8 @@
             </div><!-- col-sm-6 -->
             ';
             }
-            if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] != ""){
+            //if a post has content only
+            if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['picture'] =="" && $friend_posts[$i]['Post']['content'] != ""){
                 echo '        <div class="col-sm-6">
                   <div class="panel panel-default panel-timeline">
                     <div class="panel-heading">
@@ -124,7 +126,9 @@
                   </div><!-- panel -->
                 </div><!-- col-sm-6 -->';
             }
-            if($friend_posts[$i]['Post']['content'] = "" && $friend_posts[$i]['Post']['picture'] = ""){
+            
+          //if a post has video only
+            if($friend_posts[$i]['Post']['content'] == "" && $friend_posts[$i]['Post']['picture'] == "" && $friend_posts[$i]['Post']['video'] != ""){
                 echo ' <div class="col-sm-6">
                   <div class="panel panel-default panel-timeline">
                     <div class="panel-heading">
