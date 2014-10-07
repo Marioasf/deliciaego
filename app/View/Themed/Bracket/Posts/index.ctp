@@ -13,7 +13,7 @@
                         <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" style="margin-left: 5em;"><i class="glyphicon glyphicon-map-marker"></i></a>
                         <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" style="margin-left: 5em;"><i class="glyphicon glyphicon-user"></i></a>
                     </div><!--timeline-btns -->
-                    <button class="btn btn-primary pull-right">Submit Post</button>
+                    <button class="btn btn-primary pull-right">Submeter Post</button>
                 </div><!-- panel-footer -->
             </div>
     </div>
@@ -40,7 +40,7 @@
                             <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>shared a photo</small></h4>
+                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>Partilhard a photo</small></h4>
                             <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                         </div>
                     </div><!-- media -->
@@ -50,12 +50,12 @@
                     <a href="#"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
                     <div class="timeline-btns">
                         <div class="pull-left">
-                            <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
-                            <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
-                            <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                         </div>
                         <div class="pull-right">
-                            <small class="text-muted">2 people like this</small>
+                            <small class="text-muted">2 pessoas gostam disto</small>
                         </div>
                     </div>
                 </div><!-- panel-body -->
@@ -84,7 +84,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>shared a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -97,19 +97,19 @@
                           <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                          <h4><a href="#">My Favorite Place</a></h4>
+                          <h4><a href="#">Título</a></h4>
                           <p>'.$friend_posts[$i]['Post']['content'].'</p>
                         </div>
                       </div>
                         
                         <div class="timeline-btns">
                             <div class="pull-left">
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                             </div>
                             <div class="pull-right">
-                                <small class="text-muted">1 people like this</small>
+                                <small class="text-muted">1 pessoas gostam disto</small>
                             </div>
                         </div>
                     </div><!-- panel-body -->
@@ -138,7 +138,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>shared a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -152,12 +152,12 @@
                         
                         <div class="timeline-btns">
                             <div class="pull-left">
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                                <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                             </div>
                             <div class="pull-right">
-                                <small class="text-muted">6 people like this</small>
+                                <small class="text-muted">6 pessoas gostam disto</small>
                             </div>
                         </div>
                     </div><!-- panel-body -->
@@ -187,7 +187,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>shared a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -200,19 +200,19 @@
                   <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                 </a>
                 <div class="media-body">
-                  <h4><a href="#">My Favorite Place</a></h4>
+                  <h4><a href="#">Título</a></h4>
                   <p>'.$friend_posts[$i]['Post']['content'].'</p>
                 </div>
               </div>
                 
                 <div class="timeline-btns">
                     <div class="pull-left">
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a>
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Add Comment"><i class="glyphicon glyphicon-comment"></i></a>
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Share"><i class="glyphicon glyphicon-share"></i></a>
+                        <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
+                        <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                        <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                     </div>
                     <div class="pull-right">
-                        <small class="text-muted">1 people like this</small>
+                        <small class="text-muted">1 pessoas gostam disto</small>
                     </div>
                 </div>
             </div><!-- panel-body -->
