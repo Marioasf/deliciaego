@@ -16,7 +16,7 @@ class UsersController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('User','Friend','Item');
+	public $uses = array('User','Friend','Item','Post');
 
 	public function beforeFilter() {
     parent::beforeFilter();
@@ -49,7 +49,6 @@ public function logout() {
 		//profile lists
 		//list friends
 		$friends = $this->Friend->find('all', array(
-			'fields' => 'Friend.user2',
 			'conditions' => array('Friend.user1' => $this->Auth->user('username'))
 			));
 		for($i=0; $i<count($friends); $i++){
@@ -64,9 +63,35 @@ public function logout() {
 		$items = $this->Item->find('all', array(
 			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price'),
 			'conditions' => array('Item.user' => $this->Auth->user('username'))
-			));
+		));
 
-			$this->set('items', $items);
+		//list activities
+
+        $posts = $this->Post->find('all', array(
+			'conditions' => array('Post.user' => $this->Auth->user('username'))
+		));
+
+        /*for($i=0; $i<count($posts); $i++)
+		{
+			for($j=0; $j<count($posts[$i]['Post']); $j++){
+			 $posts_simple[$i][$j]=$posts[$i]['Post'][$j];
+			}
+		}*/
+
+        //$activities = array_merge($posts, $friends);
+
+        //sort activities by date
+        function cmp($a, $b){
+	    		if ($a["datemade"] == $b["datemade"]) {
+	        		return 0;
+	   			 }
+	    		return ($a["datemade"] < $b["datemade"]) ? -1 : 1;
+		}
+
+		//usort($activities,"cmp");
+
+        //$this->set('activities', $activities);
+		$this->set('items', $items);
 	}
 
 /**
