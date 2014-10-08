@@ -19,7 +19,7 @@ class ProductsController extends AppController {
 	public $uses = array('Item');
 
 	public function index() {
-		$this->User->recursive = 0;
+		//$this->User->recursive = 0;
 		$this->set('items', $this->Paginator->paginate());
 		}
 }

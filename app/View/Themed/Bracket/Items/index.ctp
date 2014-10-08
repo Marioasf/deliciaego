@@ -16,9 +16,9 @@
                   echo '
                       <div class="col-xs-6 col-sm-4">
                         <div class="blog-item">
-                          <a href="blog-single.html" class="blog-img"><img src="'.$items[$i]['Item']['picture'].'" class="img-responsive" alt=""   style="width: 225px; height: 250px;" /></a>
+                          <a href="/Products" class="blog-img"><img src="'.$items[$i]['Item']['picture'].'" class="img-responsive" alt=""   style="width: 225px; height: 250px;" /></a>
                           <div class="blog-details">
-                            <h4 class="blog-title"><a href="#">'.$items[$i]['Item']['name'].'</a></h4>
+                            <h4 class="blog-title"><a href="/Products">'.$items[$i]['Item']['name'].'</a></h4>
                             <ul class="blog-meta">
                               <li>By: <a href="#">'.$items[$i]['Item']['user'].'</a></li>
                               <li>Jan 03, 2014</li>
