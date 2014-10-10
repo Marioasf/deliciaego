@@ -25,6 +25,7 @@ class UsersController extends AppController {
 }
 
 public function login() {
+	$this->layout = false;
     if ($this->request->is('post')) {
         if ($this->Auth->login()) {
             return $this->redirect($this->Auth->redirect());
@@ -34,6 +35,7 @@ public function login() {
 }
 
 public function logout() {
+	$this->layout = false;
     return $this->redirect($this->Auth->logout());
 }
 

@@ -33,4 +33,5 @@ class PeopleController extends AppController {
 		));
 		$this->set('users', $users);
 		}
+
 }
