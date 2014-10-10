@@ -32,6 +32,21 @@ class PeopleController extends AppController {
 			'conditions' => array('User.username' != $this->Auth->user('username'))
 		));
 		$this->set('users', $users);
+	}
+
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function view($id = null) {
+			if (!$this->User->exists($id)) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->set('user', $this->User->find('first', $options));
 		}
 
 }

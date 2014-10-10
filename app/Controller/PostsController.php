@@ -54,4 +54,19 @@ class PostsController extends AppController {
 		$this->set('friends', $friends);
 		$this->set('user_friend', $user_friend);
 	}
+
+	/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function view($id = null) {
+		if (!$this->Post->exists($id)) {
+			throw new NotFoundException(__('Invalid post'));
+		}
+		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
+		$this->set('post', $this->Post->find('first', $options));
+	}
 }

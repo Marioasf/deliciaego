@@ -9,15 +9,15 @@
 
   <title>Bracket Responsive Bootstrap3 Admin</title>
 
-  <link href="css/style.default.css" rel="stylesheet">
-  <link href="css/jquery.datatables.css" rel="stylesheet"> 
-  <?php $this->Html->css('style.default.css'); ?>
-  <?php $this->Html->css('jquery.datatables.css'); ?>
+  <!--<link href="css/style.default.css" rel="stylesheet">
+  <link href="css/jquery.datatables.css" rel="stylesheet">--> 
+  <?php echo $this->Html->css('style.default'); ?>
+  <?php echo $this->Html->css('jquery.datatables'); ?>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
-  <script src="js/html5shiv.js"></script>
-  <script src="js/respond.min.js"></script>
+  <?php echo $this->Html->js('html5shiv.js'); ?>
+  <?php echo $this->Html->js('respond.min.js'); ?>
   <![endif]-->
 </head>
 
@@ -606,25 +606,27 @@
   
 </section>
 
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery-migrate-1.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/modernizr.min.js"></script>
-<script src="js/jquery.sparkline.min.js"></script>
-<script src="js/toggles.min.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.cookies.js"></script>
+<?php echo $this->Html->script('jquery.datatables'); ?>
 
-<script src="js/flot/flot.min.js"></script>
-<script src="js/flot/flot.resize.min.js"></script>
-<script src="js/morris.min.js"></script>
-<script src="js/raphael-2.1.0.min.js"></script>
+<?php echo $this->Html->script('jquery-1.10.2.min'); ?>
+<?php echo $this->Html->script('jquery-migrate-1.2.1.min'); ?>
+<?php echo $this->Html->script('bootstrap.min'); ?>
+<?php echo $this->Html->script('modernizr.min'); ?>
+<?php echo $this->Html->script('jquery.sparkline.min'); ?>
+<?php echo $this->Html->script('toggles.min'); ?>
+<?php echo $this->Html->script('retina.min'); ?>
+<?php echo $this->Html->script('jquery.cookies'); ?>
 
-<script src="js/jquery.datatables.min.js"></script>
-<script src="js/chosen.jquery.min.js"></script>
+<?php echo $this->Html->script('flot/flot.min'); ?>
+<?php echo $this->Html->script('flot/flot.resize.min'); ?>
+<?php echo $this->Html->script('morris.min'); ?>
+<?php echo $this->Html->script('raphael-2.1.0.min'); ?>
 
-<script src="js/custom.js"></script>
-<script src="js/dashboard.js"></script>
+<?php echo $this->Html->script('jquery.datatables.min'); ?>
+<?php echo $this->Html->script('chosen.jquery.min'); ?>
+
+<?php echo $this->Html->script('custom'); ?>
+<?php echo $this->Html->script('dashboard'); ?>
 
 </body>
 </html>
