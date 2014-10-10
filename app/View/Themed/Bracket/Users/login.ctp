@@ -56,7 +56,7 @@
             
             <div class="col-md-5">
                 
-                <form method="post" action="http://localhost/index.php/users/login">
+                <form method="post" action="/users/login">
                     <h4 class="nomargin">Sign In</h4>
                     <p class="mt5 mb20">Login to access your account.</p>
                 

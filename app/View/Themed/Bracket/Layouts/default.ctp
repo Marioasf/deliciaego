@@ -48,7 +48,7 @@
               <li><a href="/users"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
               <li><a href=""><i class="fa fa-cog"></i> <span>Definições de conta</span></a></li>
               <li><a href="/help"><i class="fa fa-question-circle"></i> <span>Ajuda</span></a></li>
-              <li><a href="/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
+              <li><a href="users/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
             </ul>
         </div>
       
@@ -293,7 +293,7 @@
                 <li><a href="/users"><i class="glyphicon glyphicon-user"></i> O meu perfil</a></li>
                 <li><a href=""><i class="glyphicon glyphicon-cog"></i> Definições de conta</a></li>
                 <li><a href="/help"><i class="glyphicon glyphicon-question-sign"></i> Ajuda</a></li>
-                <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
+                <li><a href="users/logout"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
               </ul>
             </div>
           </li>
