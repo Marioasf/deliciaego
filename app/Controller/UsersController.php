@@ -20,8 +20,8 @@ public $uses = array('User','Friend','Item');
 
 public function beforeFilter() {
 	parent::beforeFilter();
-    // Allow users to register and logout.
-	$this->Auth->allow('add', 'logout');
+    // Allow any user to login, logout and signup
+	$this->Auth->allow('login','logout','signup');
 }
 
 public function login() {
@@ -38,6 +38,45 @@ public function logout() {
 	$this->layout = false;
 	return $this->redirect($this->Auth->logout());
 }
+
+
+
+/**
+ * add method
+ *
+ * @return void
+ */
+public function signup() {
+	$this->layout = false;
+	if ($this->request->is('post')) {
+		$this->User->create();
+		if ($this->User->save($this->request->data)) {
+			$this->Session->setFlash(__('The user has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+		}
+	}
+}
+
+/**
+ * add method
+ *
+ * @return void
+ */
+public function add() {
+	$this->layout = false;
+	if ($this->request->is('post')) {
+		$this->User->create();
+		if ($this->User->save($this->request->data)) {
+			$this->Session->setFlash(__('The user has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+		}
+	}
+}
+
 
 /**
  * index method
@@ -69,22 +108,7 @@ public function index() {
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
 	}
-/**
- * add method
- *
- * @return void
- */
-public function add() {
-	if ($this->request->is('post')) {
-		$this->User->create();
-		if ($this->User->save($this->request->data)) {
-			$this->Session->setFlash(__('The user has been saved.'));
-			return $this->redirect(array('action' => 'index'));
-		} else {
-			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-		}
-	}
-}
+
 
 /**
  * edit method

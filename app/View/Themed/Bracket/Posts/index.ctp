@@ -19,7 +19,7 @@
     </div>
     
     <div class="contentpanel">
-      <div id="timeline-list" class="row" style="max-width: 950px;">   
+      <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">
       <?php 
       /*var_dump($friend_posts);
       var_dump("__________________");
@@ -40,7 +40,7 @@
                             <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>Partilhard a photo</small></h4>
+                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>Partilhou uma imagem</small></h4>
                             <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                         </div>
                     </div><!-- media -->
@@ -84,7 +84,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou uma mensagem</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -138,7 +138,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou um vídeo</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -187,7 +187,7 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhard a photo</small></h4>
+                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou uma mensagem com imagem</small></h4>
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->

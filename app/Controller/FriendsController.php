@@ -13,17 +13,33 @@ class FriendsController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+public $components = array('Paginator');
+public $uses = array('User','Friend');
 
 /**
  * index method
  *
  * @return void
  */
-	public function index() {
-		$this->Friend->recursive = 0;
-		$this->set('friends', $this->Paginator->paginate());
+public function index() {
+	$this->Friend->recursive = 0;
+	$this->set('friends', $this->Paginator->paginate());
+	$this->set('users', $this->Paginator->paginate());
+			//users lists
+	$friends = $this->Friend->find('all', array(
+		'fields' => 'Friend.user2',
+		'conditions' => array('Friend.user1' => $this->Auth->user('username'))
+		));
+	for($i=0; $i<count($friends); $i++){
+		$friend_info[$i] = $this->User->find('all', array(
+			'fields' => array('User.picture', 'User.first_name', 'User.last_name', 'User.country', 'User.company'),
+			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+			));
 	}
+	$this->set('friends', $friends);
+	$this->set('friend_info', $friend_info);
+	//$this->set('users', $users);
+}
 
 /**
  * view method
@@ -32,30 +48,30 @@ class FriendsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->Friend->exists($id)) {
-			throw new NotFoundException(__('Invalid friend'));
-		}
-		$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
-		$this->set('friend', $this->Friend->find('first', $options));
+public function view($id = null) {
+	if (!$this->Friend->exists($id)) {
+		throw new NotFoundException(__('Invalid friend'));
 	}
+	$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
+	$this->set('friend', $this->Friend->find('first', $options));
+}
 
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Friend->create();
-			if ($this->Friend->save($this->request->data)) {
-				$this->Session->setFlash(__('The friend has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
-			}
+public function add() {
+	if ($this->request->is('post')) {
+		$this->Friend->create();
+		if ($this->Friend->save($this->request->data)) {
+			$this->Session->setFlash(__('The friend has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
 		}
 	}
+}
 
 /**
  * edit method
@@ -64,22 +80,22 @@ class FriendsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
-		if (!$this->Friend->exists($id)) {
-			throw new NotFoundException(__('Invalid friend'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Friend->save($this->request->data)) {
-				$this->Session->setFlash(__('The friend has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
-			$this->request->data = $this->Friend->find('first', $options);
-		}
+public function edit($id = null) {
+	if (!$this->Friend->exists($id)) {
+		throw new NotFoundException(__('Invalid friend'));
 	}
+	if ($this->request->is(array('post', 'put'))) {
+		if ($this->Friend->save($this->request->data)) {
+			$this->Session->setFlash(__('The friend has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
+		}
+	} else {
+		$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
+		$this->request->data = $this->Friend->find('first', $options);
+	}
+}
 
 /**
  * delete method
@@ -88,17 +104,17 @@ class FriendsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
-		$this->Friend->id = $id;
-		if (!$this->Friend->exists()) {
-			throw new NotFoundException(__('Invalid friend'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Friend->delete()) {
-			$this->Session->setFlash(__('The friend has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The friend could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
+public function delete($id = null) {
+	$this->Friend->id = $id;
+	if (!$this->Friend->exists()) {
+		throw new NotFoundException(__('Invalid friend'));
 	}
+	$this->request->allowMethod('post', 'delete');
+	if ($this->Friend->delete()) {
+		$this->Session->setFlash(__('The friend has been deleted.'));
+	} else {
+		$this->Session->setFlash(__('The friend could not be deleted. Please, try again.'));
+	}
+	return $this->redirect(array('action' => 'index'));
+}
 }

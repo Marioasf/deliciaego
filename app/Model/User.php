@@ -46,7 +46,8 @@ class User extends AppModel {
             ),
              'equaltofield' => array(
                 'rule' => array('equaltofield','password'),
-                'message' => 'Both passwords must match.'
+                'message' => 'Both passwords must match.',
+                'on' => 'create',
             )
         ),
          

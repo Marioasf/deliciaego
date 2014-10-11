@@ -10,7 +10,7 @@
 		echo $this->Form->input('first_name');
 		echo $this->Form->input('last_name');
 		echo $this->Form->input('country');
-		echo $this->Form->input('userlevel');
+		//echo $this->Form->input('userlevel');
 		echo $this->Form->input('about');
 		echo $this->Form->input('title');
 		echo $this->Form->input('company');
@@ -20,11 +20,11 @@
 		echo $this->Form->input('facebook');
 		echo $this->Form->input('google');
 		echo $this->Form->input('twitter');
-		echo $this->Form->input('ip');
-		echo $this->Form->input('signup');
-		echo $this->Form->input('lastlogin');
-		echo $this->Form->input('notescheck');
-		echo $this->Form->input('activated');
+		//echo $this->Form->input('ip');
+		//echo $this->Form->input('signup');
+		//echo $this->Form->input('lastlogin');
+		//echo $this->Form->input('notescheck');
+		//echo $this->Form->input('activated');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -33,7 +33,7 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
+		<!--<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>-->
 		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
 	</ul>
 </div>
