@@ -14,29 +14,29 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session');
+public $components = array('Paginator', 'Session');
 
-	public $uses = array('User','Friend','Item');
+public $uses = array('User','Friend','Item');
 
-	public function beforeFilter() {
-    parent::beforeFilter();
+public function beforeFilter() {
+	parent::beforeFilter();
     // Allow users to register and logout.
-    $this->Auth->allow('add', 'logout');
+	$this->Auth->allow('add', 'logout');
 }
 
 public function login() {
 	$this->layout = false;
-    if ($this->request->is('post')) {
-        if ($this->Auth->login()) {
-            return $this->redirect($this->Auth->redirect());
-        }
-        $this->Session->setFlash(__('Your username or password was incorrect.'));
-    }
+	if ($this->request->is('post')) {
+		if ($this->Auth->login()) {
+			return $this->redirect($this->Auth->redirect());
+		}
+		$this->Session->setFlash(__('Your username or password was incorrect.'));
+	}
 }
 
 public function logout() {
 	$this->layout = false;
-    return $this->redirect($this->Auth->logout());
+	return $this->redirect($this->Auth->logout());
 }
 
 /**
@@ -45,39 +45,23 @@ public function logout() {
  * @return void
  */
 
-	public function index() {
-		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
-		//profile lists
-		//list friends
-		$friends = $this->Friend->find('all', array(
-			'fields' => 'Friend.user2',
-			'conditions' => array('Friend.user1' => $this->Auth->user('username'))
-			));
-		for($i=0; $i<count($friends); $i++){
-			$friend_info[$i] = $this->User->find('all', array(
-				'fields' => array('User.first_name', 'User.last_name', 'User.country', 'User.company'),
-				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
-				));
-		}
-			$this->set('friends', $friends);
-			$this->set('friend_info', $friend_info);
-		//list items
-		$items = $this->Item->find('all', array(
-			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price'),
-			'conditions' => array('Item.user' => $this->Auth->user('username'))
-			));
+public function index() {
+	$this->User->recursive = 0;
+	$this->set('users', $this->Paginator->paginate());
+		//users lists
+	$users = $this->User->find('all', array(
+		'conditions' => array('User.username' != $this->Auth->user('username'))
+		));
+	$this->set('users', $users);
+}
 
-			$this->set('items', $items);
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function view($id = null) {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
@@ -85,23 +69,22 @@ public function logout() {
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
 	}
-
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
+public function add() {
+	if ($this->request->is('post')) {
+		$this->User->create();
+		if ($this->User->save($this->request->data)) {
+			$this->Session->setFlash(__('The user has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 		}
 	}
+}
 
 /**
  * edit method
@@ -110,22 +93,22 @@ public function logout() {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
+public function edit($id = null) {
+	if (!$this->User->exists($id)) {
+		throw new NotFoundException(__('Invalid user'));
 	}
+	if ($this->request->is(array('post', 'put'))) {
+		if ($this->User->save($this->request->data)) {
+			$this->Session->setFlash(__('The user has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+		}
+	} else {
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$this->request->data = $this->User->find('first', $options);
+	}
+}
 
 /**
  * delete method
@@ -134,17 +117,17 @@ public function logout() {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
+public function delete($id = null) {
+	$this->User->id = $id;
+	if (!$this->User->exists()) {
+		throw new NotFoundException(__('Invalid user'));
 	}
+	$this->request->allowMethod('post', 'delete');
+	if ($this->User->delete()) {
+		$this->Session->setFlash(__('The user has been deleted.'));
+	} else {
+		$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
+	}
+	return $this->redirect(array('action' => 'index'));
+}
 }
