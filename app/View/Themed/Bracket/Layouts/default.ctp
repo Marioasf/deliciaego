@@ -48,7 +48,7 @@
               <li><a href="/users"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
               <li><a href=""><i class="fa fa-cog"></i> <span>Definições de conta</span></a></li>
               <li><a href="/help"><i class="fa fa-question-circle"></i> <span>Ajuda</span></a></li>
-              <li><a href="users/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
+              <li><a href="/users/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
             </ul>
         </div>
       
