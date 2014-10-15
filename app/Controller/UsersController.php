@@ -89,9 +89,15 @@ public function index() {
 	$this->set('users', $this->Paginator->paginate());
 		//users lists
 	$users = $this->User->find('all', array(
-		'conditions' => array('User.username' != $this->Auth->user('username'))
+		'conditions' => array('NOT' => array('User.username' => $this->Auth->user('username')))
 		));
 	$this->set('users', $users);
+
+	$friends = $this->Friend->find('all', array(
+		'fields' => 'Friend.user2',
+		'conditions' => array('Friend.user1' => $this->Auth->user('username'))
+		));
+	$this->set('friends', $friends);
 }
 
 	/**

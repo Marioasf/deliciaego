@@ -48,7 +48,8 @@
     
     <div class="people-list">
       <div class="row">
-        <?php for($i=0; $i<count($users); $i++){
+        <?php
+         for($i=0; $i<count($users); $i++){
           echo '
           <div class="col-md-6">
             <div class="people-item">
@@ -61,11 +62,13 @@
                   <div class="text-muted"><i class="fa fa-map-marker"></i> '.$users[$i]['User']['country'].'</div>
                   <div class="text-muted"><i class="fa fa-briefcase"></i> '.$users[$i]['User']['company'].'</a></div>
                   <ul class="social-list">
-                    <li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Email"><i class="fa fa-envelope-o"></i></a></li>
-                    <li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-                    <li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Skype"><i class="fa fa-skype"></i></a></li>
+                   <li> ';
+                   for($j=0; $j<count($friends); $j++){
+	                   if($users[$i]['User']['username']===$friends[$j]['Friend']['user2']){ echo '<button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>';
+	                   	}
+	                   else{
+	                   	echo '<button onclass="btn btn-sm btn-success mr5"><i class="fa fa-user"></i> Enviar pedido de amizade</button>';
+                   }} echo ' </li>
                   </ul>
                 </div>
               </div>
