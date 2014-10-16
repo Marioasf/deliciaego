@@ -105,6 +105,7 @@ public function index() {
 			));
 	}
 	$this->set('friend_info',$friend_info);
+	$this->set('user_in_session',$this->Auth->user('username'));
 }
 
 	/**
