@@ -12,7 +12,7 @@ class ItemsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Item');
+	public $uses = array('Item', 'User');
 
 	public function index(){
 		$this->Item->recursive = 0;
@@ -21,7 +21,6 @@ class ItemsController extends AppController {
 				$items = $this->Item->find('all', array(
 			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price')
 			));
-
 			$this->set('items', $items);
 	}
 
@@ -33,6 +32,13 @@ class ItemsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+
+				$items = $this->Item->find('all', array(
+			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price')
+			));
+						$users = $this->User->find('all');
+			$this->set('users', $users);
+
 		if (!$this->Item->exists($id)) {
 			throw new NotFoundException(__('Invalid item'));
 		}

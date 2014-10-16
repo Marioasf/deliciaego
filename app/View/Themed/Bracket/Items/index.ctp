@@ -3,9 +3,8 @@
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
-          <li><a href="index.html">Bracket</a></li>
-          <li><a href="index.html">Pages</a></li>
-          <li class="active">Blog List</li>
+          <li><a href="/">Deliciaego</a></li>
+          <li class="active">Produtos</li>
         </ol>
       </div>
     </div>

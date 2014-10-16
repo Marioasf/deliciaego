@@ -3,10 +3,10 @@
   
   <div class="pageheader">
     <h2><i class="fa fa-user"></i> Utilizadores</h2>
-    <div class="breadcrumb-wrapper">
+    <div class="breadcrumb-wrapper"> 
       <span class="label">You are here:</span>
       <ol class="breadcrumb">
-        <li><a href="index.html">Bracket</a></li>
+        <li><a href="index.html">Bracket</a></li> 
         <li><a href="index.html">Pages</a></li>
         <li class="active">Utilizadores</li>
       </ol>
