@@ -98,6 +98,13 @@ public function index() {
 		'conditions' => array('Friend.user1' => $this->Auth->user('username'))
 		));
 	$this->set('friends', $friends);
+		for($i=0; $i<count($friends); $i++){
+		$friend_info[$i] = $this->User->find('all', array(
+			'fields' => array('User.username'),
+			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+			));
+	}
+	$this->set('friend_info',$friend_info);
 }
 
 	/**
