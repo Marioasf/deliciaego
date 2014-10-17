@@ -77,6 +77,23 @@ public function add() {
 	}
 }
 
+/**
+ * addFriend method
+ *
+ * @return void
+ */
+public function addFriend() {
+	$this->layout = false;
+	if ($this->request->is('post')) {
+		$this->Friend->create();
+		if ($this->Friend->save($this->request->data)) {
+			$this->Session->setFlash(__('The friend request has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The friend request could not be saved. Please, try again.'));
+		}
+	}
+}
 
 /**
  * index method
@@ -94,9 +111,10 @@ public function index() {
 	$this->set('users', $users);
 
 	$friends = $this->Friend->find('all', array(
-		'fields' => 'Friend.user2',
+		'fields' => array('Friend.user2', 'Friend.accepted'),
 		'conditions' => array('Friend.user1' => $this->Auth->user('username'))
 		));
+
 	$this->set('friends', $friends);
 		for($i=0; $i<count($friends); $i++){
 		$friend_info[$i] = $this->User->find('all', array(
