@@ -3,8 +3,11 @@
 </div>
     <div class="pageheader">
             <div class="panel panel-dark panel-alt timeline-post">
+                <div class="panel">
+                    <textarea maxlength="25" rows="1" onfocus="this.rows=1;" style="resize: none;" placeholder="Título do seu post..." class="form-control"></textarea>
+                </div>
                 <div class="panel-body">              
-                    <textarea placeholder="Diga algo sobre si..." class="form-control"></textarea>
+                    <textarea rows="5" onfocus="this.rows=5;" placeholder="Diga algo sobre si..." class="form-control"></textarea>
                 </div><!-- panel-body -->
                 <div class="panel-footer">
                     <div class="timeline-btns pull-left">
@@ -21,13 +24,6 @@
     <div class="contentpanel">
       <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">
       <?php 
-      /*var_dump($friend_posts);
-      var_dump("__________________");
-      var_dump($friend_plist);
-      var_dump("__________________");
-      var_dump($friend_info);
-      var_dump("__________________");
-      var_dump($user_friend);*/
       for($i=0; $i<count($friend_posts); $i++){
       	//if a post has picture only
         if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == "" && $friend_posts[$i]['Post']['picture'] != ""){
@@ -47,6 +43,7 @@
                     
                 </div><!-- panel-heading -->
                 <div class="panel-body">
+                <h4><a href="#">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                     <a href="#"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
                     <div class="timeline-btns">
                         <div class="pull-left">
@@ -97,11 +94,10 @@
                           <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                          <h4><a href="#">Título</a></h4>
+                          <h4><a href="#">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                           <p>'.$friend_posts[$i]['Post']['content'].'</p>
                         </div>
                       </div>
-                        
                         <div class="timeline-btns">
                             <div class="pull-left">
                                 <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
@@ -145,7 +141,7 @@
                         
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        
+                        <h4><a href="#">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                         <div class="timeline-video">
                             <iframe src="'.$friend_posts[$i]['Post']['video'].'" allowfullscreen></iframe>
                         </div>
@@ -200,7 +196,7 @@
                   <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                 </a>
                 <div class="media-body">
-                  <h4><a href="#">Título</a></h4>
+                  <h4><a href="#">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                   <p>'.$friend_posts[$i]['Post']['content'].'</p>
                 </div>
               </div>

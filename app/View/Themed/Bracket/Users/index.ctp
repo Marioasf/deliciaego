@@ -6,8 +6,7 @@
         <div class="breadcrumb-wrapper"> 
           <span class="label">You are here:</span>
           <ol class="breadcrumb">
-            <li><a href="index.html">Bracket</a></li> 
-            <li><a href="index.html">Pages</a></li>
+            <li><a href="/">Deliciaego</a></li> 
             <li class="active">Utilizadores</li>
           </ol>
         </div>
@@ -49,7 +48,6 @@
         <div class="people-list">
           <div class="row">
             <?php
-            var_dump($friends);
             $friends_button='<button id="friend" class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>';
             $addfriend_button='<button id="add_friend" class="btn btn-sm btn-success mr5" onclick="friendRequest(this.id)" ><i class="fa fa-user"></i> Enviar pedido de amizade</button>';
             for($i=0; $i<count($users); $i++){
@@ -58,11 +56,13 @@
               <div class="col-md-6">
                 <div class="people-item">
                   <div class="media">
-                    <a href="#" class="pull-left">
+                    <a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
                       <img alt="" src="'.$users[$i]['User']['picture'].'" class="thumbnail media-object">
                     </a>
                     <div class="media-body">
-                      <h4 class="person-name">'.$users[$i]['User']['first_name'].' '.$users[$i]['User']['last_name'].'</h4>
+                      <a href="users/view/'.$users[$i]['User']['id'].'">
+                        <h4 class="person-name">'.$users[$i]['User']['first_name'].' '.$users[$i]['User']['last_name'].'</h4>
+                      </a>
                       <div class="text-muted"><i class="fa fa-map-marker"></i> '.$users[$i]['User']['country'].'</div>
                       <div class="text-muted"><i class="fa fa-briefcase"></i> '.$users[$i]['User']['company'].'</a></div>
                       <ul class="social-list">

@@ -18,9 +18,7 @@ class ItemsController extends AppController {
 		$this->Item->recursive = 0;
 		$this->set('items', $this->Paginator->paginate());
 
-				$items = $this->Item->find('all', array(
-			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price')
-			));
+				$items = $this->Item->find('all');
 			$this->set('items', $items);
 	}
 

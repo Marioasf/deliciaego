@@ -1,13 +1,12 @@
   <link href="css/style.default.css" rel="stylesheet">
   <link href="css/prettyPhoto.css" rel="stylesheet">   
     <div class="pageheader">
-      <h2><i class="fa fa-user"></i> Perfil <span><?php echo $_SESSION['Auth']['User']['username']; ?></span></h2>
+      <h2><i class="fa fa-user"></i> Perfil <span><?php echo h($user['User']['first_name']); echo " "; echo h($user['User']['last_name']);?></span></h2>
       <div class="breadcrumb-wrapper">
         <span class="label">Caminho:</span>
         <ol class="breadcrumb">
-          <li><a href="index.html">Bracket</a></li>
-          <li><a href="index.html">Páginas</a></li>
-          <li class="active">Perfil</li>
+          <li><a href="/">Bracket</a></li>
+          <li class="active"><?php echo h($user['User']['first_name']); echo " "; echo h($user['User']['last_name']);?></li>
         </ol>
       </div>
     </div>
@@ -16,18 +15,18 @@
       
       <div class="row">
         <div class="col-sm-3">
-          <img src="<?php echo $_SESSION['Auth']['User']['picture']; ?>" class="thumbnail img-responsive" alt="" />
+          <img src="<?php echo h($user['User']['picture']);?>" class="thumbnail img-responsive" alt="" />
           
           <div class="mb30"></div>
           
           <h5 class="subtitle">Sobre</h5>
-          <p class="mb30"><?php echo $_SESSION['Auth']['User']['about']; ?>&nbsp;<a href="#">Mostrar mais</a></p>
+          <p class="mb30"><?php echo h($user['User']['about']);?>&nbsp;<a href="#">Mostrar mais</a></p>
           
           <h5 class="subtitle">Ligações</h5>
           <ul class="profile-social-list">
-            <li><i class="fa fa-twitter"></i> <a href="#"><?php echo $_SESSION['Auth']['User']['twitter']; ?>&nbsp;</a></li>
-            <li><i class="fa fa-facebook"></i> <a href="#"><?php echo $_SESSION['Auth']['User']['facebook']; ?>&nbsp;</a></li>
-            <li><i class="fa fa-google-plus"></i> <a href="#"><?php echo $_SESSION['Auth']['User']['google']; ?>&nbsp;</a></li>
+            <li><i class="fa fa-twitter"></i> <a href="#"><?php echo h($user['User']['twitter']);?>&nbsp;</a></li>
+            <li><i class="fa fa-facebook"></i> <a href="#"><?php echo h($user['User']['facebook']);?>&nbsp;</a></li>
+            <li><i class="fa fa-google-plus"></i> <a href="#"><?php echo h($user['User']['google']);?>&nbsp;</a></li>
           </ul>
           
           <div class="mb30"></div>          
@@ -35,9 +34,9 @@
         <div class="col-sm-9">
           
           <div class="profile-header">
-            <h2 class="profile-name"><?php echo $_SESSION['Auth']['User']['first_name']." ".$_SESSION['Auth']['User']['last_name']; ?>&nbsp;</h2>
-            <div class="profile-location"><i class="fa fa-map-marker"></i><?php echo $_SESSION['Auth']['User']['country']; ?>&nbsp;</div>
-            <div class="profile-position"><i class="fa fa-briefcase"></i><?php echo $_SESSION['Auth']['User']['company']; ?>&nbsp;</</div>
+            <h2 class="profile-name"><?php echo h($user['User']['first_name']); echo " "; echo h($user['User']['last_name']);?>&nbsp;</h2>
+            <div class="profile-location"><i class="fa fa-map-marker"></i><?php echo h($user['User']['country']); ?>&nbsp;</div>
+            <div class="profile-position"><i class="fa fa-briefcase"></i><?php echo h($user['User']['company']); ?>&nbsp;</</div>
 
             <div class="mb20"></div>
 
@@ -207,21 +206,21 @@
             
             <div class="follower-list">
              <?php for($i=0; $i<count($friends); $i++){
-             	   echo ('<div class="media">
-	                <a class="pull-left" href="#">
-	                  <img class="media-object" src="holder.js/100x125.html" alt="" />
-	                </a>
-	                <div class="media-body">
-	                  <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
-	                  <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
-	                  <div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</a></div>
-	                  
-	                  <div class="mb20"></div>
-	                  
-	                  <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
-	                  <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
-	                </div>
-	              </div><!-- media -->');}             ?>
+                 echo ('<div class="media">
+                  <a class="pull-left" href="#">
+                    <img class="media-object" src="holder.js/100x125.html" alt="" />
+                  </a>
+                  <div class="media-body">
+                    <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
+                    <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
+                    <div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</a></div>
+                    
+                    <div class="mb20"></div>
+                    
+                    <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
+                    <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
+                  </div>
+                </div><!-- media -->');}             ?>
               
             </div><!--follower-list -->
             
@@ -231,7 +230,7 @@
             <div class="row">
                             <?php
                  for($i=0; $i<count($items); $i++){
-                	echo '<div class="col-sm-6">
+                  echo '<div class="col-sm-6">
                   <div class="media">
                     <a class="pull-left" href="#">
                       <img class="media-object"  style="width: 50px; height: 50px;" src="'.$items[$i]['Item']['picture'].'" alt="" />
@@ -256,7 +255,7 @@
               <div class="row">
                 <?php
                  for($i=0; $i<count($items); $i++){
-                	echo '<div class="col-sm-6">
+                  echo '<div class="col-sm-6">
                   <div class="media">
                     <a class="pull-left" href="#">
                       <img class="media-object"  style="width: 50px; height: 50px;" src="'.$items[$i]['Item']['picture'].'" alt="" />

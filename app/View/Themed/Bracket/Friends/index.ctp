@@ -2,13 +2,12 @@
   <?php echo $this->Html->css('prettyPhoto'); ?>
   
   <div class="pageheader">
-  	<h2><i class="fa fa-user"></i> Utilizadores</h2>
+  	<h2><i class="fa fa-user"></i> Amigos</h2>
   	<div class="breadcrumb-wrapper">
-  		<span class="label">You are here:</span>
+  		<span class="label">Caminho :</span>
   		<ol class="breadcrumb">
-  			<li><a href="index.html">Bracket</a></li>
-  			<li><a href="index.html">Pages</a></li>
-  			<li class="active">Utilizadores</li>
+  			<li><a href="/">Deliciaego</a></li>
+  			<li class="active">Amigos</li>
   		</ol>
   	</div>
   </div>
@@ -53,11 +52,13 @@
   				<div class="col-md-6">
   					<div class="people-item">
   						<div class="media">
-  							<a href="#" class="pull-left">
+  							<a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
   								<img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
   							</a>
   							<div class="media-body">
+                <a href="users/view/'.$users[$i]['User']['id'].'">
   								<h4 class="person-name">'.$friend_info[$i][0]['User']['first_name'].' '.$friend_info[$i][0]['User']['last_name'].'</h4>
+                </a>
   								<div class="text-muted"><i class="fa fa-map-marker"></i> '.$friend_info[$i][0]['User']['country'].'</div>
   								<div class="text-muted"><i class="fa fa-briefcase"></i> '.$friend_info[$i][0]['User']['company'].'</a></div>
   								<ul class="social-list">

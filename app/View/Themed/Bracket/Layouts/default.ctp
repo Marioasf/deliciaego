@@ -36,9 +36,9 @@
         <!-- This is only visible to small devices -->
         <div class="visible-xs hidden-sm hidden-md hidden-lg">   
           <div class="media userlogged">
-            <img alt="" src="images/photos/loggeduser.png" class="media-object">
+            <img alt="" src="<?php echo $_SESSION['Auth']['User']['picture']?>" class="media-object">
             <div class="media-body">
-              <h4>John Doe</h4>
+              <h4><?php echo $_SESSION['Auth']['User']['first_name']." ".$_SESSION['Auth']['User']['last_name']; ?>&nbsp;</h4>
               <span>"Life is so..."</span>
             </div>
           </div>
