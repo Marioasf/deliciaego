@@ -52,11 +52,11 @@
   				<div class="col-md-6">
   					<div class="people-item">
   						<div class="media">
-  							<a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
+  							<a href="users/view/'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
   								<img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
   							</a>
   							<div class="media-body">
-                <a href="users/view/'.$users[$i]['User']['id'].'">
+                <a href="users/view/'.$friend_info[$i][0]['User']['id'].'">
   								<h4 class="person-name">'.$friend_info[$i][0]['User']['first_name'].' '.$friend_info[$i][0]['User']['last_name'].'</h4>
                 </a>
   								<div class="text-muted"><i class="fa fa-map-marker"></i> '.$friend_info[$i][0]['User']['country'].'</div>

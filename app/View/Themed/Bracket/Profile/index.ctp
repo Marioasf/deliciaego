@@ -5,8 +5,7 @@
       <div class="breadcrumb-wrapper">
         <span class="label">Caminho:</span>
         <ol class="breadcrumb">
-          <li><a href="index.html">Bracket</a></li>
-          <li><a href="index.html">Páginas</a></li>
+          <li><a href="/">Deliciaego</a></li>
           <li class="active">Perfil</li>
         </ol>
       </div>

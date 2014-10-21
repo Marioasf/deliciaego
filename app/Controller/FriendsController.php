@@ -32,7 +32,6 @@ public function index() {
 		));
 	for($i=0; $i<count($friends); $i++){
 		$friend_info[$i] = $this->User->find('all', array(
-			'fields' => array('User.picture', 'User.first_name', 'User.last_name', 'User.country', 'User.company'),
 			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
 			));
 	}

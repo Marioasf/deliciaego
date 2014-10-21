@@ -139,6 +139,26 @@ public function index() {
 		}
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
+		$current_user = $this->User->find('all', array(
+		'conditions' => array('User.id' => $id)
+		));
+		$friends = $this->Friend->find('all', array(
+		'conditions' => array('Friend.user1' => $current_user[0]['User']['username'])
+		));
+
+		$this->set('friends', $friends);
+		for($i=0; $i<count($friends); $i++){
+			$friend_info[$i] = $this->User->find('all', array(
+			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+			));
+	}
+	$this->set('friend_info',$friend_info);
+	$items = $this->Item->find('all', array(
+		'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price'),
+		'conditions' => array('Item.user' => $current_user[0]['User']['username'])
+	));
+
+	$this->set('items', $items);
 	}
 
 

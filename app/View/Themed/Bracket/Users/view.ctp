@@ -47,7 +47,7 @@
           <li class="active"><a href="#activities" data-toggle="tab"><strong>Actividades</strong></a></li>
           <li><a href="#followers" data-toggle="tab"><strong>Amigos</strong></a></li>
           <li><a href="#following" data-toggle="tab"><strong>Lista de desejos</strong></a></li>
-          <li><a href="#events" data-toggle="tab"><strong>Os meus Produtos</strong></a></li>
+          <li><a href="#events" data-toggle="tab"><strong>Produtos de <?php echo h($user['User']['first_name']) ?></strong></a></li>
         </ul>
         
         <!-- Tab panes -->
@@ -200,10 +200,8 @@
             </div><!-- activity-list -->
             
             <button class="btn btn-white btn-block">Show More</button>
-
           </div>
           <div class="tab-pane" id="followers">
-            
             <div class="follower-list">
              <?php for($i=0; $i<count($friends); $i++){
                  echo ('<div class="media">
