@@ -101,7 +101,7 @@
               <input name="data[User][password_confirm]" id="UserPasswordConfirm" required="required" type="password"  class="form-control" ></input>
             </div>
 
-            <label class="control-label">Data de Nascimentp</label>
+            <label class="control-label">Data de Nascimento</label>
             <div class="row mb10">
               <div class="col-sm-5">
                 <select class="form-control chosen-select" data-placeholder="Mês">
