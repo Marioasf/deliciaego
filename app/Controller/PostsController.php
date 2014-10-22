@@ -53,6 +53,18 @@ class PostsController extends AppController {
 		$this->set('friend_posts', $friend_posts);
 		$this->set('friends', $friends);
 		$this->set('user_friend', $user_friend);
+
+		if ($this->request->is('post')) {
+			$this->Post->create();
+			if ($this->Post->save($this->request->data)) {
+				$this->Session->setFlash(__('The post has been saved.'));
+				return $this->redirect(array('action' => '/'));
+			} else {
+				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+			}
+		}
+
+		
 	}
 
 	/**
@@ -69,4 +81,16 @@ class PostsController extends AppController {
 		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
 		$this->set('post', $this->Post->find('first', $options));
 	}
+	public function add() {
+	if ($this->request->is('post')) {
+		$this->Post->create();
+		if ($this->Post->save($this->request->data)) {
+			$this->Session->setFlash(__('The post has been saved.'));
+			return $this->redirect(array('action' => '/'));
+		} else {
+			$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+		}
+	}
+}
+
 }

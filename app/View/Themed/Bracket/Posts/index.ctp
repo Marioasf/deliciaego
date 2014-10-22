@@ -3,11 +3,13 @@
 </div>
     <div class="pageheader">
             <div class="panel panel-dark panel-alt timeline-post">
+               <form id="PostAddForm" accept-charset="utf-8" method="post" action="/">
+                <input name="data[Post][user]" maxlength="16" id="PostUser" required="required" type="hidden" value="<?php $_SESSION['Auth']['User']['username']?>">
                 <div class="panel">
-                    <textarea maxlength="25" rows="1" onfocus="this.rows=1;" style="resize: none;" placeholder="Título do seu post..." class="form-control"></textarea>
+                    <textarea type="text" id="PostTitle" maxlength="25" name="data[Post][title]" rows="1" onfocus="this.rows=1;" style="resize: none;" placeholder="Título do seu post..." class="form-control"></textarea>
                 </div>
                 <div class="panel-body">              
-                    <textarea rows="5" onfocus="this.rows=5;" placeholder="Diga algo sobre si..." class="form-control"></textarea>
+                    <textarea type="text" required="required" id="PostContent" maxlength="255" name="data[Post][content]" rows="5" onfocus="this.rows=5;" placeholder="Diga algo sobre si..." class="form-control"></textarea>
                 </div><!-- panel-body -->
                 <div class="panel-footer">
                     <div class="timeline-btns pull-left">
@@ -16,7 +18,7 @@
                         <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" style="margin-left: 5em;"><i class="glyphicon glyphicon-map-marker"></i></a>
                         <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" style="margin-left: 5em;"><i class="glyphicon glyphicon-user"></i></a>
                     </div><!--timeline-btns -->
-                    <button class="btn btn-primary pull-right">Submeter Post</button>
+                    <button type="submit" class="btn btn-primary pull-right">Submeter Post</button>
                 </div><!-- panel-footer -->
             </div>
     </div>
