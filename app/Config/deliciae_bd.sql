@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 01-Out-2014 às 23:44
--- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
+-- Data de Criação: 23-Out-2014 às 20:26
+-- Versão do servidor: 5.5.40-0ubuntu0.14.04.1
 -- versão do PHP: 5.5.9-1ubuntu4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,6 +19,18 @@ SET time_zone = "+00:00";
 --
 -- Base de Dados: `deliciae_bd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `activities`
+--
+
+CREATE TABLE IF NOT EXISTS `activities` (
+  `id` int(11) NOT NULL,
+  `type` enum('comment','friend','post','like') NOT NULL,
+  `activity_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -77,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `friends` (
   `datemade` datetime NOT NULL,
   `accepted` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Extraindo dados da tabela `friends`
@@ -87,7 +99,9 @@ INSERT INTO `friends` (`id`, `user1`, `user2`, `datemade`, `accepted`) VALUES
 (1, 'mario', 'admin', '2014-09-17 00:00:00', '1'),
 (2, 'mario', 'SidSepulveda', '2014-09-10 00:00:00', '1'),
 (3, 'admin', 'mario', '2014-09-23 00:00:00', '1'),
-(4, 'SidSepulveda', 'mario', '2014-09-23 00:00:00', '1');
+(4, 'SidSepulveda', 'mario', '2014-09-23 00:00:00', '1'),
+(5, 'mario', 'zemanel', '2014-10-17 20:33:00', ''),
+(6, 'zemanel', 'mario', '2014-10-17 20:33:00', '');
 
 -- --------------------------------------------------------
 
@@ -159,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
 
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(25) DEFAULT NULL,
   `user` varchar(16) NOT NULL,
   `datemade` datetime NOT NULL,
   `content` varchar(255) NOT NULL,
@@ -167,17 +182,18 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `location` varchar(255) NOT NULL,
   `tagged` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Extraindo dados da tabela `posts`
 --
 
-INSERT INTO `posts` (`id`, `user`, `datemade`, `content`, `picture`, `video`, `location`, `tagged`) VALUES
-(1, 'admin', '2014-09-24 00:00:00', 'PHP is a server-side scripting language designed for web development but also used as a general-purpose programming language.', '', '', '', ''),
-(2, 'mario', '2014-09-25 00:00:00', '', 'http://local.brookings.k12.sd.us/krscience/zoology/webpage%20projects/sp11webprojects/baboon/olivebaboon2.jpg', '', '', ''),
-(3, 'SidSepulveda', '2014-09-23 00:00:00', '', '', 'https://www.youtube.com/watch?v=NK3-Cy33pKs', '', ''),
-(4, 'admin', '2014-09-25 00:00:00', '', 'http://www.hdwallpapers.in/walls/african_lion_king-wide.jpg', '', '', '');
+INSERT INTO `posts` (`id`, `title`, `user`, `datemade`, `content`, `picture`, `video`, `location`, `tagged`) VALUES
+(1, NULL, 'admin', '2014-09-24 00:00:00', 'PHP is a server-side scripting language designed for web development but also used as a general-purpose programming language.', 'http://blog.ronnyristau.de/wp-content/uploads/2008/12/php.jpg', '', '', ''),
+(2, NULL, 'mario', '2014-09-25 00:00:00', '', 'http://local.brookings.k12.sd.us/krscience/zoology/webpage%20projects/sp11webprojects/baboon/olivebaboon2.jpg', '', '', ''),
+(3, NULL, 'SidSepulveda', '2014-09-23 00:00:00', '', '', 'https://www.youtube.com/watch?v=NK3-Cy33pKs', '', ''),
+(4, NULL, 'admin', '2014-09-25 00:00:00', '', 'http://www.hdwallpapers.in/walls/african_lion_king-wide.jpg', '', '', ''),
+(5, NULL, 'admin', '2014-10-06 00:00:00', 'Port wine (also known as Vinho do Porto, Portuguese pronunciation: [?vi?udu?po?tu], Porto, and usually simply port) is a Portuguese fortified wine produced exclusively in the Douro Valley in the northern provinces of Portugal.[1] It is typically a sweet, ', '', '', 'Porto', '');
 
 -- --------------------------------------------------------
 
@@ -242,21 +258,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `activated` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `country`, `userlevel`, `about`, `title`, `company`, `phone`, `picture`, `website`, `facebook`, `google`, `twitter`, `ip`, `signup`, `lastlogin`, `notescheck`, `activated`) VALUES
-(1, 'admin', 'calpis.nomu@gmail.com', '12345', 'Luís', 'Francisco', 'Portugal', 'd', 'Um gajo 5 estrelas', 'Sr.', 'The amazing company!', '222333444', 'http://images.nationalgeographic.com/wpf/media-live/photos/000/004/cache/amazon-horned-frog_443_600x450.jpg', 'www.deliciaego.com', 'https://www.facebook.com/', 'https://plus.google.com/getstarted?fww=1', 'twitter.com', '192.168.1.2', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '1'),
-(2, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$10tq9DoFq5lHxZcDEZq3Xuxr6SrznnkGXPK.LkMqQgYWHF3empoCm', 'MÃ¡rio', 'Francisco', 'Portugal', 'a', 'HI', 'Mr.', 'Nespithe', '123456', 'http://upload.wikimedia.org/wikipedia/commons/3/31/Great_white_shark_south_africa.jpg', 'www.example.com', 'www.facebook.com/marioasfrancisco', 'www.google.com/marioasfrancisco', 'www.twitter.com/marioasfrancisco', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
+(1, 'admin', 'calpis.nomu@gmail.com', '$2a$10$PFTyDTW3Ij/q4tz5VoRAYeqpSxhc2HrbpV4LC1PyKAlGVo9jplqkS', 'Luís', 'Francisco', 'Portugal', 'd', 'Um gajo 5 estrelas', 'Sr.', 'The amazing company!', '222333444', 'http://images.nationalgeographic.com/wpf/media-live/photos/000/004/cache/amazon-horned-frog_443_600x450.jpg', 'www.deliciaego.com', 'https://www.facebook.com/', 'https://plus.google.com/getstarted?fww=1', 'twitter.com', '192.168.1.2', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '1'),
+(2, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$PFTyDTW3Ij/q4tz5VoRAYeqpSxhc2HrbpV4LC1PyKAlGVo9jplqkS', 'MÃ¡rio', 'Francisco', 'Portugal', 'a', 'HI', 'Mr.', 'Nespithe', '911234567', 'http://upload.wikimedia.org/wikipedia/commons/3/31/Great_white_shark_south_africa.jpg', 'www.example.com', 'www.facebook.com/marioasfrancisco', 'www.google.com/marioasfrancisco', 'www.twitter.com/marioasfrancisco', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
 (3, 'SidSepulveda', 'jawnfkajwf@gmail.com', '$2a$10$PFTyDTW3Ij/q4tz5VoRAYeqpSxhc2HrbpV4LC1PyKAlGVo9jplqkS', 'Armando', 'Oliveira', 'Portugal', 'a', 'Macacos, gorilas, babuÃ­nos e companhia!', 'Sra.', 'Baboon', '911234356', 'http://irritableblonde.com/wp-content/uploads/2014/03/baboon.jpg', 'www.google.com', 'www.facebook.com/baboon', 'www.google.com/baboongoogle', 'www.twitter.com/baboontwitter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0'),
 (4, 'zemanel', 'zemanel@gmail.com', '$2a$10$3jC66EpraL.zdYcj4Ev3LueFOEQHx71E1WeFqfz4TrRMwnrLQW3Te', 'JosÃ©', 'Manuel', 'Portugal', 'a', 'Gosto de passear, comer e beber bem!', 'Sr.', 'Tasca do ZÃ© Manel', '911237654', 'http://faltadar.files.wordpress.com/2011/05/tasca_rasca2006_021.jpg', '', 'www.facebook.com/zemanel', 'www.google.com/zemanel', 'www.twitter.com/zemanel', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
 (5, 'maria_albertina', 'marialbertina@gmail.com', '$2a$10$b6siKn0EB7iVcbc.Tj1v4uPyVefya2HBl9SyP9rAHEBLNbPPYWMQ2', 'Maria', 'Albertina', 'Portugal', 'a', 'Cozinheira profissional', 'Dona', 'Tasca do ZÃ© Manel', '938765678', 'http://tv.i.uol.com.br/televisao/2011/11/25/ana-maria-braga-durante-gravacao-do-tema-de-fim-de-ano-da-globo-271111-1322220956296_200x285.jpg', '', 'www.facebook.com/maria_albertina', 'www.google.com/maria_albertina', 'www.twitter.com/maria_albertina', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
 (6, 'trafulha', 'trafulha@gmail.com', '$2a$10$yKdjZv96bOofoUxJ6p1PbewziU/WxaojIVaKSXIrMmYCMDrxmwf5O', 'AntÃ³nio', 'Madureira', 'Portugal', 'a', 'Investidor de alto risco', 'Sr.', 'Loja do Trafulha', '252765478', 'http://5ones.com/wp-content/uploads/2008/11/greencard-300x299.jpg', '', 'www.facebook.com/trafulha', 'www.google.com/trafulha', 'www.twitter.com/trafulha', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
 (7, 'alexandracontas', 'alexandracontas@gmail.com', '$2a$10$bUC3EmVHjsdHbPmpyPEPVu1PtaR3qsPsvtwUjcvDDXNTg56FcY7KG', 'Alexandra', 'Ribeiro', 'Portugal', 'a', 'A melhor contabilista de Portugal.', 'Dra.', 'Loja do Trafulha', '967483956', 'http://educationcareerarticles.com/wp-content/uploads/2013/08/accountant.jpg', '', 'www.facebook.com/alexandra', 'www.google.com/alexandra', 'www.twitter.com/alexandra', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(8, 'jpeter', 'jpeter@gmail.com', '$2a$10$gGb7i1MgHhxvrJP237duP.K0/7G/w.Dv.GG439TsIYtKffbJvOrCa', 'John', 'Peter', 'USA', 'a', 'Circus performer', 'Sr.', 'The Amazing Circus', '914235858', 'http://eastbrooklyn.com/wp-content/uploads/2014/08/bald-clown-cap-64403.jpg', '', 'www.facebook.com/jpeter', 'www.google.com/jpeter', 'www.twitter.com/jpeter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
+(8, 'jpeter', 'jpeter@gmail.com', '$2a$10$gGb7i1MgHhxvrJP237duP.K0/7G/w.Dv.GG439TsIYtKffbJvOrCa', 'John', 'Peter', 'USA', 'a', 'Circus performer', 'Sr.', 'The Amazing Circus', '914235858', 'http://eastbrooklyn.com/wp-content/uploads/2014/08/bald-clown-cap-64403.jpg', '', 'www.facebook.com/jpeter', 'www.google.com/jpeter', 'www.twitter.com/jpeter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
+(9, 'zeninguem', 'zeninguem@mail.com', '$2a$10$AmKjAr2kHbV46mE3RaJHp./hJCRRF/92RH6iBlffgrr83BjnPRRuy', 'JosÃ©', '', 'Portugal', 'a', 'Nada', 'Sr.', '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

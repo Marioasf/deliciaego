@@ -54,7 +54,7 @@
         <div class="tab-content">
           <div class="tab-pane active" id="activities">
             <div class="activity-list">
-              <?php var_dump($activities); ?>
+              <!--<?php var_dump($activities); ?>-->
               <div class="media act-media">
                 <a class="pull-left" href="#">
                   <img class="media-object act-thumb" src="images/photos/user1.png" alt="" />
