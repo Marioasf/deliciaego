@@ -4,7 +4,7 @@
       <div class="pageheader">
         <h2><i class="fa fa-user"></i> Utilizadores</h2>
         <div class="breadcrumb-wrapper"> 
-          <span class="label">You are here:</span>
+          <span class="label">Caminho:</span>
           <ol class="breadcrumb">
             <li><a href="/">Deliciaego</a></li> 
             <li class="active">Utilizadores</li>
@@ -55,18 +55,25 @@
               echo '
               <div class="col-md-6">
                 <div class="people-item">
-                  <div class="media">
-                    <a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
+                  <div class="media">';
+                  if(isset($friends[$i])) {
+                    echo '<a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
                       <img alt="" src="'.$users[$i]['User']['picture'].'" class="thumbnail media-object">
                     </a>
                     <div class="media-body">
                       <a href="users/view/'.$users[$i]['User']['id'].'">
                         <h4 class="person-name">'.$users[$i]['User']['first_name'].' '.$users[$i]['User']['last_name'].'</h4>
-                      </a>
-                      <div class="text-muted"><i class="fa fa-map-marker"></i> '.$users[$i]['User']['country'].'</div>
+                      </a>';}
+                    else
+                      { echo '
+                         <div class="pull-left"><img alt="" src="'.$users[$i]['User']['picture'].'" class="thumbnail media-object"></div>
+                        <div class="media-body">
+                           <div> <h4 class="person-name">'.$users[$i]['User']['first_name'].' '.$users[$i]['User']['last_name'].'</h4></div>
+                      ';}
+                      echo '<div class="text-muted"><i class="fa fa-map-marker"></i> '.$users[$i]['User']['country'].'</div>
                       <div class="text-muted"><i class="fa fa-briefcase"></i> '.$users[$i]['User']['company'].'</a></div>
                       <ul class="social-list">
-                       <li> ';
+                       <li>';
                        for($j=0;$j<count($friends);$j++){//percorre array de amigos
       	                   if($users[$i]['User']['username']===$friends[$j]['Friend']['user2'] && !$found_user)//verificar se é amigo, coloca botão Amigos
                            { 
