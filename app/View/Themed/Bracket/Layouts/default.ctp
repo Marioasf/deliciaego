@@ -54,17 +54,22 @@
         
         <h5 class="sidebartitle">Menu</h5>
         <ul class="nav nav-pills nav-stacked nav-bracket">
-          <li class="active"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
-          <li><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
-          <li><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
-          <li><a href="/friends"><i class="fa fa-thumbs-o-up"></i> Amigos</a></li>
+          <li id="home" onclick="makeActive(id)"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
+          <li id="products" onclick="makeActive(id)"><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
+          <li id="users" onclick="makeActive(id)"><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
+          <li id="friends" onclick="makeActive(id)"><a href="/friends"><i class="fa fa-thumbs-o-up"></i> <span> Amigos </span></a></li>
         </ul>
-        
-        <div class="infosummary">
-        </div><!-- infosummary -->
         
       </div><!-- leftpanelinner -->
     </div><!-- leftpanel -->
+      <!-- adiciona ou remove class "active" dependendo do elemento clicado -->
+      <script>
+        function makeActive(id)
+        {
+          var d = document.getElementById(id);
+          d.className = "active";
+        }
+      </script>
     
     <div class="mainpanel">
 
