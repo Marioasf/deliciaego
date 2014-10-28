@@ -57,8 +57,8 @@
           <li class="active"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
           <li><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
           <li><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
-          <li><a href="/friends"><i class="fa fa-thumbs-o-up"></i> Amigos</a></li>
-          <li><a href="/posts/myposts"><i class="fa fa-file"></i> Os meus Posts</a></li>
+          <li><a href="/friends"><i class="fa fa-thumbs-o-up"></i> <span> Amigos</span></a></li>
+          <li><a href="/posts/myposts"><i class="fa fa-file"></i> <span> Os meus Posts</span></a></li>
         </ul>
         
         <div class="infosummary">
