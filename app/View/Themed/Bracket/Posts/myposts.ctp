@@ -1,11 +1,10 @@
             <div class="pageheader">
-      <h2><i class="fa fa-file-text"></i> Blog List <span>Read our latest news...</span></h2>
+      <h2><i class="fa fa-file-text"></i> Os meus posts <span>Posts submetidos por si...</span></h2>
       <div class="breadcrumb-wrapper">
-        <span class="label">You are here:</span>
+        <span class="label">Caminho:</span>
         <ol class="breadcrumb">
-          <li><a href="index.html">Bracket</a></li>
-          <li><a href="index.html">Pages</a></li>
-          <li class="active">Blog List</li>
+          <li><a href="/">Deliciaego</a></li>
+          <li class="active">Os meus posts</li>
         </ol>
       </div>
     </div>
@@ -13,7 +12,43 @@
     <div class="contentpanel">
       
       <div id="bloglist" class="row">
-        
+        <?php
+          for($i=0; $i<count($posts); $i++){
+            if($posts[$i]['Post']['video'] =="" && $posts[$i]['Post']['content'] == "" && $posts[$i]['Post']['picture'] != ""){
+              echo '        <div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <a href="blog-single.html" class="blog-img"><img src="'.$posts[$i]['Post']['picture'].'" class="img-responsive" alt="" /></a>
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="#">'.$posts[$i]['Post']['title'].'</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="/profile">'.$posts[$i]['Post']['user'].'</a></li>
+                <li>Jan 03, 2014</li>
+                <li><a href="#">2 Comments</a></li>
+              </ul>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->';
+            }
+          if($posts[$i]['Post']['video'] =="" && $posts[$i]['Post']['content'] != "" && $posts[$i]['Post']['picture'] == ""){
+            echo '<div class="col-xs-6 col-sm-4 col-md-3">
+          <div class="blog-item">
+            <div class="blog-details">
+              <h4 class="blog-title"><a href="#">'.$posts[$i]['Post']['title'].'</a></h4>
+              <ul class="blog-meta">
+                <li>By: <a href="/profile">'.$posts[$i]['Post']['user'].'</a></li>
+                <li>Jan 03, 2014</li>
+                <li><a href="#">2 Comments</a></li>
+              </ul>
+              <div class="blog-summary">
+                <p>'.$posts[$i]['Post']['content'].'</p>
+                <button class="btn btn-sm btn-white">Read More</button>
+              </div>
+            </div>
+          </div><!-- blog-item -->
+        </div><!-- col-xs-6 -->';
+          }
+          }
+        ?>
         <div class="col-xs-6 col-sm-4 col-md-3">
           <div class="blog-item">
             <a href="blog-single.html" class="blog-img"><img src="images/photos/blog1.jpg" class="img-responsive" alt="" /></a>
@@ -255,311 +290,7 @@
     </div><!-- contentpanel -->
     
   </div><!-- mainpanel -->
-  
-  <div class="rightpanel">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs nav-justified">
-        <li class="active"><a href="#rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
-        <li><a href="#rp-favorites" data-toggle="tab"><i class="fa fa-heart"></i></a></li>
-        <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
-        <li><a href="#rp-settings" data-toggle="tab"><i class="fa fa-gear"></i></a></li>
-    </ul>
-        
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane active" id="rp-alluser">
-            <h5 class="sidebartitle">Online Users</h5>
-            <ul class="chatuserlist">
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/userprofile.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Los Angeles, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user1.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <span class="pull-right badge badge-danger">2</span>
-                            <strong>Zaham Sindilmaca</strong>
-                            <small>San Francisco, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user2.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Nusja Nawancali</strong>
-                            <small>Bangkok, Thailand</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user3.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Renov Leongal</strong>
-                            <small>Cebu City, Philippines</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user4.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Weno Carasbong</strong>
-                            <small>Tokyo, Japan</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-            
-            <div class="mb30"></div>
-            
-            <h5 class="sidebartitle">Offline Users</h5>
-            <ul class="chatuserlist">
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user5.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Los Angeles, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user2.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Zaham Sindilmaca</strong>
-                            <small>San Francisco, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user3.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Nusja Nawancali</strong>
-                            <small>Bangkok, Thailand</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user4.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Renov Leongal</strong>
-                            <small>Cebu City, Philippines</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user5.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Weno Carasbong</strong>
-                            <small>Tokyo, Japan</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user4.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Renov Leongal</strong>
-                            <small>Cebu City, Philippines</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user5.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Weno Carasbong</strong>
-                            <small>Tokyo, Japan</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-        </div>
-        <div class="tab-pane" id="rp-favorites">
-            <h5 class="sidebartitle">Favorites</h5>
-            <ul class="chatuserlist">
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user2.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Los Angeles, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user1.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Zaham Sindilmaca</strong>
-                            <small>San Francisco, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user3.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Nusja Nawancali</strong>
-                            <small>Bangkok, Thailand</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user4.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Renov Leongal</strong>
-                            <small>Cebu City, Philippines</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user5.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Weno Carasbong</strong>
-                            <small>Tokyo, Japan</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-        </div>
-        <div class="tab-pane" id="rp-history">
-            <h5 class="sidebartitle">History</h5>
-            <ul class="chatuserlist">
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user4.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Hi hello, ctc?... would you mind if I go to your...</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user2.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Zaham Sindilmaca</strong>
-                            <small>This is to inform you that your product that we...</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="images/photos/user3.png" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Nusja Nawancali</strong>
-                            <small>Are you willing to have a long term relat...</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-        </div>
-        <div class="tab-pane pane-settings" id="rp-settings">
-            
-            <h5 class="sidebartitle mb20">Settings</h5>
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Offline Users</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Enable History</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Full Name</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle-chat1 toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Location</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-            
-        </div><!-- tab-pane -->
-        
-    </div><!-- tab-content -->
-  </div><!-- rightpanel -->
-  
-</section>
 
-
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery-migrate-1.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/modernizr.min.js"></script>
-<script src="js/jquery.sparkline.min.js"></script>
-<script src="js/toggles.min.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.cookies.js"></script>
-
-<script src="js/masonry.pkgd.min.js"></script>
-
-<script src="js/custom.js"></script>
 <script>
   jQuery(window).load(function(){
   
