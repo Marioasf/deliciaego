@@ -53,14 +53,14 @@
         </div>
         
         <h5 class="sidebartitle">Menu</h5>
-        <ul class="nav nav-pills nav-stacked nav-bracket">
-          <li class="active"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
-          <li><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
-          <li><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
-          <li><a href="/friends"><i class="fa fa-thumbs-o-up"></i> <span> Amigos</span></a></li>
-          <li><a href="/posts/myposts"><i class="fa fa-file"></i> <span> Os meus Posts</span></a></li>
+        <ul id="leftbar" class="nav nav-pills nav-stacked nav-bracket">
+          <li id="home"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
+          <li id="items"><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
+          <li id="users"><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
+          <li id="friends"><a href="/friends"><i class="fa fa-thumbs-o-up"></i> <span> Amigos</span></a></li>
+          <li id="myposts"><a href="/posts/myposts"><i class="fa fa-file"></i> <span> Os meus Posts</span></a></li>
         </ul>
-        
+
         <div class="infosummary">
         </div><!-- infosummary -->
         
@@ -586,6 +586,15 @@
 
 <?php echo $this->Html->script('custom'); ?>
 <?php echo $this->Html->script('dashboard'); ?>
+
+        
+        <script type="text/javascript">
+          //$('#home').addClass('active');
+          $('#leftbar li').on('click', function(){
+              //$('#home').removeClass('active');
+              $(this).addClass('active').siblings().removeClass('active');
+          });
+        </script>
 
 </body>
 </html>
