@@ -59,6 +59,10 @@ class PostsController extends AppController {
 		$posts = $this->Post->find('all', array(
 			'conditions' => array('Post.user' => $this->Auth->user('username'))
 		));
+		$user = $this->User->find('all', array(
+			'conditions' => array('User.username' => $this->Auth->user('username'))
+		));
+		$this->set('user', $user);
 		$this->set('posts', $posts);
 	}
 
