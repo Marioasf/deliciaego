@@ -66,6 +66,18 @@ class PostsController extends AppController {
 		$this->set('posts', $posts);
 	}
 
+	public function post($id=null){
+		if (!$this->Post->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
+		$this->set('post', $this->Post->find('first', $options));
+		$current_user = $this->Post->find('all', array(
+		'conditions' => array('Post.id' => $id)
+		));
+	}
+
+
 	/**
  * view method
  *
