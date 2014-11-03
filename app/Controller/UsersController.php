@@ -16,6 +16,13 @@ class UsersController extends AppController {
  */
 public $components = array('Paginator', 'Session');
 
+ public $paginate = array(
+        'limit' => 25,
+        'order' => array(
+            'User.first_name' => 'asc'
+        )
+    );
+
 public $uses = array('User','Friend','Item');
 
 public function beforeFilter() {

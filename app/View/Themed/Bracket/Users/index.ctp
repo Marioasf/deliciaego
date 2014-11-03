@@ -99,7 +99,11 @@
                 </div>
               </div>
             </div>
-          </div><!-- col-md-6 -->';} ?>       
+          </div><!-- col-md-6 -->';} 
+          echo $this->Paginator->prev(__('previous '), array('tag' => false));
+          echo $this->Paginator->next(__(' next'), array('tag' => false));
+          ?>       
+
         <script>
         //procura botão que foi clicado e altera o texto
         function friendRequest(id) {

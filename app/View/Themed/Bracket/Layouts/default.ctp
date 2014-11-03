@@ -28,7 +28,7 @@
     <div class="leftpanel">
 
       <div class="logopanel">
-        <h1><span>[</span> Deliciaego <span>]</span></h1>
+        <h1><a href="/"><span>[</span> Deliciaego <span>]</span></a></h1>
       </div><!-- logopanel -->
       
       <div class="leftpanelinner">    
