@@ -72,9 +72,13 @@ class PostsController extends AppController {
 		}
 		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
 		$this->set('post', $this->Post->find('first', $options));
-		$current_user = $this->Post->find('all', array(
+		$current_post = $this->Post->find('all', array(
 		'conditions' => array('Post.id' => $id)
 		));
+		$user = $this->User->find('all', array(
+			'conditions' => array('User.username' => $this->Auth->user('username'))
+		));
+		$this->set('user', $user);
 	}
 
 

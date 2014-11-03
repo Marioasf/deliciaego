@@ -1,6 +1,6 @@
 
     <div class="pageheader">
-      <h2><i class="fa fa-file-text"></i> <?php echo h($post['Post']['title']);?></h2>
+      <h2><i class="fa fa-file-text"></i>O meu post</h2>
       <div class="breadcrumb-wrapper">
         <span class="label">Caminho:</span>
         <ol class="breadcrumb">
@@ -16,22 +16,19 @@
         
         <div class="panel panel-default panel-blog">
           <div class="panel-body">
-            <h3 class="blogsingle-title">Getting Started With Film Photography</h3>
+            <h3 class="blogsingle-title"> <?php echo h($post['Post']['title']);?></h3>
             
             <ul class="blog-meta">
-              <li>By: <a href="#">TmPxls</a></li>
+              <li>By: <a href="#"><?php echo $user[0]['User']['first_name']; echo " "; echo $user[0]['User']['last_name'];?></a></li>
               <li>Jan 02, 2014</li>
               <li><a href="#">2 Comments</a></li>
             </ul>
             
             <br />
-            <div class="blog-img"><img src="images/photos/blog1.jpg" class="img-responsive" alt="" /></div>
+           <?php echo '<div class="blog-img"><img src="'.h($post['Post']['picture']).'" class="img-responsive" alt="" /></div>'; ?>
             <div class="mb20"></div>
             
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur</p>  
+            <p><?php echo h($post['Post']['content']); ?></p>
           
           </div><!-- panel-body -->
         </div><!-- panel -->
@@ -39,11 +36,11 @@
         <div class="authorpanel">
           <div class="media">
             <a class="pull-left" href="#">
-              <img class="media-object thumbnail" src="images/photos/userprofile.png" alt="" />
+              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user[0]['User']['picture'].'" alt="" />'; ?>
             </a>
             <div class="media-body event-body">
               <h4 class="subtitle">About The Author</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p><?php echo $user[0]['User']['about']; ?></p>
             </div>
           </div><!-- media -->
         </div><!-- authorpanel -->
