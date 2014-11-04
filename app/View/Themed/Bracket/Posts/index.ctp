@@ -38,9 +38,9 @@
                             <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                        <a href="/users/view/'.$user_friend[$i]['User']['id'].'">
-                            <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  <small>Partilhou uma imagem</small></h4>
-                        </a>
+                        
+                            <h4 class="text-primary"><a href="/users/view/'.$user_friend[$i]['User']['id'].'">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].'  </a><small>Partilhou uma imagem</small></h4>
+                        
                             <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                         </div>
                     </div><!-- media -->
@@ -81,13 +81,13 @@
                     <div class="panel-heading">
                         
                         <div class="media">
-                            <ahref="/users/view/'.$user_friend[$i]['User']['id'].'" class="pull-left">
+                            <a href="/users/view/'.$user_friend[$i]['User']['id'].'" class="pull-left">
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                            <a href="/users/view/'.$user_friend[$i]['User']['id'].'">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou uma mensagem</small></h4>
-                            </a>
+                            
+                                <h4 class="text-primary"><a href="/users/view/'.$user_friend[$i]['User']['id'].'">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' </a><small>Partilhou uma mensagem</small></h4>
+                            
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -140,9 +140,9 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                            <a href="/users/view/'.$user_friend[$i]['User']['id'].'">
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou um vídeo</small></h4>
-                            </a>
+                            
+                                <h4 class="text-primary"><a href="/users/view/'.$user_friend[$i]['User']['id'].'">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' </a><small>Partilhou um vídeo</small></h4>
+                            
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
@@ -191,9 +191,9 @@
                                 <img alt="" src="'.$user_friend[$i]['User']['picture'].'" class="media-object">
                             </a>
                             <div class="media-body">
-                            <a href="/users/view/'.$user_friend[$i]['User']['id'].'"
-                                <h4 class="text-primary">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' <small>Partilhou uma mensagem com imagem</small></h4>
-                            </a>
+                            
+                                <h4 class="text-primary"><a href="/users/view/'.$user_friend[$i]['User']['id'].'">'.$user_friend[$i]['User']['first_name']." ".$user_friend[$i]['User']['last_name'].' </a><small>Partilhou uma mensagem com imagem</small></h4>
+                            
                                 <small class="text-muted">'.$friend_posts[$i]['Post']['datemade'].'</small>
                             </div>
                         </div><!-- media -->
