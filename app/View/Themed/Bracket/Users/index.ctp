@@ -56,7 +56,7 @@
               <div class="col-md-6">
                 <div class="people-item">
                   <div class="media">';
-                  if(isset($friends[$i])) {
+                  if(isset($friends[$i]) && $friends[$i]['Friend']['accepted']==1) {
                     echo '<a href="users/view/'.$users[$i]['User']['id'].'" class="pull-left">
                       <img alt="" src="'.$users[$i]['User']['picture'].'" class="thumbnail media-object">
                     </a>
