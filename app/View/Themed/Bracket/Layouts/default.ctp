@@ -26,7 +26,7 @@
   <section>
 
     <div class="leftpanel">
-
+    <!--<?php var_dump($notifications); ?>-->
       <div class="logopanel">
         <h1><a href="/"><span>[</span> Deliciaego <span>]</span></a></h1>
       </div><!-- logopanel -->
@@ -186,56 +186,35 @@
               <div class="btn-group">
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-globe"></i>
-                  <span class="badge">5</span>
+                  <span class="badge"><?php if(count($activities)>0){echo count($activities);}?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
-                  <h5 class="title">Tens 5 notificações novas</h5>
+                  <h5 class="title"><?php 
+                  if(count($activities)==1)
+                    echo 'Tens 1 notificação nova';
+                  else if(count($activities)>1)
+                    echo 'Tens '.count($activities).' notificações novas';
+                  else
+                    echo 'Não tens notificações novas';
+                  ?></h5>
                   <ul class="dropdown-list gen-list">
-                    <li class="novo">
+                  <!--Repetir este código por cada notificação -->
+                   <?php for($i=0;$i<count($friend_notifications);$i++){
+                    echo '<li class="novo">
                       <a href="">
-                        <span class="thumb"><img src="images/photos/user4.png" alt="" /></span>
+                        <span class="thumb"><img src="'.$friend_notifications[0][$i]['User']['picture'].'" alt="" /></span>
                         <span class="desc">
-                          <span class="name">Zaham Sindilmaca <span class="badge badge-success">novo</span></span>
-                          <span class="msg">está agora a seguir-te</span>
-                        </span>
+                          <span class="name">'.$friend_notifications[0][$i]['User']['first_name']." ".$friend_notifications[0][$i]['User']['last_name']."";
+                          if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
+                          if($activities[$i]['Activity']['type']=='comment'){echo '<span class="msg">comentou uma publicação tua</span>';}
+                          if($activities[$i]['Activity']['type']=='like'){echo '<span class="msg">gostou de uma publicação tua</span>';}
+                          if($activities[$i]['Activity']['type']=='item'){echo '<span class="msg">publicou um produto</span>';}
+                          if($activities[$i]['Activity']['type']=='post'){echo '<span class="msg">publicou um post</span>';}
+                       echo ' </span>
                       </a>
-                    </li>
-                    <li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user5.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Weno Carasbong <span class="badge badge-success">novo</span></span>
-                          <span class="msg">está agora a seguir-te</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Veno Leongal <span class="badge badge-success">novo</span></span>
-                          <span class="msg">gosta do teu estado recente</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Nusja Nawancali <span class="badge badge-success">novo</span></span>
-                          <span class="msg">fez download do teu trabalho</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Nusja Nawancali <span class="badge badge-success">novo</span></span>
-                          <span class="msg">envioue-t 2 mensagens</span>
-                        </span>
-                      </a>
-                    </li>
+                    </li>';}
+                    //var_dump($activities);
+                   ?>
                     <li class="novo"><a href="">Ver todas as notificações</a></li>
                   </ul>
                 </div>
