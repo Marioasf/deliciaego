@@ -75,11 +75,13 @@
     public function beforeFilter() {
         $this->Auth->allow('login');
         //$this->Auth->allow('signup');
-        
+        //carrega todas as atividades
          $activities = $this->Activity->find('all', array(
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
         'Activity.checked' => 0)));
+
          $friend_notifications=array();
+         //carrega as notificações de amizade
         for($i=0;$i<count($activities);$i++){
          $friend_notifications[$i] = $this->User->find('all', array(
          'conditions' => array('User.username' => $activities[$i]['Activity']['username'])
@@ -87,6 +89,10 @@
         }
          $this->set('activities',$activities);
          $this->set('friend_notifications',$friend_notifications);
+
+        //carrega as notificações de mensagens
+         //uma conversação => mensagens trocadas por utilizador em sessão e determinado user 
+         //a fazer
     }
      
     }

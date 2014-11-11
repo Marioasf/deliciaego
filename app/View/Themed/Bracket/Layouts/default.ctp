@@ -130,7 +130,14 @@
                   <span class="badge">1</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
-                  <h5 class="title">Tens 1 mensagem nova</h5>
+                    <h5 class="title"><?php 
+                  if(count($message)==1)
+                    echo 'Tens 1 mensagem nova';
+                  else if(count($message)>1)
+                    echo 'Tens '.count($message).' mensagens novas';
+                  else
+                    echo 'Não tens mensagens novas';
+                  ?></h5>
                   <ul class="dropdown-list gen-list">
                     <li class="novo">
                       <a href="">
