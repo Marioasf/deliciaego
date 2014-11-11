@@ -1,5 +1,5 @@
 
-    <div class="pageheader">
+    <!--<div class="pageheader">
       <h2><i class="fa fa-file-text"></i>O meu post</h2>
       <div class="breadcrumb-wrapper">
         <span class="label">Caminho:</span>
@@ -8,7 +8,7 @@
           <li class="active"><?php echo h($post['Post']['title']);?></li>
         </ol>
       </div>
-    </div>  
+    </div>  -->
     <div class="contentpanel">
       
       <div class="row blog-content">
