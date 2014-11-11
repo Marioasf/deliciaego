@@ -47,8 +47,8 @@
                     
                 </div><!-- panel-heading -->
                 <div class="panel-body">
-                <h4><a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
-                    <a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
+                <h4><a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
+                    <a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
                     <div class="timeline-btns">
                         <div class="pull-left">
                             <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
@@ -96,11 +96,11 @@
                     <div class="panel-body">
                         
                         <div class="media">
-                        <a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'" class="pull-left">
+                        <a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'" class="pull-left">
                           <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                         </a>
                         <div class="media-body">
-                          <h4><a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
+                          <h4><a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                           <p>'.$friend_posts[$i]['Post']['content'].'</p>
                         </div>
                       </div>
@@ -149,7 +149,7 @@
                         
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        <h4><a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
+                        <h4><a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                         <div class="timeline-video">
                             <iframe src="'.$friend_posts[$i]['Post']['video'].'" allowfullscreen></iframe>
                         </div>
@@ -202,11 +202,11 @@
             <div class="panel-body">
                 
                 <div class="media">
-                <a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'" class="pull-left">
+                <a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'" class="pull-left">
                   <img alt="" src="'.$friend_posts[$i]['Post']['picture'].'" class="media-object">
                 </a>
                 <div class="media-body">
-                  <h4><a href="/posts/post/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
+                  <h4><a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                   <p>'.$friend_posts[$i]['Post']['content'].'</p>
                 </div>
               </div>

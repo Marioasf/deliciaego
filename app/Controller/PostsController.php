@@ -66,7 +66,7 @@ class PostsController extends AppController {
 		$this->set('posts', $posts);
 	}
 
-	public function post($id=null){
+	public function view($id=null){
 		if (!$this->Post->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -89,13 +89,13 @@ class PostsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	/*public function view($id = null) {
 		if (!$this->Post->exists($id)) {
 			throw new NotFoundException(__('Invalid post'));
 		}
 		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
 		$this->set('post', $this->Post->find('first', $options));
-	}
+	}*/
 	public function add() {
 	if ($this->request->is('post')) {
 		$this->Post->create();

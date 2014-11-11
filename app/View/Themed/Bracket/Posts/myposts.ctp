@@ -16,14 +16,14 @@
           for($i=0; $i<count($posts); $i++){
               echo '        <div class="col-xs-6 col-sm-4 col-md-3">
           <div class="blog-item">
-            <a href="/posts/post/'.$posts[$i]['Post']['id'].'" class="blog-img"><img src="'.$posts[$i]['Post']['picture'].'" class="img-responsive" alt="" /></a>';
+            <a href="/posts/view/'.$posts[$i]['Post']['id'].'" class="blog-img"><img src="'.$posts[$i]['Post']['picture'].'" class="img-responsive" alt="" /></a>';
            if($posts[$i]['Post']['video'] !=""){
             echo '<div class="blog-video">
               <iframe src="'.$posts[$i]['Post']['video'].'" allowfullscreen></iframe>
             </div>';
            }
             echo '<div class="blog-details">
-              <h4 class="blog-title"><a href="/posts/post/'.$posts[$i]['Post']['id'].'">'.$posts[$i]['Post']['title'].'</a></h4>
+              <h4 class="blog-title"><a href="/posts/view/'.$posts[$i]['Post']['id'].'">'.$posts[$i]['Post']['title'].'</a></h4>
               <ul class="blog-meta">
                 <li>By: <a href="/profile">'.$posts[$i]['Post']['user'].'</a></li>
                 <li>Jan 03, 2014</li>
