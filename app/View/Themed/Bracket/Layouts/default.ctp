@@ -200,9 +200,10 @@
                   <ul class="dropdown-list gen-list">
                   <!--Repetir este código por cada notificação -->
                    <?php for($i=0;$i<count($friend_notifications);$i++){
-                    echo '<li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="'.$friend_notifications[0][$i]['User']['picture'].'" alt="" /></span>
+                    echo '<li class="novo">';
+                      if($activities[$i]['Activity']['type']=='comment' || 'like' || 'post'){ echo '<a href="posts/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
+                      else{ echo '<a href="items/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
+                        echo '<span class="thumb"><img src="'.$friend_notifications[0][$i]['User']['picture'].'" alt="" /></span>
                         <span class="desc">
                           <span class="name">'.$friend_notifications[0][$i]['User']['first_name']." ".$friend_notifications[0][$i]['User']['last_name']."";
                           if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
