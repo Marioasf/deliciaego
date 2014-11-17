@@ -1,27 +1,68 @@
 <div id="preloader">
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
 </div>
-    <div class="pageheader">
-            <div class="panel panel-dark panel-alt timeline-post">
-               <form id="PostAddForm" accept-charset="utf-8" method="post" action="/">
-                <input name="data[Post][user]" maxlength="16" id="PostUser" required="required" type="hidden" value="<?php $_SESSION['Auth']['User']['username']?>">
-                <div class="panel">
-                    <textarea type="text" id="PostTitle" maxlength="25" name="data[Post][title]" rows="1" onfocus="this.rows=1;" style="resize: none;" placeholder="Título do seu post..." class="form-control"></textarea>
-                </div>
-                <div class="panel-body">              
-                    <textarea type="text" required="required" id="PostContent" maxlength="255" name="data[Post][content]" rows="5" onfocus="this.rows=5;" placeholder="Diga algo sobre si..." class="form-control"></textarea>
-                </div><!-- panel-body -->
-                <div class="panel-footer">
-                    <div class="timeline-btns pull-left">
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Foto" style="margin-left: 20em;"><i class="glyphicon glyphicon-picture" ></i></a>
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Video" style="margin-left: 5em;"><i class="glyphicon glyphicon-facetime-video"></i></a>
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" style="margin-left: 5em;"><i class="glyphicon glyphicon-map-marker"></i></a>
-                        <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" style="margin-left: 5em;"><i class="glyphicon glyphicon-user"></i></a>
-                    </div><!--timeline-btns -->
-                    <button type="submit" class="btn btn-primary pull-right">Submeter Post</button>
-                </div><!-- panel-footer -->
-            </div>
-    </div>
+    <?php echo $this->Form->create('BoostCake', array(
+	'inputDefaults' => array(
+		'div' => 'form-group',
+		'wrapInput' => false,
+		'class' => 'form-control'
+	),
+	'class' => 'well'
+)); ?>
+<?php $user = $_SESSION["Auth"]["User"]["username"];
+	echo $this->Form->input('text', array(
+	'label' => '',
+	'placeholder' => 'Título do seu post...',
+	'name' => 'data[Post][user]',
+	'required' => 'required',
+	'maxlength' => 16,
+	'type' => 'hidden',
+	'value' => $user
+)); ?>
+<div class="panel panel-dark panel-alt timeline-post">
+		<div class="panel">
+		<?php echo $this->Form->input('text', array(
+			'label' => '',
+			'placeholder' => 'Título do seu post...',
+			'name' => 'data[Post][title]',
+			'class' => 'form-control',
+			'required' => 'required',
+			'rows' => 1,
+			'onfocus' => 'this.rows=1',
+			'style' => 'resize:none;',
+			'maxlength' => 25
+		)); ?>
+		</div>
+		<div class="panel-body">
+		<?php echo $this->Form->input('text', array(
+			'label' => '',
+			'placeholder' => 'Diga algo sobre si...',
+			'rows' => 5,
+			'onfocus' => 'this.rows=5',
+			'class' => 'form-control',
+			'name' => 'data[Post][content]',
+			'maxlength' => 255,
+			'required' => 'required',
+			'style' => 'resize:none;'
+		)); ?>
+		</div>
+		<div class="panel-footer">
+			<div class="timeline-btns pull-left">
+				<a href="#" class="tooltips" data-toggle="tooltip" title="Foto" style="margin-left: 20em;"><i class="glyphicon glyphicon-picture" ></i></a>
+				<a href="#" class="tooltips" data-toggle="tooltip" title="Video" style="margin-left: 5em;"><i class="glyphicon glyphicon-facetime-video"></i></a>
+                <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" style="margin-left: 5em;"><i class="glyphicon glyphicon-map-marker"></i></a>
+                <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" style="margin-left: 5em;"><i class="glyphicon glyphicon-user"></i></a>
+			</div>
+			<?php echo $this->Form->submit('Submeter Post', array(
+			'div' => 'form-group',
+			'class' => 'btn btn-primary pull-right',
+			'type' => 'submit',
+			'value' => 'Submit',
+			'action' => '/index.php/posts/index',
+			'method' => 'post'
+			)); ?>
+		</div>
+</div>
     
     <div class="contentpanel">
       <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">

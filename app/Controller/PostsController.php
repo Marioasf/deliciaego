@@ -11,6 +11,15 @@ class PostsController extends AppController {
 	public $uses = array('Post', 'Friend', 'User');
 
 	public function index(){
+			if ($this->request->is('post')) {
+		$this->Post->create();
+		if ($this->Post->save($this->request->data)) {
+			$this->Session->setFlash(__('The post has been saved.'));
+			return $this->redirect(array('action' => '/'));
+		} else {
+			$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+		}
+	}
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->Paginator->paginate());
 
