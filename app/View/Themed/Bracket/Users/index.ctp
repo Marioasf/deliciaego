@@ -91,7 +91,52 @@
                         } 
                      if(!$found_user) //senão coloca botão para adicionar amigos
                      {
-                      echo '<button id="'.$users[$i]['User']['username'].'" class="btn btn-sm btn-success mr5" onclick="friendRequest(this.id)" ><i class="fa fa-user"></i> Enviar pedido de amizade</button>';
+                     	$session_user = $_SESSION["Auth"]["User"]["username"];
+						echo $this->Form->input('', array(
+							'label' => '',
+							'name' => 'data[Friend][user1]',
+							'required' => 'required',
+							'maxlength' => 16,
+							'type' => 'hidden',
+							'value' => $session_user
+						));
+                     	$current_user = $users[$i]['User']['username'];
+                     	echo $this->Form->input('', array(
+							'label' => '',
+							'name' => 'data[Friend][user2]',
+							'required' => 'required',
+							'maxlength' => 16,
+							'type' => 'hidden',
+							'value' => $current_user
+						));
+						echo $this->Form->input('', array(
+							'label' => '',
+							'name' => 'data[Friend][accepted]',
+							'required' => 'required',
+							'maxlength' => 1,
+							'type' => 'hidden',
+							'value' => 0
+						));
+						$dt = date("Y-m-d h:i:s");
+						echo $this->Form->input('', array(
+							'label' => '',
+							'name' => 'data[Friend][datemade]',
+							'required' => 'required',
+							'type' => 'hidden',
+							'value' => $dt
+						));
+                     	echo '<div class="pull-left"><i class="fa fa-user"></i>';
+				        echo '<div class="pull-right">';
+				        echo $this->Form->submit(' Enviar pedido de amizade', array(
+				        	'id' => $current_user,
+							'class' => 'btn btn-sm btn-success mr5',
+							'type' => 'submit',
+							'value' => 'Submit',
+							'action' => '/index.php/friends/add',
+							'method' => 'post',
+							'onclick' => 'friendRequest(this.id)'
+						));
+						echo '</div></div>';
                       $found_user=true;
                     }
                     echo ' </li>
@@ -107,7 +152,8 @@
         <script>
         //procura botão que foi clicado e altera o texto
         function friendRequest(id) {
-            document.getElementById(id).innerHTML = "Pedido de amizade enviado!";
+            document.getElementById(id).value = "Pedido de amizade enviado";
+            alert(document.getElementById(id).value + " a " + id);
             //enviar dados para tabela Friends
 
         }
