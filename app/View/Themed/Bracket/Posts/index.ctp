@@ -3,9 +3,7 @@
 </div>
     <?php echo $this->Form->create('BoostCake', array(
 	'inputDefaults' => array(
-		'div' => 'form-group',
-		'wrapInput' => false,
-		'class' => 'form-control'
+		'wrapInput' => false
 	),
 	'class' => 'well'
 )); ?>

@@ -136,6 +136,15 @@ public function index() {
 	'plugin' => 'BoostCake',
 	'class' => 'alert-info'
 	));
+	if ($this->request->is('post')) {
+		$this->Friend->create();
+		if ($this->Friend->save($this->request->data)) {
+			$this->Session->setFlash(__('The friend has been saved.'));
+			return $this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
+		}
+	}
 }
 
 	/**
