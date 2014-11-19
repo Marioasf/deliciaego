@@ -28,13 +28,15 @@ public function index() {
 			//users lists
 	$friends = $this->Friend->find('all', array(
 		'fields' => 'Friend.user2',
-		'conditions' => array('Friend.user1' => $this->Auth->user('username'))
-		));
+		'conditions' => array('Friend.user1' => $this->Auth->user('username'), array('Friend.accepted' => 1))
+	));
+
 	for($i=0; $i<count($friends); $i++){
 		$friend_info[$i] = $this->User->find('all', array(
 			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
-			));
+	));
 	}
+
 	$this->set('friends', $friends);
 	$this->set('friend_info', $friend_info);
 	//$this->set('users', $users);
