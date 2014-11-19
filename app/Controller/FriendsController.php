@@ -13,8 +13,20 @@ class FriendsController extends AppController {
  *
  * @var array
  */
-public $components = array('Paginator');
+
 public $uses = array('User','Friend');
+
+// AJAX Pagination
+public $components = array('RequestHandler', 'Paginator');
+public $helpers = array('Js' => array('Jquery'), 'Paginator');
+
+//Pagination defaults
+public $paginate = array(
+ 'limit' => 25,
+ 'order' => array(
+ 	'User.firstname' => 'asc'
+ 	)
+);
 
 /**
  * index method
@@ -22,15 +34,17 @@ public $uses = array('User','Friend');
  * @return void
  */
 public function index() {
-	$this->Friend->recursive = 0;
-	$this->set('friends', $this->Paginator->paginate());
-	$this->set('users', $this->Paginator->paginate());
-			//users lists
+	/*Pagination*/
+	$results = $this->paginate();
+	$this->set('results', $results);
+	
+	/*Friends list*/
 	$friends = $this->Friend->find('all', array(
 		'fields' => 'Friend.user2',
 		'conditions' => array('Friend.user1' => $this->Auth->user('username'), array('Friend.accepted' => 1))
 	));
 
+	/*Friends user info*/
 	for($i=0; $i<count($friends); $i++){
 		$friend_info[$i] = $this->User->find('all', array(
 			'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
@@ -39,7 +53,6 @@ public function index() {
 
 	$this->set('friends', $friends);
 	$this->set('friend_info', $friend_info);
-	//$this->set('users', $users);
 }
 
 /**
@@ -55,47 +68,6 @@ public function view($id = null) {
 	}
 	$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
 	$this->set('friend', $this->Friend->find('first', $options));
-}
-
-/**
- * add method
- *
- * @return void
- */
-public function add() {
-	if ($this->request->is('post')) {
-		$this->Friend->create();
-		if ($this->Friend->save($this->request->data)) {
-			$this->Session->setFlash(__('The friend has been saved.'));
-			return $this->redirect(array('action' => 'index'));
-		} else {
-			$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
-		}
-	}
-}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-public function edit($id = null) {
-	if (!$this->Friend->exists($id)) {
-		throw new NotFoundException(__('Invalid friend'));
-	}
-	if ($this->request->is(array('post', 'put'))) {
-		if ($this->Friend->save($this->request->data)) {
-			$this->Session->setFlash(__('The friend has been saved.'));
-			return $this->redirect(array('action' => 'index'));
-		} else {
-			$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
-		}
-	} else {
-		$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
-		$this->request->data = $this->Friend->find('first', $options);
-	}
 }
 
 /**

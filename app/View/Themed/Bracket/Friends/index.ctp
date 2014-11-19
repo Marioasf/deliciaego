@@ -47,31 +47,42 @@
 
   	<div class="people-list">
   		<div class="row">
-  			<?php for($i=0; $i<count($friends); $i++){
-  				echo '
-  				<div class="col-md-6">
-  					<div class="people-item">
-  						<div class="media">
-  							<a href="users/view/'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
-  								<img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
-  							</a>
-  							<div class="media-body">
-                <a href="users/view/'.$friend_info[$i][0]['User']['id'].'">
-  								<h4 class="person-name">'.$friend_info[$i][0]['User']['first_name'].' '.$friend_info[$i][0]['User']['last_name'].'</h4>
-                </a>
-  								<div class="text-muted"><i class="fa fa-map-marker"></i> '.$friend_info[$i][0]['User']['country'].'</div>
-  								<div class="text-muted"><i class="fa fa-briefcase"></i> '.$friend_info[$i][0]['User']['company'].'</a></div>
-  								<ul class="social-list">
-  									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Email"><i class="fa fa-envelope-o"></i></a></li>
-  									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-  									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-  									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-  									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Skype"><i class="fa fa-skype"></i></a></li>
-  								</ul>
-  							</div>
-  						</div>
-  					</div>
-  				</div><!-- col-md-6 -->';} ?>
+  			<?php 
+        if($friends)
+        {
+          for($i=0; $i<count($friends); $i++)
+          {
+    				echo '
+    				<div class="col-md-6">
+    					<div class="people-item">
+    						<div class="media">
+    							<a href="users/view/'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
+    								<img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
+    							</a>
+    							<div class="media-body">
+                  <a href="users/view/'.$friend_info[$i][0]['User']['id'].'">
+    								<h4 class="person-name">'.$friend_info[$i][0]['User']['first_name'].' '.$friend_info[$i][0]['User']['last_name'].'</h4>
+                  </a>
+    								<div class="text-muted"><i class="fa fa-map-marker"></i> '.$friend_info[$i][0]['User']['country'].'</div>
+    								<div class="text-muted"><i class="fa fa-briefcase"></i> '.$friend_info[$i][0]['User']['company'].'</a></div>
+    								<ul class="social-list">
+    									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Email"><i class="fa fa-envelope-o"></i></a></li>
+    									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+    									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+    									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+    									<li><a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="Skype"><i class="fa fa-skype"></i></a></li>
+    								</ul>
+    							</div>
+    						</div>
+    					</div>
+    				</div><!-- col-md-6 -->';
+            } 
+          }
+          else
+          {
+            echo 'Não tens amigos :(';
+          }
+          ?>
   			</div><!-- row -->
   		</div><!-- people-list -->
 
