@@ -104,18 +104,16 @@
 							$dt = date("Y-m-d h:i:s");
 							echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
 							echo $this->Form->input('accepted',array('value' => '0', 'type' => 'hidden'));
-
-	                     	echo '<div class="pull-left"><i class="fa fa-user"></i>';
-					        echo '<div class="pull-right">';
+	                     	//echo '<div class="pull-left"><i class="fa fa-user"></i>';
+					        //echo '<div class="pull-right">';
 					        echo $this->Form->submit(' Enviar pedido de amizade', array(
 					        	'id' => $users[$i]['User']['username'],
 								'class' => 'btn btn-sm btn-success mr5',
-								'onclick' => 'friendRequest(this.id)'
+								'onclick' => 'friendRequest(this.id)',
+								'title' => '</div class="pull-left"><i class="fa fa-user"></i>'
 							));
-
 							echo $this->Form->end();
-
-							echo '</div></div>';
+							//echo '</div></div>';
 	                      $found_user=true;
 	                    }
 	                    echo ' </li>
