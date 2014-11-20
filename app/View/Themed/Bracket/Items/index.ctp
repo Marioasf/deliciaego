@@ -1,5 +1,5 @@
     <div class="pageheader">
-      <h2><i class="fa fa-file-text"></i> Produtos <span>Os nossos produtos...</span></h2>
+      <h2><i class="fa fa-file-text"></i> Produtos <span>Os nossos produtos...</span></h2>    
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
@@ -7,7 +7,10 @@
           <li class="active">Produtos</li>
         </ol>
       </div>
+      <br/>
+    <a href="items/add" class="btn btn-primary">Adicione os seus produtos!</a>
     </div>
+
     <div class="contentpanel">
       
       <div id="bloglist" class="row">
