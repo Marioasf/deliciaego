@@ -47,6 +47,7 @@
           <ul class="nav nav-pills nav-stacked nav-bracket mb30">
             <li><a href="/profile"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
             <li><a href="/users/edit"><i class="fa fa-cog"></i> <span>Definições de conta</span></a></li>
+            <li><a href="/companies/add"><i class="fa fa-folder-open"></i> <span>Está associado a uma empresa?</span></a></li>
             <li><a href="/pages/help"><i class="fa fa-question-circle"></i> <span>Ajuda</span></a></li>
             <li><a href="/users/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
           </ul>
@@ -56,7 +57,8 @@
         <ul id="leftbar" class="nav nav-pills nav-stacked nav-bracket">
           <li id="home"><a href="/"><i class="fa fa-home"></i> <span> Página inicial</span></a></li>
           <li id="items"><a href="/items"><i class="fa fa-gift"></i> <span> Produtos</span></a></li>
-          <li id="users"><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li>
+          <li id="users"><a href="/users"><i class="fa fa-user"></i> <span> Utilizadores</span></a></li> 
+          <li id="companies"><a href="/companies"><i class="fa fa-folder-open"></i> <span> Empresas</span></a></li>
           <li id="friends"><a href="/friends"><i class="fa fa-thumbs-o-up"></i> <span> Amigos</span></a></li>
           <li id="myposts"><a href="/posts/myposts"><i class="fa fa-file"></i> <span> Os meus Posts</span></a></li>
         </ul>
@@ -238,6 +240,7 @@
                 <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                   <li><a href="/profile"><i class="glyphicon glyphicon-user"></i> O meu perfil</a></li>
                   <li><a href="/users/edit/<?php echo $_SESSION['Auth']['User']['id']; ?>"><i class="glyphicon glyphicon-cog"></i> Definições de conta</a></li>
+                  <li><a href="/companies/add"><i class="glyphicon glyphicon-folder-open"></i> Está associado a uma empresa?</a></li>
                   <li><a href="/pages/help"><i class="glyphicon glyphicon-question-sign"></i> Ajuda</a></li>
                   <li><a href="users/logout"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
                 </ul>
