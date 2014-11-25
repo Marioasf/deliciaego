@@ -32,7 +32,7 @@ class CompaniesController extends AppController {
 		//$this->Follower->recursive = 0;
 		//$this->set('followers', $this->Paginator->paginate());
 		$followers = $this->Follower->find('all', array(
-		'fields' => array('Follower.company'),
+		'fields' => array('Follower.user','Follower.company'),
 		'conditions' => array('Follower.user' => $this->Auth->user('username'))
 		));
 		$this->set('followers',$followers);
