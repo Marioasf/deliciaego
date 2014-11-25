@@ -77,6 +77,9 @@
                                   echo '<button id="follower" class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> A seguir</button>';
                                   $found_company=true;
                               }
+                              else{
+                                echo '<button id="followcompany" class="btn btn-sm btn-success mr5" onclick="followRequest(this.id)" ><i class="fa fa-user"></i> Seguir esta empresa</button>';
+                              }
                              
                          if(!$found_company) //senão coloca botão para adicionar amigos
                          {
@@ -85,7 +88,6 @@
                             echo $this->Form->input('company',array('value' => $companies[$i]['Company']['name'], 'type' => 'hidden'));
                             $dt = date("Y-m-d h:i:s");
                             echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
-                            echo $this->Form->input('accepted',array('value' => '1', 'type' => 'hidden'));
                             //echo '<div class="pull-left"><i class="fa fa-user"></i>';
                             //echo '<div class="pull-right">';
                             echo $this->Form->submit(' Seguir esta empresa', array(
@@ -96,7 +98,7 @@
                             ));
                             echo $this->Form->end();
                             //echo '</div></div>';
-                          $found_user=true;
+                          $found_company=true;
                         }
                     }
                         echo ' </li>
@@ -113,7 +115,7 @@
             function followerRequest(id) {
                 document.getElementById(id).value = "A seguir";
                 alert(document.getElementById(id).value + " a " + id);
-                //enviar dados para tabela Friends
+                //enviar dados para tabela Followers
 
             }
             </script>

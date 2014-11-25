@@ -46,6 +46,15 @@ class CompaniesController extends AppController {
 		}
 		$this->set('follower_info',$follower_info);
 		$this->set('user_in_session',$this->Auth->user('username'));
+		if ($this->request->is('post')) {
+			$this->Follower->create();
+			if ($this->Follower->save($this->request->data)) {
+				$this->Session->setFlash(__('The follower has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The follower could not be saved. Please, try again.'));
+			}
+		}
 	}
 
 /**
