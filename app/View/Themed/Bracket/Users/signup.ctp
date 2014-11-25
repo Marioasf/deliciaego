@@ -35,7 +35,7 @@
 
           <div class="signup-info">
             <div class="logopanel">
-              <h1><span>[</span> bracket <span>]</span></h1>
+              <h1><span>[</span> Deliciaego <span>]</span></h1>
             </div><!-- logopanel -->
 
             <div class="mb20"></div>
@@ -78,33 +78,65 @@
 
             <label class="control-label">Nome</label>
             <div class="row mb10">
-              <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="Nome" />
-              </div>
-              <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="Sobrenome" />
-              </div>
+                <?php echo $this->Form->create('User', array(
+                  'inputDefaults' => array(
+                    'div' => 'form-group',
+                    'label' => false,
+                    'wrapInput' => false,
+                    'class' => 'form-control'
+                  ),
+                  'class' => 'well form-inline'
+                )); ?>
+                  <?php echo $this->Form->input('first_name', array(
+                    'placeholder' => 'Nome'
+                  )); ?>
+                  <?php echo $this->Form->input('last_name', array(
+                    'placeholder' => 'Sobrenome'
+                  )); ?>               
+
             </div>
 
             <div class="mb10">
-              <label class="control-label">Utilizador</label>
-              <input name="data[User][username]" maxlength="16" id="UserUsername" required="required" type="text" class ="form-control"></input>
+              <?php echo $this->Form->input('username', array(
+                'label' => 'Utilizador',
+                'placeholder' => 'Nome de utilizador'
+              )); ?>
             </div>
 
             <div class="mb10">
-              <label class="control-label">Senha</label>
-              <input name="data[User][password]" id="UserPassword" required="required" type="password"  class="form-control" ></input>
+              <?php echo $this->Form->input('password', array(
+                'label' => 'Senha',
+                'placeholder' => 'Escolha uma palavra-passe'
+              )); ?>
             </div>
 
             <div class="mb10">
-              <label class="control-label">Re-escreve Senha</label>
-              <input name="data[User][password_confirm]" id="UserPasswordConfirm" required="required" type="password"  class="form-control" ></input>
+              <?php echo $this->Form->input('password', array(
+                'label' => 'Confirmação de senha',
+                'placeholder' => 'Re-escreva a sua palavra passe'
+              )); ?>
             </div>
 
             <label class="control-label">Data de Nascimento</label>
             <div class="row mb10">
               <div class="col-sm-5">
-                <select class="form-control chosen-select" data-placeholder="Mês">
+                  <?php echo $this->Form->input('month', array(
+                    'empty' => 'Mês',
+                    'options' => array(
+                        1 => 'Janeiro',
+                        2 => 'Fevereiro',
+                        3 => 'Março',
+                        4 => 'Abril',
+                        5 => 'Maio',
+                        6 => 'Junho',
+                        7 => 'Julho',
+                        8 => 'Agosto',
+                        9 => 'Setembro',
+                        10 => 'Outubro',
+                        11 => 'Novembro',
+                        12 => 'Dezembro'
+                    ),
+                  )); ?>
                   <option value=""></option>
                   <option value="Janeiro">Janeiro</option>
                   <option value="Fevereiro">Fevereiro</option>
