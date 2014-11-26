@@ -123,6 +123,7 @@
                   <?php echo $this->Form->input('month', array(
                     'empty' => 'Mês',
                     'options' => array(
+                      'Mês' => array(
                         1 => 'Janeiro',
                         2 => 'Fevereiro',
                         3 => 'Março',
@@ -135,34 +136,27 @@
                         10 => 'Outubro',
                         11 => 'Novembro',
                         12 => 'Dezembro'
+                        )
                     ),
                   )); ?>
-                  <option value=""></option>
-                  <option value="Janeiro">Janeiro</option>
-                  <option value="Fevereiro">Fevereiro</option>
-                  <option value="Março">Março</option>
-                  <option value="Abril">Abril</option>
-                  <option value="Maio">Maio</option>
-                  <option value="Junho">Junho</option>
-                  <option value="Julho">Julho</option>
-                  <option value="Agosto">Agosto</option>
-                  <option value="Setembro">Setembro</option>
-                  <option value="Outubro">Outubro</option>
-                  <option value="Novembro">Novembro</option>
-                  <option value="Dezembro">Dezembro</option>
-                </select>
               </div>
               <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Dia" />
+                <?php echo $this->Form->input('day', array(
+                  'placeholder' => 'Dia'
+                )); ?>
               </div>
               <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Ano" />
+                <?php echo $this->Form->input('year', array(
+                  'placeholder' => 'Ano'
+                )); ?>
               </div>
             </div>
 
             <div class="mb10">
-              <label class="control-label">Email</label>
-              <input name="data[User][email]" maxlength="255" id="UserEmail" required="required" type="email" class="form-control"></input>
+                <?php echo $this->Form->input('email', array(
+                  'label' => 'Endereço de E-mail',
+                  'placeholder' => 'E-mail'
+                )); ?>
             </div>
 
             <div class="mb10">
