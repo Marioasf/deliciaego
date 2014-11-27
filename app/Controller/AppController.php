@@ -67,7 +67,7 @@
                         'plugin' => 'BoostCake',
                         'class' => 'alert-error'
                     )
-                )
+                ),
             )
         );
      

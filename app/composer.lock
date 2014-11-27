@@ -98,16 +98,16 @@
         },
         {
             "name": "slywalker/boost_cake",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slywalker/cakephp-plugin-boost_cake.git",
-                "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771"
+                "reference": "bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slywalker/cakephp-plugin-boost_cake/zipball/a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
-                "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
+                "url": "https://api.github.com/repos/slywalker/cakephp-plugin-boost_cake/zipball/bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e",
+                "reference": "bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e",
                 "shasum": ""
             },
             "require": {
@@ -115,7 +115,7 @@
                 "php": ">=5.3.0"
             },
             "suggest": {
-                "twitter/bootstrap": "Bootstrap for Twitter"
+                "twbs/bootstrap": "Bootstrap framework"
             },
             "type": "cakephp-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -125,8 +125,7 @@
             "authors": [
                 {
                     "name": "Yasuo Harada",
-                    "email": "slywalker.net@gmail.com",
-                    "homepage": "https://github.com/slywalker"
+                    "email": "slywalker.net@gmail.com"
                 }
             ],
             "description": "BoostCake is a plugin for CakePHP using Bootstrap",
@@ -136,7 +135,7 @@
                 "cakephp",
                 "twitter"
             ],
-            "time": "2014-01-09 03:56:57"
+            "time": "2014-11-07 10:36:43"
         }
     ],
     "packages-dev": [],

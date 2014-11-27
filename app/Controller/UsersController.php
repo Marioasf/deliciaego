@@ -28,7 +28,7 @@ public $uses = array('User','Friend','Item');
 public function beforeFilter() {
 	parent::beforeFilter();
     // Allow any user to login, logout and signup
-	$this->Auth->allow('login','logout','signup');
+	$this->Auth->allow('login','logout','signup','add');
 }
 
 public function login() {
@@ -55,11 +55,18 @@ public function logout() {
  */
 public function signup() {
 	$this->layout = false;
+
+	$this->Session->setFlash(__('Mensagem de sucesso!'), 'alert', array(
+		'plugin' => 'BoostCake',
+		'class' => 'alert-success'
+	));
+
 	if ($this->request->is('post')) {
+
 		$this->User->create();
 		if ($this->User->save($this->request->data)) {
 			$this->Session->setFlash(__('The user has been saved.'));
-			return $this->redirect(array('action' => 'index'));
+			return $this->redirect(array('action' => 'login'));
 		} else {
 			$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 		}

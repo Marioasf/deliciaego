@@ -11,42 +11,42 @@ class User extends AppModel {
         'username' => array(
             'nonEmpty' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A username is required',
+                'message' => 'Tem de introduzir um nome de utilizador.',
                 'allowEmpty' => false
             ),
             'between' => array(
                 'rule' => array('between', 5, 15),
                 'required' => true,
-                'message' => 'Usernames must be between 5 to 15 characters'
+                'message' => 'O nome de utilizador deve conter entre 5 e 15 carateres.'
             ),
              'unique' => array(
                 'rule'    => array('isUniqueUsername'),
-                'message' => 'This username is already in use'
+                'message' => 'Este username já se encontra atribuído. Por favor escolha outro.'
             ),
             'alphaNumericDashUnderscore' => array(
                 'rule'    => array('alphaNumericDashUnderscore'),
-                'message' => 'Username can only be letters, numbers and underscores'
+                'message' => 'O nome de utilizador deve conter apenas letras(a..z), números(0..9) e sublinhados(_).'
             ),
         ),
         'password' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A password is required'
+                'message' => 'Tem de introduzir uma password.'
             ),
             'min_length' => array(
                 'rule' => array('minLength', '6'), 
-                'message' => 'Password must have a mimimum of 6 characters'
+                'message' => 'A password deve ter um mínimo de 6 carateres.'
             )
         ),
          
         'password_confirm' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Please confirm your password'
+                'message' => 'Por favor confirme a password'
             ),
              'equaltofield' => array(
                 'rule' => array('equaltofield','password'),
-                'message' => 'Both passwords must match.',
+                'message' => 'As passwords tem que ser iguais.',
                 'on' => 'create',
             )
         ),
@@ -54,22 +54,22 @@ class User extends AppModel {
         'email' => array(
             'required' => array(
                 'rule' => array('email', true),   
-                'message' => 'Please provide a valid email address.'   
+                'message' => 'Por favor introduza um endereço de email válido.'   
             ),
              'unique' => array(
                 'rule'    => array('isUniqueEmail'),
-                'message' => 'This email is already in use',
+                'message' => 'Este endereço de email já se encontra em utilização.',
             ),
             'between' => array(
                 'rule' => array('between', 6, 60),
-                'message' => 'Usernames must be between 6 to 60 characters'
+                'message' => 'O nome de utilizador deve ter entre 6 e 60 carateres.'
             )
         ),      
          
         'password_update' => array(
             'min_length' => array(
                 'rule' => array('minLength', '6'),  
-                'message' => 'Password must have a mimimum of 6 characters',
+                'message' => 'A password deve ter um mínimo de 6 carateres.',
                 'allowEmpty' => true,
                 'required' => false
             )
@@ -77,12 +77,10 @@ class User extends AppModel {
         'password_confirm_update' => array(
              'equaltofield' => array(
                 'rule' => array('equaltofield','password_update'),
-                'message' => 'Both passwords must match.',
+                'message' => 'As passwords tem que ser iguais.',
                 'required' => false,
             )
         )
- 
-         
     );
      
         /**

@@ -72,7 +72,7 @@
         <div class="col-md-6">
 
           <form method="post" action="/users/signup">
-
+            
             <h3 class="nomargin">Regista-te</h3>
             <p class="mt5 mb20">Já estás registado? <a href="signin.html"><strong>Entra</strong></a></p>
 
@@ -83,7 +83,10 @@
                   'div' => 'form-group',
                   'label' => false,
                   'wrapInput' => false,
-                  'class' => 'form-control'
+                  'class' => 'form-control',
+                  'onsubmit' => '<script>
+                                   alert("<?php echo $this->Session->flash();?>");
+                                </script>'
                   ),
                 'class' => 'well form-inline'
                 )); ?>
@@ -111,46 +114,24 @@
                   </div>
 
                   <div class="mb10">
-                    <?php echo $this->Form->input('password', array(
+                    <?php echo $this->Form->input('password_confirm', array(
                       'label' => 'Confirmação de senha',
-                      'placeholder' => 'Re-escreva a sua palavra passe'
+                      'placeholder' => 'Re-escreva a sua palavra passe',
+                      'type' => 'password'
                       )); ?>
                     </div>
 
                     <label class="control-label">Data de Nascimento</label>
-                    <div class="row mb10">
-                      <div class="col-sm-5">
-                        <?php echo $this->Form->input('month', array(
-                          'empty' => 'Mês',
-                          'options' => array(
-                            'Mês' => array(
-                              1 => 'Janeiro',
-                              2 => 'Fevereiro',
-                              3 => 'Março',
-                              4 => 'Abril',
-                              5 => 'Maio',
-                              6 => 'Junho',
-                              7 => 'Julho',
-                              8 => 'Agosto',
-                              9 => 'Setembro',
-                              10 => 'Outubro',
-                              11 => 'Novembro',
-                              12 => 'Dezembro'
-                              )
-                            ),
-                            )); ?>
-                          </div>
-                          <div class="col-sm-3">
-                            <?php echo $this->Form->input('day', array(
-                              'placeholder' => 'Dia', 'type' => 'number'
-                              )); ?>
-                            </div>
-                            <div class="col-sm-4">
-                              <?php echo $this->Form->input('year', array(
-                                'placeholder' => 'Ano', 'type' => 'number'
-                                )); ?>
-                              </div>
-                            </div>
+                    
+                        <div class="input-group mb15">
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                          <?php echo $this->Form->input('date', array('placeholder' => 'Data',
+                            'class' => 'form-control',
+                            'type' => 'text',
+                            'id' => 'date'
+                            ));?>
+                        </div>
+
 
                             <div class="mb10">
                               <?php echo $this->Form->input('email', array(
@@ -458,9 +439,18 @@
 <?php echo $this->Html->script('modernizr.min'); ?>
 <?php echo $this->Html->script('retina.min'); ?>
 
+<?php echo $this->Html->script('bootstrap-timepicker.min'); ?>
+<?php echo $this->Html->script('jquery.maskedinput.min'); ?>
 <?php echo $this->Html->script('chosen.jquery.min'); ?>
 
 <?php echo $this->Html->script('custom'); ?>
+
+
+<script>
+//formatar input de data
+  jQuery("#date").mask("99-99-9999");
+
+</script>
 
 <!--
 <script>
