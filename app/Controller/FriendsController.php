@@ -14,19 +14,8 @@ class FriendsController extends AppController {
  * @var array
  */
 
+public $components = array('Paginator', 'Session');
 public $uses = array('User','Friend');
-
-// AJAX Pagination
-public $components = array('RequestHandler', 'Paginator');
-public $helpers = array('Js' => array('Jquery'), 'Paginator');
-
-//Pagination defaults
-public $paginate = array(
- 'limit' => 25,
- 'order' => array(
- 	'User.firstname' => 'asc'
- 	)
-);
 
 /**
  * index method
@@ -34,9 +23,8 @@ public $paginate = array(
  * @return void
  */
 public function index() {
-	/*Pagination*/
-	$results = $this->paginate();
-	$this->set('results', $results);
+	$users = $this->paginate('User',array('User.username !=' => $this->Auth->user('username')));
+	$this->set('users', $users);
 	
 	/*Friends list*/
 	$friends = $this->Friend->find('all', array(

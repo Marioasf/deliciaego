@@ -43,13 +43,24 @@
 	          <li><a href="#">z</a></li>
 	        </ul>
 	        
+	        <?php
+	          	$paginator = $this->Paginator;
+	          	echo 'Ordenar por:';
+	          	echo $paginator->sort('first_name', 'Nome /');
+	          	echo $paginator->sort('country', 'País /');
+	          	echo $paginator->sort('company', 'Empresa');
+	          ?>
+	          
 	        <div class="mb30"></div>
 	        
+	          <!--<a class="btn btn-info-alt">Ordenar por:</a>-->
+
+	         
 	        <div class="people-list">
 	          <div class="row">
 	            <?php
-	            $friends_button='<button id="friend" class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>';
-	            $addfriend_button='<button id="add_friend" class="btn btn-sm btn-success mr5" onclick="friendRequest(this.id)" ><i class="fa fa-user"></i> Enviar pedido de amizade</button>';
+	            
+
 	            for($i=0; $i<count($users); $i++)
 	            {
 	              $found_user=false;

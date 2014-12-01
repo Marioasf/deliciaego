@@ -43,6 +43,14 @@
   		<li><a href="#">z</a></li>
   	</ul>
 
+    <?php
+        $paginator = $this->Paginator;
+        echo 'Ordenar por:';
+        echo $paginator->sort('first_name', 'Nome /');
+        echo $paginator->sort('country', 'País /');
+        echo $paginator->sort('company', 'Empresa');
+      ?>
+
   	<div class="mb30"></div>
 
   	<div class="people-list">
