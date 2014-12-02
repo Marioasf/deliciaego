@@ -214,6 +214,11 @@
 	 * @return void
 	 */
 	public function edit($id = null) {
+		$this->Session->setFlash(__('Utilize esta página para editar os dados da sua conta.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-info'
+		));
+
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
