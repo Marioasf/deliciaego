@@ -147,5 +147,10 @@
 	        </script>
 	        </div><!-- row -->
 	      </div><!-- people-list -->
-
+		<?php echo $this->Paginator->pagination(array(
+			'ul' => 'pagination'
+		)); ?>
+		<?php /*echo $this->Paginator->pagination(array(
+			'ul' => 'pagination'
+		));*/ ?>
 	    </div><!-- contentpanel -->

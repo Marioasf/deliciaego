@@ -22,8 +22,12 @@ class ItemsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Item->recursive = 0;
-		$this->set('items', $this->Paginator->paginate());
+		$this->paginate = array(
+				      'conditions' => array('Item.user !=' => $this->Auth->user('username')),
+				      'limit' => 2
+				  );
+		$items = $this->paginate('Item');
+		$this->set(compact('items'));
 	}
 
 /**

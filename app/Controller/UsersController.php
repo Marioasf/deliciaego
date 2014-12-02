@@ -109,11 +109,18 @@
 	 */
 
 	public function index() {
+
+		$this->paginate = array(
+		      'conditions' => array('User.username !=' => $this->Auth->user('username')),
+		      'limit' => 4
+		  );
+		  $users = $this->paginate('User');
+		  $this->set(compact('users'));
 		
-		$users = $this->paginate('User', 
+		/*$users = $this->paginate('User', 
 			array('User.username !=' => $this->Auth->user('username'))
 				
-			);
+			);*/
 
 		// we prepare our query, the cakephp way!
 		/*$this->paginate = array(
@@ -125,7 +132,7 @@
 		//$users = $this->paginate('User');*/
 		 
 		// pass the value to our view.ctp
-		$this->set('users', $users);
+		//$this->set('users', $users);
 
 		/*//users lists
 		$users = $this->User->find('all', array(
