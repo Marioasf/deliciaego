@@ -12,7 +12,13 @@
     </div>
 
     <div class="contentpanel">
-      
+      <?php
+          $paginator = $this->Paginator;
+          echo 'Ordenar por:';
+          echo $paginator->sort('name', 'Nome /');
+          echo $paginator->sort('category', 'Categoria /');
+          echo $paginator->sort('price', 'Preço');
+        ?>
       <div id="bloglist" class="row">
                 <?php for($i=0; $i<count($items); $i++){
                   echo '

@@ -44,7 +44,13 @@
             </ul>
             
             <div class="mb30"></div>
-            
+            <?php
+                    $paginator = $this->Paginator;
+                    echo 'Ordenar por:';
+                    echo $paginator->sort('name', 'Nome /');
+                    echo $paginator->sort('location', 'Localização /');
+                    echo $paginator->sort('category', 'Tipo');
+                  ?>
             <div class="people-list">
               <div class="row">
                 <?php
@@ -121,5 +127,7 @@
             </script>
             </div><!-- row -->
           </div><!-- people-list -->
-
+          <?php echo $this->Paginator->pagination(array(
+            'ul' => 'pagination'
+          )); ?>
         </div><!-- contentpanel -->

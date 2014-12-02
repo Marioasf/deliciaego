@@ -24,16 +24,24 @@ class CompaniesController extends AppController {
  * @return void
  */
 	public function index() {
+
+		$this->paginate = array(
+		      'conditions' => array('Company.user !=' => $this->Auth->user('username')),
+		      'limit' => 1
+		);
+		$companies = $this->paginate('Company');
+		$this->set(compact('companies'));
+/*
 		$this->Company->recursive = 0;
 		$this->set('companies', $this->Paginator->paginate());
 		$companies = $this->Company->find('all');
-		$this->set('companies',$companies);
+		$this->set('companies',$companies);*/
 
 		//$this->Follower->recursive = 0;
 		//$this->set('followers', $this->Paginator->paginate());
 		$followers = $this->Follower->find('all', array(
-		'fields' => array('Follower.user','Follower.company'),
-		'conditions' => array('Follower.user' => $this->Auth->user('username'))
+			'fields' => array('Follower.user','Follower.company'),
+			'conditions' => array('Follower.user' => $this->Auth->user('username'))
 		));
 		$this->set('followers',$followers);
 
