@@ -1,464 +1,457 @@
-
-    <div class="pageheader">
+<?php echo $this->Form->create('Company', array(
+      'inputDefaults' => array(
+      'div' => 'form-group',
+      'label' => false,
+      'wrapInput' => false,
+      'class' => 'form-control'
+      ),
+      'class' => 'well form-inline'
+)); ?>     
+<div class="pageheader">
       <h2><i class="fa fa-folder-open"></i> Está associado a uma empresa? <span>Adicione aqui a sua empresa</span></h2>
-    </div>
-    
-    <div class="contentpanel">
-      
-      <div class="row">
-        <div class="col-sm-4 col-md-3">
-            <h4 class="subtitle mb5">Nome</h4>
-            <input type="text" value="Nome da sua empresa" class="form-control" />
-            
-            <div class="mb20"></div>
-            
-            <h4 class="subtitle mb5">Location</h4>
-            <select class="form-control chosen-select" data-placeholder="Choose a Country...">
-                  <option value=""></option>
-                  <option value="United States">United States</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Afghanistan">Afghanistan</option>
-                  <option value="Aland Islands">Aland Islands</option>
-                  <option value="Albania">Albania</option>
-                  <option value="Algeria">Algeria</option>
-                  <option value="American Samoa">American Samoa</option>
-                  <option value="Andorra">Andorra</option>
-                  <option value="Angola">Angola</option>
-                  <option value="Anguilla">Anguilla</option>
-                  <option value="Antarctica">Antarctica</option>
-                  <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                  <option value="Argentina">Argentina</option>
-                  <option value="Armenia">Armenia</option>
-                  <option value="Aruba">Aruba</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Austria">Austria</option>
-                  <option value="Azerbaijan">Azerbaijan</option>
-                  <option value="Bahamas">Bahamas</option>
-                  <option value="Bahrain">Bahrain</option>
-                  <option value="Bangladesh">Bangladesh</option>
-                  <option value="Barbados">Barbados</option>
-                  <option value="Belarus">Belarus</option>
-                  <option value="Belgium">Belgium</option>
-                  <option value="Belize">Belize</option>
-                  <option value="Benin">Benin</option>
-                  <option value="Bermuda">Bermuda</option>
-                  <option value="Bhutan">Bhutan</option>
-                  <option value="Bolivia, Plurinational State of">Bolivia, Plurinational State of</option>
-                  <option value="Bonaire, Sint Eustatius and Saba">Bonaire, Sint Eustatius and Saba</option>
-                  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                  <option value="Botswana">Botswana</option>
-                  <option value="Bouvet Island">Bouvet Island</option>
-                  <option value="Brazil">Brazil</option>
-                  <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-                  <option value="Brunei Darussalam">Brunei Darussalam</option>
-                  <option value="Bulgaria">Bulgaria</option>
-                  <option value="Burkina Faso">Burkina Faso</option>
-                  <option value="Burundi">Burundi</option>
-                  <option value="Cambodia">Cambodia</option>
-                  <option value="Cameroon">Cameroon</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Cape Verde">Cape Verde</option>
-                  <option value="Cayman Islands">Cayman Islands</option>
-                  <option value="Central African Republic">Central African Republic</option>
-                  <option value="Chad">Chad</option>
-                  <option value="Chile">Chile</option>
-                  <option value="China">China</option>
-                  <option value="Christmas Island">Christmas Island</option>
-                  <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-                  <option value="Colombia">Colombia</option>
-                  <option value="Comoros">Comoros</option>
-                  <option value="Congo">Congo</option>
-                  <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The</option>
-                  <option value="Cook Islands">Cook Islands</option>
-                  <option value="Costa Rica">Costa Rica</option>
-                  <option value="Cote D'ivoire">Cote D'ivoire</option>
-                  <option value="Croatia">Croatia</option>
-                  <option value="Cuba">Cuba</option>
-                  <option value="Curacao">Curacao</option>
-                  <option value="Cyprus">Cyprus</option>
-                  <option value="Czech Republic">Czech Republic</option>
-                  <option value="Denmark">Denmark</option>
-                  <option value="Djibouti">Djibouti</option>
-                  <option value="Dominica">Dominica</option>
-                  <option value="Dominican Republic">Dominican Republic</option>
-                  <option value="Ecuador">Ecuador</option>
-                  <option value="Egypt">Egypt</option>
-                  <option value="El Salvador">El Salvador</option>
-                  <option value="Equatorial Guinea">Equatorial Guinea</option>
-                  <option value="Eritrea">Eritrea</option>
-                  <option value="Estonia">Estonia</option>
-                  <option value="Ethiopia">Ethiopia</option>
-                  <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
-                  <option value="Faroe Islands">Faroe Islands</option>
-                  <option value="Fiji">Fiji</option>
-                  <option value="Finland">Finland</option>
-                  <option value="France">France</option>
-                  <option value="French Guiana">French Guiana</option>
-                  <option value="French Polynesia">French Polynesia</option>
-                  <option value="French Southern Territories">French Southern Territories</option>
-                  <option value="Gabon">Gabon</option>
-                  <option value="Gambia">Gambia</option>
-                  <option value="Georgia">Georgia</option>
-                  <option value="Germany">Germany</option>
-                  <option value="Ghana">Ghana</option>
-                  <option value="Gibraltar">Gibraltar</option>
-                  <option value="Greece">Greece</option>
-                  <option value="Greenland">Greenland</option>
-                  <option value="Grenada">Grenada</option>
-                  <option value="Guadeloupe">Guadeloupe</option>
-                  <option value="Guam">Guam</option>
-                  <option value="Guatemala">Guatemala</option>
-                  <option value="Guernsey">Guernsey</option>
-                  <option value="Guinea">Guinea</option>
-                  <option value="Guinea-bissau">Guinea-bissau</option>
-                  <option value="Guyana">Guyana</option>
-                  <option value="Haiti">Haiti</option>
-                  <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
-                  <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
-                  <option value="Honduras">Honduras</option>
-                  <option value="Hong Kong">Hong Kong</option>
-                  <option value="Hungary">Hungary</option>
-                  <option value="Iceland">Iceland</option>
-                  <option value="India">India</option>
-                  <option value="Indonesia">Indonesia</option>
-                  <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
-                  <option value="Iraq">Iraq</option>
-                  <option value="Ireland">Ireland</option>
-                  <option value="Isle of Man">Isle of Man</option>
-                  <option value="Israel">Israel</option>
-                  <option value="Italy">Italy</option>
-                  <option value="Jamaica">Jamaica</option>
-                  <option value="Japan">Japan</option>
-                  <option value="Jersey">Jersey</option>
-                  <option value="Jordan">Jordan</option>
-                  <option value="Kazakhstan">Kazakhstan</option>
-                  <option value="Kenya">Kenya</option>
-                  <option value="Kiribati">Kiribati</option>
-                  <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
-                  <option value="Korea, Republic of">Korea, Republic of</option>
-                  <option value="Kuwait">Kuwait</option>
-                  <option value="Kyrgyzstan">Kyrgyzstan</option>
-                  <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-                  <option value="Latvia">Latvia</option>
-                  <option value="Lebanon">Lebanon</option>
-                  <option value="Lesotho">Lesotho</option>
-                  <option value="Liberia">Liberia</option>
-                  <option value="Libya">Libya</option>
-                  <option value="Liechtenstein">Liechtenstein</option>
-                  <option value="Lithuania">Lithuania</option>
-                  <option value="Luxembourg">Luxembourg</option>
-                  <option value="Macao">Macao</option>
-                  <option value="Macedonia, The Former Yugoslav Republic of">Macedonia, The Former Yugoslav Republic of</option>
-                  <option value="Madagascar">Madagascar</option>
-                  <option value="Malawi">Malawi</option>
-                  <option value="Malaysia">Malaysia</option>
-                  <option value="Maldives">Maldives</option>
-                  <option value="Mali">Mali</option>
-                  <option value="Malta">Malta</option>
-                  <option value="Marshall Islands">Marshall Islands</option>
-                  <option value="Martinique">Martinique</option>
-                  <option value="Mauritania">Mauritania</option>
-                  <option value="Mauritius">Mauritius</option>
-                  <option value="Mayotte">Mayotte</option>
-                  <option value="Mexico">Mexico</option>
-                  <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-                  <option value="Moldova, Republic of">Moldova, Republic of</option>
-                  <option value="Monaco">Monaco</option>
-                  <option value="Mongolia">Mongolia</option>
-                  <option value="Montenegro">Montenegro</option>
-                  <option value="Montserrat">Montserrat</option>
-                  <option value="Morocco">Morocco</option>
-                  <option value="Mozambique">Mozambique</option>
-                  <option value="Myanmar">Myanmar</option>
-                  <option value="Namibia">Namibia</option>
-                  <option value="Nauru">Nauru</option>
-                  <option value="Nepal">Nepal</option>
-                  <option value="Netherlands">Netherlands</option>
-                  <option value="New Caledonia">New Caledonia</option>
-                  <option value="New Zealand">New Zealand</option>
-                  <option value="Nicaragua">Nicaragua</option>
-                  <option value="Niger">Niger</option>
-                  <option value="Nigeria">Nigeria</option>
-                  <option value="Niue">Niue</option>
-                  <option value="Norfolk Island">Norfolk Island</option>
-                  <option value="Northern Mariana Islands">Northern Mariana Islands</option>
-                  <option value="Norway">Norway</option>
-                  <option value="Oman">Oman</option>
-                  <option value="Pakistan">Pakistan</option>
-                  <option value="Palau">Palau</option>
-                  <option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
-                  <option value="Panama">Panama</option>
-                  <option value="Papua New Guinea">Papua New Guinea</option>
-                  <option value="Paraguay">Paraguay</option>
-                  <option value="Peru">Peru</option>
-                  <option value="Philippines">Philippines</option>
-                  <option value="Pitcairn">Pitcairn</option>
-                  <option value="Poland">Poland</option>
-                  <option value="Portugal">Portugal</option>
-                  <option value="Puerto Rico">Puerto Rico</option>
-                  <option value="Qatar">Qatar</option>
-                  <option value="Reunion">Reunion</option>
-                  <option value="Romania">Romania</option>
-                  <option value="Russian Federation">Russian Federation</option>
-                  <option value="Rwanda">Rwanda</option>
-                  <option value="Saint Barthelemy">Saint Barthelemy</option>
-                  <option value="Saint Helena, Ascension and Tristan da Cunha">Saint Helena, Ascension and Tristan da Cunha</option>
-                  <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-                  <option value="Saint Lucia">Saint Lucia</option>
-                  <option value="Saint Martin (French part)">Saint Martin (French part)</option>
-                  <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
-                  <option value="Saint Vincent and The Grenadines">Saint Vincent and The Grenadines</option>
-                  <option value="Samoa">Samoa</option>
-                  <option value="San Marino">San Marino</option>
-                  <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-                  <option value="Saudi Arabia">Saudi Arabia</option>
-                  <option value="Senegal">Senegal</option>
-                  <option value="Serbia">Serbia</option>
-                  <option value="Seychelles">Seychelles</option>
-                  <option value="Sierra Leone">Sierra Leone</option>
-                  <option value="Singapore">Singapore</option>
-                  <option value="Sint Maarten (Dutch part)">Sint Maarten (Dutch part)</option>
-                  <option value="Slovakia">Slovakia</option>
-                  <option value="Slovenia">Slovenia</option>
-                  <option value="Solomon Islands">Solomon Islands</option>
-                  <option value="Somalia">Somalia</option>
-                  <option value="South Africa">South Africa</option>
-                  <option value="South Georgia and The South Sandwich Islands">South Georgia and The South Sandwich Islands</option>
-                  <option value="South Sudan">South Sudan</option>
-                  <option value="Spain">Spain</option>
-                  <option value="Sri Lanka">Sri Lanka</option>
-                  <option value="Sudan">Sudan</option>
-                  <option value="Suriname">Suriname</option>
-                  <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
-                  <option value="Swaziland">Swaziland</option>
-                  <option value="Sweden">Sweden</option>
-                  <option value="Switzerland">Switzerland</option>
-                  <option value="Syrian Arab Republic">Syrian Arab Republic</option>
-                  <option value="Taiwan, Province of China">Taiwan, Province of China</option>
-                  <option value="Tajikistan">Tajikistan</option>
-                  <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
-                  <option value="Thailand">Thailand</option>
-                  <option value="Timor-leste">Timor-leste</option>
-                  <option value="Togo">Togo</option>
-                  <option value="Tokelau">Tokelau</option>
-                  <option value="Tonga">Tonga</option>
-                  <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                  <option value="Tunisia">Tunisia</option>
-                  <option value="Turkey">Turkey</option>
-                  <option value="Turkmenistan">Turkmenistan</option>
-                  <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
-                  <option value="Tuvalu">Tuvalu</option>
-                  <option value="Uganda">Uganda</option>
-                  <option value="Ukraine">Ukraine</option>
-                  <option value="United Arab Emirates">United Arab Emirates</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="United States">United States</option>
-                  <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
-                  <option value="Uruguay">Uruguay</option>
-                  <option value="Uzbekistan">Uzbekistan</option>
-                  <option value="Vanuatu">Vanuatu</option>
-                  <option value="Venezuela, Bolivarian Republic of">Venezuela, Bolivarian Republic of</option>
-                  <option value="Viet Nam">Viet Nam</option>
-                  <option value="Virgin Islands, British">Virgin Islands, British</option>
-                  <option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
-                  <option value="Wallis and Futuna">Wallis and Futuna</option>
-                  <option value="Western Sahara">Western Sahara</option>
-                  <option value="Yemen">Yemen</option>
-                  <option value="Zambia">Zambia</option>
-                  <option value="Zimbabwe">Zimbabwe</option>
-                </select>
-            
-            <div class="mb20"></div>
-            
-            <h4 class="subtitle mb5">File Size</h4>
-            <div id="slider" class="slider-primary mb20"></div>
-            
-            <div class="mb20"></div>
-            
-            <h4 class="subtitle mb5">File Type</h4>
-            <ul class="nav nav-sr">
-                <li><a href="#"><i class="glyphicon glyphicon-file"></i> Documents</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-picture"></i> Images</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-facetime-video"></i> Videos</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-music"></i> Audio</a></li>
-            </ul>
-            
-            <div class="mb20"></div>
-            
-            <h4 class="subtitle mb5">Date Created</h4>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker">
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-            </div>
-            
-            <br />
-                        
-        </div><!-- col-sm-4 -->
-        <div class="col-sm-8 col-md-9">
+</div>
+<div class="contentpanel">
+      <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <ul class="pagination nomargin pull-right">
-                        <li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li class="active"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                    <h4 class="panel-title">Search results for "Web Design"</h4>
-                    <p>About 1,370 results (0.13 seconds)</p>
-                </div><!-- panel-heading -->
-                <div class="panel-body">
-                    
-                    <div class="results-list">
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media1.jpg" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">Pizza.png</h4>
-                              <small class="text-muted">Type: JPG Image</small><br />
-                              <small class="text-muted">Created: January 10, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                  <div class="panel-heading">
+                        <h4 class="panel-title">Dados Básicos</h4>
+                        <p>Insira os dados básicos sobre a sua empresa</p>
+                  </div>
+                  <div class="panel-body">
+                        <div class="row">
+                              <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <?php echo $this->Form->input('name', array(
+                                    'label' => 'Nome',
+                                    'placeholder' => 'Nome da sua empresa'
+                                    )); ?>
+                                     </div>
+                              </div><!-- col-sm-6 -->
+                              <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <?php echo $this->Form->input('category', array(
+                                    'label' => 'Categoria',
+                                    'placeholder' => 'Categoria de produtos'
+                                    )); ?>
+                                    </div>
+                              </div><!-- col-sm-6 -->
+                        </div><!-- row -->
+                        </br>
+                        <div class="row">
+                              <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <?php echo $this->Form->input('ifn', array(
+                                          'label' => 'Número de Identificação Fiscal',
+                                          'placeholder' => 'NIF da empresa'
+                                    )); ?>
+                                     </div>
+                              </div><!-- col-sm-6 -->
+                              <div class="col-sm-6">
+                                    <div class="form-group">
+                                    <?php echo $this->Form->input('location', array(
+                                    'label' => 'Localização',
+                                    'empty' => 'País',
+                                    'options' => array(
+                                    'País' => array(
+                                      'Afeganistão' => 'Afeganistão',
+                                      'Akrotiri' => 'Akrotiri',
+                                      'Albânia' => 'Albânia',
+                                      'Alemanha' => 'Alemanha',
+                                      'Andorra' => 'Andorra',
+                                      'Angola' => 'Angola',
+                                      'Anguila' => 'Anguila',
+                                      'Antilhas Neerlandesas' => 'Antilhas Neerlandesas',
+                                      'Antárctida' => 'Antárctida',
+                                      'Antígua e Barbuda' => 'Antígua e Barbuda',
+                                      'Argentina' => 'Argentina',
+                                      'Argélia' => 'Argélia',
+                                      'Arménia' => 'Arménia',
+                                      'Aruba' => 'Aruba',
+                                      'Arábia Saudita' => 'Arábia Saudita',
+                                      'Ashmore and Cartier Islands' => 'Ashmore and Cartier Islands',
+                                      'Angola' => 'Angola',
+                                      'Anguila' => 'Anguila',
+                                      'Antilhas Neerlandesas' => 'Antilhas Neerlandesas',
+                                      'Antárctida' => 'Antárctida',
+                                      'Antígua e Barbuda' => 'Antígua e Barbuda',
+                                      'Austrália' => 'Austrália',
+                                      'Azerbaijão' => 'Azerbaijão',
+                                      'Baamas' => 'Baamas',
+                                      'Bangladeche' => 'Bangladeche',
+                                      'Barbados' => 'Barbados',
+                                      'Barém' => 'Barém',
+                                      'Belize' => 'Belize',
+                                      'Benim' => 'Benim',
+                                      'Bermudas' => 'Bermudas',
+                                      'Bielorrússia' => 'Bielorrússia',
+                                      'Birmânia' => 'Birmânia',
+                                      'Bolívia' => 'Bolívia',
+                                      'Botsuana' => 'Botsuana',
+                                      'Brasil' => 'Brasil',
+                                      'Brunei' => 'Brunei',
+                                      'Bulgária' => 'Bulgária',
+                                      'Burquina Faso' => 'Burquina Faso',
+                                      'Burúndi' => 'Burúndi',
+                                      'Butão' => 'Butão',
+                                      'Bélgica' => 'Bélgica',
+                                      'Bósnia e Herzegovina' => 'Bósnia e Herzegovina',
+                                      'Cabo Verde' => 'Cabo Verde',
+                                      'Camarões' => 'Camarões',
+                                      'Camboja' => 'Camboja',
+                                      'Canadá' => 'Canadá',
+                                      'Catar' => 'Catar',
+                                      'Cazaquistão' => 'Cazaquistão',
+                                      'Chade' => 'Chade',
+                                      'Chile' => 'Chile',
+                                      'China' => 'China',
+                                      'Chipre' => 'Chipre',
+                                      'Clipperton Island' => 'Clipperton Island',
+                                      'Colômbia' => 'Colômbia',
+                                      'Comores' => 'Comores',
+                                      'Congo-Brazzaville' => 'Congo-Brazzaville',
+                                      'Congo-Kinshasa' => 'Congo-Kinshasa',
+                                      'Coral Sea Islands' => 'Coral Sea Islands',
+                                      'Coreia do Norte' => 'Coreia do Norte',
+                                      'Coreia do Sul' => 'Coreia do Sul',
+                                      'Costa Rica' => 'Costa Rica',
+                                      'Costa do Marfim' => 'Costa do Marfim',
+                                      'Croácia' => 'Croácia',
+                                      'Cuba' => 'Cuba',
+                                      'Dhekelia' => 'Dhekelia',
+                                      'Dinamarca' => 'Dinamarca',
+                                      'Domínica' => 'Domínica',
+                                      'Egipto' => 'Egipto',
+                                      'Emiratos Árabes Unidos' => 'Emiratos Árabes Unidos',
+                                      'Equador' => 'Equador',
+                                      'Eritreia' => 'Eritreia',
+                                      'Eslováquia' => 'Eslováquia',
+                                      'Eslovénia' => 'Eslovénia',
+                                      'Espanha' => 'Espanha',
+                                      'Estados Unidos' => 'Estados Unidos',
+                                      'Estónia' => 'Estónia',
+                                      'Etiópia' => 'Etiópia',
+                                      'Faroé' => 'Faroé',
+                                      'Fiji' => 'Fiji',
+                                      'Filipinas' => 'Filipinas',
+                                      'Finlândia' => 'Finlândia',
+                                      'França' => 'França',
+                                      'Gabão' => 'Gabão',
+                                      'Geórgia do Sul e Sandwich do Sul' => 'Geórgia do Sul e Sandwich do Sul',
+                                      'Geórgia' => 'Geórgia',
+                                      'Gibraltar' => 'Gibraltar',
+                                      'Granada' => 'Granada',
+                                      'Gronelândia' => 'Gronelândia',
+                                      'Grécia' => 'Grécia',
+                                      'Guame' => 'Guame',
+                                      'Guatemala' => 'Guatemala',
+                                      'Guernsey' => 'Guernsey',
+                                      'Guiana' => 'Guiana',
+                                      'Guiné Equatorial' => 'Guiné Equatorial',
+                                      'Guiné' => 'Guiné',
+                                      'Guiné-Bissau' => 'Guiné-Bissau',
+                                      'Gâmbia' => 'Gâmbia',
+                                      'Haiti' => 'Haiti',
+                                      'Honduras' => 'Honduras',
+                                      'Hong Kong' => 'Hong Kong',
+                                      'Hungria' => 'Hungria',
+                                      'Ilha Bouvet' => 'Ilha Bouvet',
+                                      'Ilha Norfolk' => 'Ilha Norfolk',
+                                      'Ilha do Natal' => 'Ilha do Natal',
+                                      'Ilhas Caimão' => 'Ilhas Caimão',
+                                      'Ilhas Cook' => 'Ilhas Cook',
+                                      'Ilhas Falkland' => 'Ilhas Falkland',
+                                      'Ilhas Heard e McDonald' => 'Ilhas Heard e McDonald',
+                                      'Ilhas Marshall' => 'Ilhas Marshall',
+                                      'Ilhas Salomão' => 'Ilhas Salomão',
+                                      'Ilhas Turcas e Caicos' => 'Ilhas Turcas e Caicos',
+                                      'Ilhas Virgens Americanas' => 'Ilhas Virgens Americanas',
+                                      'Ilhas Virgens Britânicas' => 'Ilhas Virgens Britânicas',
+                                      'Ilhas dos Cocos' => 'Ilhas dos Cocos',
+                                      'Indian Ocean' => 'Indian Ocean',
+                                      'Indonésia' => 'Indonésia',
+                                      'Iraque' => 'Iraque',
+                                      'Irlanda' => 'Irlanda',
+                                      'Irão' => 'Irão',
+                                      'Islândia' => 'Islândia',
+                                      'Israel' => 'Israel',
+                                      'Itália' => 'Itália',
+                                      'Iémen' => 'Iémen',
+                                      'Jamaica' => 'Jamaica',
+                                      'Jan Mayen' => 'Jan Mayen',
+                                      'Japão' => 'Japão',
+                                      'Jersey' => 'Jersey',
+                                      'Jibuti' => 'Jibuti',
+                                      'Jordânia' => 'Jordânia',
+                                      'Kuwait' => 'Kuwait',
+                                      'Laos' => 'Laos',
+                                      'Lesoto' => 'Lesoto',
+                                      'Letónia' => 'Letónia',
+                                      'Libéria' => 'Libéria',
+                                      'Listenstaine' => 'Listenstaine',
+                                      'Lituânia' => 'Lituânia',
+                                      'Luxemburgo' => 'Luxemburgo',
+                                      'Líbano' => 'Líbano',
+                                      'Líbia' => 'Líbia',
+                                      'Macau' => 'Macau',
+                                      'Macedónia' => 'Macedónia',
+                                      'Madagáscar' => 'Madagáscar',
+                                      'Maldivas' => 'Maldivas',
+                                      'Mali' => 'Mali',
+                                      'Malta' => 'Malta',
+                                      'Malásia' => 'Malásia',
+                                      'Malávi' => 'Malávi',
+                                      'Man, Isle of' => 'Man, Isle of',
+                                      'Marianas do Norte' => 'Marianas do Norte',
+                                      'Marrocos' => 'Marrocos',
+                                      'Mauritânia' => 'Mauritânia',
+                                      'Maurícia' => 'Maurícia',
+                                      'Mayotte' => 'Mayotte',
+                                      'Micronésia' => 'Micronésia',
+                                      'Moldávia' => 'Moldávia',
+                                      'Mongólia' => 'Mongólia',
+                                      'Monserrate' => 'Monserrate',
+                                      'Montenegro' => 'Montenegro',
+                                      'Moçambique' => 'Moçambique',
+                                      'Mundo' => 'Mundo',
+                                      'México' => 'México',
+                                      'Mónaco' => 'Mónaco',
+                                      'Namíbia' => 'Namíbia',
+                                      'Nauru' => 'Nauru',
+                                      'Navassa Island' => 'Navassa Island',
+                                      'Nepal' => 'Nepal',
+                                      'Nicarágua' => 'Nicarágua',
+                                      'Nigéria' => 'Nigéria',
+                                      'Niue' => 'Niue',
+                                      'Noruega' => 'Noruega',
+                                      'Nova Caledónia' => 'Nova Caledónia',
+                                      'Nova Zelândia' => 'Nova Zelândia',
+                                      'Níger' => 'Níger',
+                                      'Omã' => 'Omã',
+                                      'Pacific Ocean' => 'Pacific Ocean',
+                                      'Palau' => 'Palau',
+                                      'Panamá' => 'Panamá',
+                                      'Papua-Nova Guiné' => 'Papua-Nova Guiné',
+                                      'Paquistão' => 'Paquistão',
+                                      'Paracel Islands' => 'Paracel Islands',
+                                      'Paraguai' => 'Paraguai',
+                                      'Países Baixos' => 'Países Baixos',
+                                      'Peru' => 'Peru',
+                                      'Pitcairn' => 'Pitcairn',
+                                      'Polinésia Francesa' => 'Polinésia Francesa',
+                                      'Polónia' => 'Polónia',
+                                      'Porto Rico' => 'Porto Rico',
+                                      'Portugal' => 'Portugal',
+                                      'Quirguizistão' => 'Quirguizistão',
+                                      'Quiribáti' => 'Quiribáti',
+                                      'Quénia' => 'Quénia',
+                                      'Reino Unido' => 'Reino Unido',
+                                      'República Centro-Africana' => 'República Centro-Africana',
+                                      'República Checa' => 'República Checa',
+                                      'República Dominicana' => 'República Dominicana',
+                                      'Roménia' => 'Roménia',
+                                      'Ruanda' => 'Ruanda',
+                                      'Rússia' => 'Rússia',
+                                      'Salvador' => 'Salvador',
+                                      'Samoa Americana' => 'Samoa Americana',
+                                      'Samoa' => 'Samoa',
+                                      'Santa Helena' => 'Santa Helena',
+                                      'Santa Lúcia' => 'Santa Lúcia',
+                                      'Sara Ocidental' => 'Sara Ocidental',
+                                      'Seicheles' => 'Seicheles',
+                                      'Senegal' => 'Senegal',
+                                      'Serra Leoa' => 'Serra Leoa',
+                                      'Singapura' => 'Singapura',
+                                      'Somália' => 'Somália',
+                                      'Southern Ocean' => 'Southern Ocean',
+                                      'Spratly Islands' => 'Spratly Islands',
+                                      'Sri Lanca' => 'Sri Lanca',
+                                      'Suazilândia' => 'Suazilândia',
+                                      'Sudão' => 'Sudão',
+                                      'Suriname' => 'Suriname',
+                                      'Suécia' => 'Suécia',
+                                      'Suíça' => 'Suíça',
+                                      'Svalbard e Jan Mayen' => 'Svalbard e Jan Mayen',
+                                      'São Cristóvão e Neves' => 'São Cristóvão e Neves',
+                                      'São Marinho' => 'São Marinho',
+                                      'São Pedro e Miquelon' => 'São Pedro e Miquelon',
+                                      'São Tomé e Príncipe' => 'São Tomé e Príncipe',
+                                      'São Vicente e Granadinas' => 'São Vicente e Granadinas',
+                                      'Sérvia' => 'Sérvia',
+                                      'Síria' => 'Síria',
+                                      'Tailândia' => 'Tailândia',
+                                      'Taiwan' => 'Taiwan',
+                                      'Tajiquistão' => 'Tajiquistão',
+                                      'Tanzânia' => 'Tanzânia',
+                                      'Território Britânico do Oceano Índico' => 'Território Britânico do Oceano Índico',
+                                      'Territórios Austrais Franceses' => 'Territórios Austrais Franceses',
+                                      'Timor Leste' => 'Timor Leste',
+                                      'Togo' => 'Togo',
+                                      'Tokelau' => 'Tokelau',
+                                      'Tonga' => 'Tonga',
+                                      'Trindade e Tobago' => 'Trindade e Tobago',
+                                      'Tunísia' => 'Tunísia',
+                                      'Turquemenistão' => 'Turquemenistão',
+                                      'Turquia' => 'Turquia',
+                                      'Tuvalu' => 'Tuvalu',
+                                      'Ucrânia' => 'Ucrânia',
+                                      'Uganda' => 'Uganda',
+                                      'União Europeia' => 'União Europeia',
+                                      'Uruguai' => 'Uruguai',
+                                      'Usbequistão' => 'Usbequistão',
+                                      'Vanuatu' => 'Vanuatu',
+                                      'Vaticano' => 'Vaticano',
+                                      'Venezuela' => 'Venezuela',
+                                      'Vietname' => 'Vietname',
+                                      'Wake Island' => 'Wake Island',
+                                      'Wallis e Futuna' => 'Wallis e Futuna',
+                                      'West Bank' => 'West Bank',
+                                      'Zimbabué' => 'Zimbabué',
+                                      'Zâmbia' => 'Zâmbia',
+                                      'África do Sul' => 'África do Sul',
+                                      'Áustria' => 'Áustria',
+                                      'Índia' => 'Índia'
+                                    )))); ?>
+                                    </div>
+                              </div><!-- col-sm-6 -->
+                        </div><!-- row -->
+                  </div>
+            </div>
+      </div>
+      <div class="contentpanel">
+            <div class="col-md-6">
+                  <div class="panel panel-default">
+                        <div class="panel-heading">
+                              <h4 class="panel-title">Contactos</h4>
+                              <p>Colocar contactos de atendimento ao cliente</p>
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media-doc.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">MyDocument.pdf</h4>
-                              <small class="text-muted">Type: PDF Document</small><br />
-                              <small class="text-muted">Created: January 13, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                        <div class="panel-body">
+                              <div class="row">
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                             <div class="input-group mb20">
+                                                <label>Morada</label>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                <?php echo $this->Form->input('address', array(
+                                                'placeholder' => 'Sede da empresa'
+                                                )); ?>
+                                             </div>
+                                           </div>
+                                    </div><!-- col-sm-6 -->
+                              </div>
+                              <dic class="row">
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                      <label>Telefone</label>
+                                                      <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                                      <?php echo $this->Form->input('phone', array(
+                                                            'placeholder' => 'Número de apoio ao cliente'
+                                                      )); ?>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                      <label>E-mail</label>
+                                                      <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                      <?php echo $this->Form->input('phone', array(
+                                                            'placeholder' => 'Correio eletrónico'
+                                                      )); ?>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media2.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">SwimmingPool.png</h4>
-                              <small class="text-muted">Type: PNG Image</small><br />
-                              <small class="text-muted">Created: January 10, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                  </div>
+            </div>
+      </div>
+      <div class="contentpanel">
+            <div class="col-md-6">
+                  <div class="panel panel-default">
+                        <div class="panel-heading">
+                              <h4 class="panel-title">Redes Sociais</h4>
+                              <p>Colocar links para as redes sociais</p>
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media-audio.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">WreckingBall.mp3</h4>
-                              <small class="text-muted">Type: MP3 Audio</small><br />
-                              <small class="text-muted">Created: January 13, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                        <div class="panel-body">
+                              <div class="row">
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+                                                <?php echo $this->Form->input('facebook', array(
+                                                      'placeholder' => 'Facebook'
+                                                )); ?>
+                                                </div>
+                                          </div>
+                                    </div><!-- col-sm-6 -->
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                <span class="input-group-addon"><i class="fa fa-google-plus"></i></span>
+                                                <?php echo $this->Form->input('google', array(
+                                                      'placeholder' => 'Google+'
+                                                )); ?>
+                                                </div>
+                                          </div>
+                                    </div><!-- col-sm-6 -->
+                              </div>
+                              <dic class="row">
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                                                <?php echo $this->Form->input('twitter', array(
+                                                      'placeholder' => 'Twitter'
+                                                )); ?>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                                <div class="input-group mb20">
+                                                <span class="input-group-addon"><i class="fa fa-tasks"></i></span>
+                                                <?php echo $this->Form->input('website', array(
+                                                      'placeholder' => 'Website da empresa'
+                                                )); ?>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media3.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">Painting.mp4</h4>
-                              <small class="text-muted">Type: MP4 Video</small><br />
-                              <small class="text-muted">Created: January 13, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                  </div>
+            </div>
+      </div>
+      <div class="contentpanel">
+            <div class="col-md-6">
+                  <div class="panel panel-default">
+                        <div class="panel-heading">
+                              <h4 class="panel-title">Sobre a Empresa</h4>
+                              <p>Carregar imagem e descrição da empresa</p>
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media1.jpg" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">Pizza.png</h4>
-                              <small class="text-muted">Type: JPG Image</small><br />
-                              <small class="text-muted">Created: January 10, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
+                        <div class="panel-body">
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                          <?php echo $this->Form->input('about', array(
+                                          'label' => 'Descrição',
+                                          'placeholder' => 'Breve descrição sobre a empresa e os produtos disponíveis'
+                                          )); ?>
+                                          </div>
+                                    </div><!-- col-sm-6 -->
+                                    <div class="col-sm-6">
+                                          <div class="form-group">
+                                          <?php echo $this->Form->input('picture', array(
+                                          'label' => 'Imagem',
+                                          'placeholder' => 'Link da imagem'
+                                          )); ?>
+                                          </div>
+                                    </div><!-- col-sm-6 -->
                         </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media-doc.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">MyDocument.pdf</h4>
-                              <small class="text-muted">Type: PDF Document</small><br />
-                              <small class="text-muted">Created: January 13, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
-                        </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media2.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">SwimmingPool.png</h4>
-                              <small class="text-muted">Type: PNG Image</small><br />
-                              <small class="text-muted">Created: January 10, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
-                        </div>
-                        
-                        <div class="media">
-                            <a href="#" class="pull-left">
-                              <img alt="" src="images/photos/media-audio.png" class="media-object">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="filename text-primary">WreckingBall.mp3</h4>
-                              <small class="text-muted">Type: MP3 Audio</small><br />
-                              <small class="text-muted">Created: January 13, 2014 at 7:30am</small><br />
-                              <small class="text-muted">Modified: January 13, 2014 at 11:30am</small>
-                            </div>
-                        </div>
-                        
-                    </div><!-- results-list -->
-                    
-                </div><!-- panel-body -->
-            </div><!-- panel -->
-        </div><!-- col-sm-8 -->
-      </div><!-- row -->
-      
-    </div>
 
-
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery-migrate-1.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/modernizr.min.js"></script>
-<script src="js/jquery.sparkline.min.js"></script>
-<script src="js/toggles.min.js"></script>
-<script src="js/retina.min.js"></script>
-<script src="js/jquery.cookies.js"></script>
-
-<script src="js/jquery-ui-1.10.3.min.js"></script>
-<script src="js/chosen.jquery.min.js"></script>
-
-<script src="js/custom.js"></script>
-<script>
-    jQuery(document).ready(function() {
-        
-        // Basic Slider
-        jQuery('#slider').slider({
-          range: "min",
-          max: 100,
-          value: 50
-        });
-        
-        // Chosen Select
-        jQuery(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
-        
-        // Date Picker
-        jQuery('#datepicker').datepicker();
-        
-    });
-</script>
+                      <?php echo $this->Form->input('user',array('value' => $_SESSION["Auth"]["User"]["username"], 'type' => 'hidden')); ?>
+                        <?php
+                        echo $this->Form->submit('Guardar', array(
+                          'class' => 'btn btn-success btn-block'
+                         ));
+                        ?>
+                        <?php echo $this->Form->end(); ?>

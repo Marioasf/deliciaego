@@ -16,7 +16,7 @@ class CompaniesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Company','Follower');
+	public $uses = array('Company','Follower', 'Friend');
 
 /**
  * index method
@@ -78,6 +78,25 @@ class CompaniesController extends AppController {
 		}
 		$options = array('conditions' => array('Company.' . $this->Company->primaryKey => $id));
 		$this->set('company', $this->Company->find('first', $options));
+		$company = $this->Company->find('all', array(
+			'conditions' => array('Company.id' => $id)
+		));
+		$followers = $this->Follower->find('all', array(
+		'fields' => array('Follower.user'),
+		'conditions' => array('Follower.company' => $company[0]['Company']['name'])
+		));
+		$friends = $this->Friend->find('all', array(
+		'conditions' => array('Friend.user1' => $this->Auth->user('username'), 'Friend.user2' => $followers[0]['Follower']['user'])
+		));
+		$this->set('friends', $friends);
+		for($i=0; $i<count($friends); $i++){
+			if($friend_info[$i][0]['User']['username'] === $company[0]['Company']['user'])
+				$friend_info[$i] = $this->User->find('all', array(
+				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+				));
+		}
+		$this->set('friend_info',$friend_info);
+		$this->set('company', $company);
 	}
 
 /**

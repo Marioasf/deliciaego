@@ -2,7 +2,7 @@
           <?php echo $this->Html->css('prettyPhoto'); ?>
               
           <div class="pageheader">
-            <h2><i class="fa fa-user"></i> Empresas</h2>
+            <h2><i class="fa fa-briefcase"></i> Empresas</h2>
             <div class="breadcrumb-wrapper"> 
               <span class="label">Caminho:</span>
               <ol class="breadcrumb">
