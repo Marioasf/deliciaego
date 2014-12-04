@@ -117,28 +117,6 @@
 		  $users = $this->paginate('User');
 		  $this->set(compact('users'));
 		
-		/*$users = $this->paginate('User', 
-			array('User.username !=' => $this->Auth->user('username'))
-				
-			);*/
-
-		// we prepare our query, the cakephp way!
-		/*$this->paginate = array(
-		    'limit' => 3,
-		    'order' => array('id' => 'desc')
-		);
-		 
-		// we are using the 'User' model
-		//$users = $this->paginate('User');*/
-		 
-		// pass the value to our view.ctp
-		//$this->set('users', $users);
-
-		/*//users lists
-		$users = $this->User->find('all', array(
-			'conditions' => array('NOT' => array('User.username' => $this->Auth->user('username')))
-			));
-		$this->set('users', $users);*/
 
 		$friends = $this->Friend->find('all', array(
 			'fields' => array('Friend.user2', 'Friend.accepted'),
@@ -218,6 +196,14 @@
 			'plugin' => 'BoostCake',
 			'class' => 'alert-info'
 		));
+
+		$session_user_info = $this->User->find('all', array(
+			'fields' => array('User.first_name', 'User.last_name', 'User.username', 'User.email', 'User.country', 'User.about', 'User.title',
+				'User.company', 'User.phone','User.picture','User.website','User.facebook', 'User.google', 'User.twitter'),
+			'conditions' => array('User.username' => $this->Auth->user('username'))
+			));
+
+		$this->set('session_user_info', $session_user_info);
 
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
