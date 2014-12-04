@@ -16,6 +16,8 @@ class ItemsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+	public $uses = array('Item');
+
 /**
  * index method
  *
