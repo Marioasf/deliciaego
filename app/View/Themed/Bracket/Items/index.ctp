@@ -1,7 +1,7 @@
     <div class="pageheader">
       <h2><i class="fa fa-file-text"></i> Produtos <span>Os nossos produtos...</span></h2>    
       <div class="breadcrumb-wrapper">
-        <span class="label">You are here:</span>
+        <span class="label">Caminho:</span>
         <ol class="breadcrumb">
           <li><a href="/">Deliciaego</a></li>
           <li class="active">Produtos</li>
@@ -31,7 +31,11 @@
                               <li>By: <a href="#">'.$items[$i]['Item']['user'].'</a></li>
                               <li>Jan 03, 2014</li>
                               <li><a href="#">2 Comments</a></li>
-                            </ul>
+                              <a href="#" class="tooltips" data-toggle="tooltip" title="Adiconar à lista de desejos">';
+                              echo $this->Form->button('<i class="glyphicon glyphicon-heart"></i>', array(
+                              'type' => 'button',
+                              'escape' => false));
+                            echo '</a></ul>
                             <div class="blog-summary">
                               <p>'.$items[$i]['Item']['description'].'</p>
                               <button class="btn btn-sm btn-white">Read More</button>
