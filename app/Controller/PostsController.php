@@ -8,18 +8,18 @@ class PostsController extends AppController {
 
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Post', 'Friend', 'User');
+	public $uses = array('Post', 'Friend', 'User', 'Comment');
 
 	public function index(){
-			if ($this->request->is('post')) {
-		$this->Post->create();
-		if ($this->Post->save($this->request->data)) {
-			$this->Session->setFlash(__('The post has been saved.'));
-			return $this->redirect(array('action' => '/'));
-		} else {
-			$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+		if ($this->request->is('post')) {
+			$this->Post->create();
+			if ($this->Post->save($this->request->data)) {
+				$this->Session->setFlash(__('The post has been saved.'));
+				return $this->redirect(array('action' => '/'));
+			} else {
+				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+			}
 		}
-	}
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->Paginator->paginate());
 
@@ -39,10 +39,12 @@ class PostsController extends AppController {
 		    ),
 		     'order' => array('Post.datemade' => 'DESC')
 		));
-
 		for($i=0; $i<count($friend_posts); $i++)
 		{
-			 $friend_plist[$i]=$friend_posts[$i]['Post']['user'];
+			$comments=$this->Comment->find('all', array(
+				'Comment.post' => $friend_posts[$i]['Post']['id']
+			));
+			$friend_plist[$i]=$friend_posts[$i]['Post']['user'];
 		}
 		foreach($friend_posts as $post){
 			$friend_info=$this->User->find('all', array(
@@ -57,6 +59,7 @@ class PostsController extends AppController {
 				}
 			}
 		}
+		$this->set('comments', $comments);
 		$this->set('friend_plist', $friend_plist);
 		$this->set('friend_info', $friend_info);
 		$this->set('friend_posts', $friend_posts);

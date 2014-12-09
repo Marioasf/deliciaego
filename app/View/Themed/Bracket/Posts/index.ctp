@@ -1,7 +1,7 @@
 <div id="preloader">
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
 </div>
-    <?php echo $this->Form->create('BoostCake', array(
+<?php echo $this->Form->create('BoostCake', array(
 	'inputDefaults' => array(
 		'wrapInput' => false
 	),
@@ -64,7 +64,7 @@
     
     <div class="contentpanel">
       <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">
-      <?php 
+      <?php
       for($i=0; $i<count($friend_posts); $i++){
       	//if a post has picture only
         if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == "" && $friend_posts[$i]['Post']['picture'] != ""){
@@ -98,8 +98,21 @@
                             <small class="text-muted">2 pessoas gostam disto</small>
                         </div>
                     </div>
-                </div><!-- panel-body -->
-                <div class="panel-footer">
+                </div><!-- panel-body -->';
+                for($j=0; $j<count($comments); $j++){
+                    if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
+                        echo '<ul class="media-list comment-list">
+                        <li class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                            </a>
+                            <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                            <p>'.$comments[$j]['Comment']['content'].'</p>
+                        </li>
+                        </ul>';
+                    }
+                }
+                    echo '<div class="panel-footer">
                     <div class="media">
                         <a href="/profile" class="pull-left">
                             <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
@@ -153,8 +166,21 @@
                                 <small class="text-muted">1 pessoas gostam disto</small>
                             </div>
                         </div>
-                    </div><!-- panel-body -->
-                    <div class="panel-footer">
+                    </div><!-- panel-body -->';
+                    for($j=0; $j<count($comments); $j++){
+                        if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
+                            echo '<ul class="media-list comment-list">
+                            <li class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                </a>
+                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                                <p>'.$comments[$j]['Comment']['content'].'</p>
+                            </li>
+                            </ul>';
+                        }
+                    }   
+                    echo '<div class="panel-footer">
                         <div class="media">
                             <a href="/profile" class="pull-left">
                                 <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
@@ -203,8 +229,21 @@
                                 <small class="text-muted">6 pessoas gostam disto</small>
                             </div>
                         </div>
-                    </div><!-- panel-body -->
-                     <div class="panel-footer">
+                    </div><!-- panel-body -->';
+                    for($j=0; $j<count($comments); $j++){
+                        if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
+                            echo '<ul class="media-list comment-list">
+                            <li class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                </a>
+                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                                <p>'.$comments[$j]['Comment']['content'].'</p>
+                            </li>
+                            </ul>';
+                        }
+                    }
+                    echo '<div class="panel-footer">
                         <div class="media">
                             <a href="/profile" class="pull-left">
                                 <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
@@ -260,8 +299,21 @@
                         <small class="text-muted">1 pessoas gostam disto</small>
                     </div>
                 </div>
-            </div><!-- panel-body -->
-             <div class="panel-footer">
+            </div><!-- panel-body -->';
+                for($j=0; $j<count($comments); $j++){
+                    if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
+                        echo '<ul class="media-list comment-list">
+                        <li class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                            </a>
+                            <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                            <p>'.$comments[$j]['Comment']['content'].'</p>
+                        </li>
+                        </ul>';
+                    }
+                }
+            echo '<div class="panel-footer">
                         <div class="media">
                             <a href="/profile" class="pull-left">
                                 <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
