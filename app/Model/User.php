@@ -56,10 +56,11 @@ class User extends AppModel {
                 'rule' => array('email', true),   
                 'message' => 'Por favor introduza um endereço de email válido.'   
             ),
-             'unique' => array(
+            //comentado porque não permite que seja submetido um formulário com um email igual ao já existente (p.ex. ao editar os dados de utilizador)
+             /*'unique' => array(
                 'rule'    => array('isUniqueEmail'),
                 'message' => 'Este endereço de email já se encontra em utilização.',
-            ),
+            ),*/
             'between' => array(
                 'rule' => array('between', 6, 60),
                 'message' => 'O nome de utilizador deve ter entre 6 e 60 carateres.'

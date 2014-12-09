@@ -183,7 +183,6 @@
 		$this->set('items', $items);
 		}
 
-
 	/**
 	 * edit method
 	 *
@@ -197,20 +196,24 @@
 			'class' => 'alert-info'
 		));
 
-		$session_user_info = $this->User->find('all', array(
-			'fields' => array('User.first_name', 'User.last_name', 'User.username', 'User.email', 'User.country', 'User.about', 'User.title',
-				'User.company', 'User.phone','User.picture','User.website','User.facebook', 'User.google', 'User.twitter'),
-			'conditions' => array('User.username' => $this->Auth->user('username'))
-			));
+		if (is_uploaded_file($this->request->data['User']['image']['tmp_name']))
+		{
+		    move_uploaded_file(
+		        $this->request->data['User']['image']['tmp_name'],
+		        'deliciaego/app/webroot/images/users/' . $this->request->data['User']['image']['name']
+		    );
 
-		$this->set('session_user_info', $session_user_info);
+		    // store the filename in the array to be saved to the db
+		    $this->request->data['User']['image'] = $this->request->data['User']['image']['name'];
+		}
 
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+			if ($this->Item->save($this->request->data)) {
+				$this->Session->setFlash(__('The item has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
@@ -219,8 +222,34 @@
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
-	}
+	}	       
 
+	/**
+	 * edit method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function update_user_info($id = null) {
+			if (!$this->User->exists($id)) {
+				throw new NotFoundException(__('Invalid company'));
+			}
+			if ($this->request->is(array('post', 'put'))) {
+				$file = $this->request->data['Document']['submittedfile'];
+				     move_uploaded_file($this->data['Document']['submittedfile']['tmp_name'],     $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/images/users/' . $this->data['Document']['submittedfile']['name']);
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('The user has been saved.'));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				}
+			} else {
+				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+				$this->request->data = $this->User->find('first', $options);
+			}
+		} 
+		   
 	/**
 	 * delete method
 	 *
