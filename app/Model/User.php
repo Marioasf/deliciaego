@@ -81,7 +81,32 @@ class User extends AppModel {
                 'message' => 'As passwords tem que ser iguais.',
                 'required' => false,
             )
-        )
+        ),
+        //regras de validação para o upload de imagens
+        'picture' => array(
+                    // http://book.cakephp.org/2.0/en/models/data-validation.html#Validation::uploadError
+                    'uploadError' => array(
+                        'rule' => 'uploadError',
+                        'message' => 'Something went wrong with the file upload',
+                        'required' => FALSE,
+                        'allowEmpty' => TRUE,
+                    ),
+                    // http://book.cakephp.org/2.0/en/models/data-validation.html#Validation::mimeType
+                    'mimeType' => array(
+                        'rule' => array('mimeType', array('image/gif','image/png','image/jpg','image/jpeg')),
+                        'message' => 'Invalid file, only images allowed',
+                        'required' => FALSE,
+                        'allowEmpty' => TRUE,
+                    ),
+                    // custom callback to deal with the file upload
+                    'processUpload' => array(
+                        'rule' => 'processUpload',
+                        'message' => 'Something went wrong processing your file',
+                        'required' => FALSE,
+                        'allowEmpty' => TRUE,
+                        'last' => TRUE,
+                    )
+                )
     );
      
         /**
