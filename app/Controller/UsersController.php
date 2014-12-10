@@ -195,32 +195,19 @@
 			'plugin' => 'BoostCake',
 			'class' => 'alert-info'
 		));
-
-	
-
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-
 		if ($this->request->is(array('post', 'put'))) {
-			//image upload
-			if (is_uploaded_file($this->request->data['User']['picture']['tmp_name']))
-			{
-			    move_uploaded_file(
-			        $this->request->data['User']['picture']['tmp_name'],
-			        'deliciaego/app/webroot/images/users/' . $this->request->data['User']['picture']['name']
-			    );
+				
+					if ($this->User->save($this->request->data)) {
+						$this->Session->setFlash(__('The user has been saved.'));
+						return $this->redirect(array('action' => 'index'));
 
-			    // store the filename in the array to be saved to the db
-			    $this->request->data['User']['picture'] = $this->request->data['User']['picture']['name'];
-			}
-
-			if ($this->Item->save($this->request->data)) {
-				$this->Session->setFlash(__('The item has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
+						// form validation failed
+					} else {
+						// check if file has been uploaded, if so get the file path
+						if (!empty($this->User->data['User']['picture']) && is_string($this->User->data['User']['picture'])) {
+							$this->request->data['User']['picture'] = $this->User->data['User']['picture'];
+						}
+					}
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
