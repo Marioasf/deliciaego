@@ -62,8 +62,8 @@ class PostsController extends AppController {
 		}
 		for($i=0; $i<count($comments); $i++){
 			$user_comment=$this->User->find('all', array(
-				'conditions' => $comments[$i]['Comment']['user']
-			));
+				'conditions' => array('User.username' => $comments[$i]['Comment']['user']
+			)));
 		}
 		$this->set('user_comment', $user_comment);
 		$this->set('comments', $comments);
