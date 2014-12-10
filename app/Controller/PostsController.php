@@ -42,7 +42,8 @@ class PostsController extends AppController {
 		for($i=0; $i<count($friend_posts); $i++)
 		{
 			$comments=$this->Comment->find('all', array(
-				'Comment.post' => $friend_posts[$i]['Post']['id']
+				'Comment.post' => $friend_posts[$i]['Post']['id'],
+				'order' => 'Comment.datemade'
 			));
 			$friend_plist[$i]=$friend_posts[$i]['Post']['user'];
 		}
@@ -59,6 +60,12 @@ class PostsController extends AppController {
 				}
 			}
 		}
+		for($i=0; $i<count($comments); $i++){
+			$user_comment=$this->User->find('all', array(
+				'conditions' => $comments[$i]['Comment']['user']
+			));
+		}
+		$this->set('user_comment', $user_comment);
 		$this->set('comments', $comments);
 		$this->set('friend_plist', $friend_plist);
 		$this->set('friend_info', $friend_info);
