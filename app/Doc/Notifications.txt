@@ -1,0 +1,6 @@
+Notifications:
+Acções feitas por amigos:
+- Comentários em posts do utilizador em sessão
+- Comentários em produtos do utilizador em sessão
+- Likes em posts do utilizador em sessão
+- Likes em produtos do utilizador em sessão
