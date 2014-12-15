@@ -19,10 +19,11 @@
           echo $paginator->sort('category', 'Categoria /');
           echo $paginator->sort('price', 'Preço');
         ?>
-        <?php var_dump($wishlist);?>
+        <!--<?php var_dump($wishlist);?>-->
         <?php echo $this->Session->flash();?>
       <div id="bloglist" class="row">
                 <?php for($i=0; $i<count($items); $i++){
+                  $found_wish=FALSE;
                   echo '
                       <div class="col-xs-6 col-sm-4">
                         <div class="blog-item">
@@ -34,30 +35,48 @@
                               <li>Jan 03, 2014</li>
                               <li><a href="#">2 Comments</a></li>
                                 <li>';
+                                //se utilizador tiver lista de desejos
                                 if(isset($wishlist))
                                 {
+                                  //percorrer lista e colocar botão para remover da lista caso já lá exista ou botão para adicionar
                                   for($j=0;$j<count($wishlist);$j++){
-                                    if($wishlist[$j]['Wishlist']['product_id']==$items[$i]['Item']['id']){//caso o item já esteja na lista de desejos
+                                    if($wishlist[$j]['Wishlist']['product_id']==$items[$i]['Item']['id'] && !$found_wish){//caso o item já esteja na lista de desejos e ainda não tenha sido encontrado nenhum item na lista de desejos anteriormente
+
+                                          $found_wish=TRUE;
                                           echo '<div class="tooltips" data-toggle="tooltip" title="Remover da sua lista de desejos">';
-                                          
-                                         
-                                               
-                                          echo $this->Form->submit(__('♥'),array('action' => 'delete', __('De certeza que deseja remover # %s da sua lista de desejos?', $wishlist[$i]['Wishlist']['id'])));
-                                            
+                        
+                                          echo $this->Form->postLink('♥', array('action' => 'delete', $wishlist[$j]['Wishlist']['id']), array('confirm' => 'De certeza que deseja remover este item?'));
+
                                           echo '</div>';
                                         }
-                                        else{
+                                       
+                                  }
+                                  //se não foi encontrado item na lista de desejos
+                                  if(!$found_wish){
                                           echo '<div class="tooltips" data-toggle="tooltip" title="Adicionar à lista de desejos">';
                                           echo $this->Form->create('Wishlist');
                                           echo $this->Form->input('product_id', array('type' => 'hidden','value' => $items[$i]['Item']['id']));
                                           echo $this->Form->input('user', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username'])); 
-                                          echo $this->Form->submit('♡');
+                                          echo $this->Form->submit('♡', array('confirm' => 'De certeza que deseja adicionar este item?'));
                                           echo $this->Form->end();
-
                                           echo '</div>';
-                                        }
                                   }
+                                  //faz reset à variável
+                                  $found_wish=FALSE;
+                                 
                                 }
+                                //se utilizador não tiver lista de desejos, colocar em todos os items botão para adicionar à lista de desejos
+                                else {
+                                  echo '<div class="tooltips" data-toggle="tooltip" title="Adicionar à lista de desejos">';
+                                        echo $this->Form->create('Wishlist');
+                                        echo $this->Form->input('product_id', array('type' => 'hidden','value' => $items[$i]['Item']['id']));
+                                        echo $this->Form->input('user', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username'])); 
+                                        echo $this->Form->submit('♡', array('confirm' => 'De certeza que deseja adicionar este item?'));
+                                        echo $this->Form->end();
+
+                                        echo '</div>';
+                                }
+
                           echo '</li>
                              </ul>
                              <div class="blog-summary">

@@ -23,7 +23,7 @@ class ItemsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function index($id = null) {
 		$this->paginate = array(
 				      'conditions' => array('Item.user !=' => $this->Auth->user('username')),
 				      'limit' => 2
@@ -40,7 +40,10 @@ class ItemsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Wishlist->create();
 			if ($this->Wishlist->save($this->request->data)) {
-				$this->Session->setFlash(__('The item has been saved to the wishlist.'));
+				$this->Session->setFlash(__('Este item foi adicionado à sua lista de desejos.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-success'
+				));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Este item não pôde ser adicionado à lista de desejos.'), 'alert', array(
@@ -48,19 +51,8 @@ class ItemsController extends AppController {
 				'class' => 'alert-danger'
 				));
 			}
-		}/*
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Item->delete()) {
-			$this->Session->setFlash(__('Este item foi removido da sua lista de desejos.'), 'alert', array(
-				'plugin' => 'BoostCake',
-				'class' => 'alert-success'
-				));
-		} else {
-			$this->Session->setFlash(__('Este item não foi removido da sua lista de desejos.'), 'alert', array(
-				'plugin' => 'BoostCake',
-				'class' => 'alert-danger'
-				));
-		}*/
+		}
+		
 	}
 
 /**
@@ -127,15 +119,21 @@ class ItemsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Item->id = $id;
-		if (!$this->Item->exists()) {
+		$this->Wishlist->id = $id;
+		if (!$this->Wishlist->exists()) {
 			throw new NotFoundException(__('Invalid item'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Item->delete()) {
-			$this->Session->setFlash(__('The item has been deleted.'));
+		if ($this->Wishlist->delete()) {
+			$this->Session->setFlash(__('Este item foi removido da sua lista de desejos.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-success'
+			));
 		} else {
-			$this->Session->setFlash(__('The item could not be deleted. Please, try again.'));
+			$this->Session->setFlash(__('Este item não pôde ser removido da lista de desejos.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}

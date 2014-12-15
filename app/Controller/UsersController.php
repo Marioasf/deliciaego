@@ -135,11 +135,7 @@
 		}
 		$this->set('friend_info',$friend_info);
 		$this->set('user_in_session',$this->Auth->user('username'));
-		//alert
-		$this->Session->setFlash(__('Perfil inacessivel, este utilizador tem de aceitar o seu pedido de amizade'), 'alert', array(
-		'plugin' => 'BoostCake',
-		'class' => 'alert-info'
-		));
+		
 		if ($this->request->is('post')) {
 			$this->Friend->create();
 			if ($this->Friend->save($this->request->data)) {
