@@ -59,6 +59,7 @@
 			'action' => '/index.php/posts/index',
 			'method' => 'post'
 			)); ?>
+            <?php echo $this->Form->end(); ?>
 		</div>
 </div>
     
@@ -104,7 +105,13 @@
                         echo '<ul class="media-list comment-list">
                         <li class="media">
                             <a class="pull-left" href="#">
-                                <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                <img class="media-object thumbnail" src="';
+                                for($k=0; $k<count($user_comment); $k++){
+                                    if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
+                                        echo $user_comment[$k]['User']['picture'];
+                                    }
+                                } 
+                                echo '" alt="" />
                             </a>
                             <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
                             <p>'.$comments[$j]['Comment']['content'].'</p>
@@ -116,11 +123,51 @@
                     <div class="media">
                         <a href="/profile" class="pull-left">
                             <img alt="" src="'.$_SESSION['Auth']['User']['picture'].'" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <input type="text" class="form-control" placeholder="Write a comment" />
-                        </div>
-                    </div><!-- media -->
+                        </a>';
+                        echo $this->Form->create('BoostCake', array(
+                            'inputDefaults' => array(
+                                'wrapInput' => false
+                            ),
+                            'class' => 'well'
+                        ));
+                        $user = $_SESSION["Auth"]["User"]["username"];
+                              echo $this->Form->input('text', array(
+                              'label' => '',
+                              'name' => 'data[Comment][user]',
+                              'required' => 'required',
+                              'maxlength' => 16,
+                              'type' => 'hidden',
+                              'value' => $user
+                        ));
+                        echo $this->Form->input('text', array(
+                              'label' => '',
+                              'name' => 'data[Comment][post]',
+                              'required' => 'required',
+                              'maxlength' => 16,
+                              'type' => 'hidden',
+                              'value' => $friend_posts[$i]['Post']['id']
+                        ));
+                        echo $this->Form->input('text', array(
+                              'label' => '',
+                              'placeholder' => 'Comentário...',
+                              'rows' => 5,
+                              'onfocus' => 'this.rows=1',
+                              'class' => 'form-control',
+                              'name' => 'data[Comment][content]',
+                              'maxlength' => 255,
+                              'required' => 'required',
+                              'style' => 'resize:none;'
+                        ));
+                        echo $this->Form->submit('Publicar', array(
+                              'div' => 'form-group',
+                              'class' => 'btn btn-primary pull-right',
+                              'type' => 'submit',
+                              'value' => 'Submit',
+                              'action' => '/index.php/posts/view',
+                              'method' => 'post'
+                        ));
+                        echo $this->Form->end();
+                    echo '</div><!-- media -->
                 </div>
               </div><!-- panel -->
             </div><!-- col-sm-6 -->
@@ -172,7 +219,13 @@
                             echo '<ul class="media-list comment-list">
                             <li class="media">
                                 <a class="pull-left" href="#">
-                                    <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                    <img class="media-object thumbnail" src="';
+                                for($k=0; $k<count($user_comment); $k++){
+                                    if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
+                                        echo $user_comment[$k]['User']['picture'];
+                                    }
+                                } 
+                            echo '" alt="" />
                                 </a>
                                 <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
                                 <p>'.$comments[$j]['Comment']['content'].'</p>
@@ -235,7 +288,13 @@
                             echo '<ul class="media-list comment-list">
                             <li class="media">
                                 <a class="pull-left" href="#">
-                                    <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                    <img class="media-object thumbnail" src="';
+                                for($k=0; $k<count($user_comment); $k++){
+                                    if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
+                                        echo $user_comment[$k]['User']['picture'];
+                                    }
+                                } 
+                            echo '" alt="" />
                                 </a>
                                 <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
                                 <p>'.$comments[$j]['Comment']['content'].'</p>
@@ -305,7 +364,13 @@
                         echo '<ul class="media-list comment-list">
                         <li class="media">
                             <a class="pull-left" href="#">
-                                <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
+                                <img class="media-object thumbnail" src="';
+                                                                for($k=0; $k<count($user_comment); $k++){
+                                    if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
+                                        echo $user_comment[$k]['User']['picture'];
+                                    }
+                                } 
+                            echo '" alt="" />
                             </a>
                             <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
                             <p>'.$comments[$j]['Comment']['content'].'</p>

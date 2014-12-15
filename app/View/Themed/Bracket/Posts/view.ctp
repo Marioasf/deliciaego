@@ -1,14 +1,3 @@
-
-    <!--<div class="pageheader">
-      <h2><i class="fa fa-file-text"></i>O meu post</h2>
-      <div class="breadcrumb-wrapper">
-        <span class="label">Caminho:</span>
-        <ol class="breadcrumb">
-          <li><a href="/">Deliciaego</a></li>
-          <li class="active"><?php echo h($post['Post']['title']);?></li>
-        </ol>
-      </div>
-    </div>  -->
     <div class="contentpanel">
       
       <div class="row blog-content">
@@ -16,12 +5,12 @@
         
         <div class="panel panel-default panel-blog">
           <div class="panel-body">
-            <h3 class="blogsingle-title"> <?php echo h($post['Post']['title']);?></h3>
+            <h3 class="blogsingle-title"> <?php echo h($post['Post']['title']); ?></h3>
             
             <ul class="blog-meta">
-              <li>By: <a href="#"><?php echo $user[0]['User']['first_name']; echo " "; echo $user[0]['User']['last_name'];?></a></li>
-              <li>Jan 02, 2014</li>
-              <li><a href="#">2 Comments</a></li>
+              <li>Por: <a href="#"><?php echo $user[0]['User']['first_name']; echo " "; echo $user[0]['User']['last_name']; ?></a></li>
+              <li><?php echo h($post['Post']['datemade']); ?></li>
+              <li><a href="#"><?php echo count($comments); echo " "; echo "Comments"; ?></a></li>
             </ul>
             
             <br />
@@ -36,132 +25,92 @@
         <div class="authorpanel">
           <div class="media">
             <a class="pull-left" href="#">
-              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user[0]['User']['picture'].'" alt="" />'; ?>
+              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user[0]['User']['picture'].'" alt="" />';?>
             </a>
             <div class="media-body event-body">
-              <h4 class="subtitle">About The Author</h4>
+              <h4 class="subtitle">Sobre o autor</h4>
               <p><?php echo $user[0]['User']['about']; ?></p>
             </div>
           </div><!-- media -->
         </div><!-- authorpanel -->
         
         <div class="mb30"></div>
-        <h5 class="subtitle">5 Comments</h5>
+        <h5 class="subtitle"><?php echo count($comments); echo ' Comments' ?></h5>
         <div class="mb30"></div>
         
         <ul class="media-list comment-list">
           
           <li class="media">
-            <a class="pull-left" href="#">
-              <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
-            </a>
-            <div class="media-body">
-              <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-              <h4>Nusja Nawancali</h4>
-              <small class="text-muted">January 10, 2014 at 7:30am</small>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object thumbnail" src="images/photos/userprofile.png" alt="" />
-                </a>
-                <div class="media-body">
-                  <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-                  <h4>Eileen Sideways</h4>
-                  <small class="text-muted">January 10, 2014 at 7:30am</small>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                
-                  <div class="media">
-                    <a class="pull-left" href="#">
-                      <img class="media-object thumbnail" src="images/photos/user3.png" alt="" />
-                    </a>
-                    <div class="media-body">
-                      <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-                      <h4>Zaham Sindilmaca</h4>
-                      <small class="text-muted">January 10, 2014 at 7:30am</small>
-                      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
-                  </div><!-- media -->
-                
-                </div><!-- media-body -->
-              </div><!-- media -->
-              
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object thumbnail" src="images/photos/user2.png" alt="" />
-                </a>
-                <div class="media-body">
-                  <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-                  <h4>Ray Sin</h4>
-                  <small class="text-muted">January 10, 2014 at 7:30am</small>
-                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div><!-- media -->
-              
-            </div><!-- media-body -->
-            
+          <?php
+          for($i=0; $i<count($comments); $i++){
+            echo '
+                <img class="media-object thumbnail" src="';
+                  for($k=0; $k<count($user_comment); $k++){
+                    if($comments[$i]['Comment']['user']===$user_comment[$k]['User']['username']){
+                      echo $user_comment[$k]['User']['picture'];
+                      echo '" alt="" />
+                        </a>
+                        <div class="media-body">
+                          <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
+                          <h4>';
+                          echo $user_comment[$k]['User']['first_name'].' '.$user_comment[$k]['User']['last_name'];
+                          echo '</h4>
+                          <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>
+                          <p>'.$comments[$i]['Comment']['content'].'</p>   
+                        </div>'; 
+            }
+          }
+          }
+          ?>
           </li><!-- media -->
-          
-          <li class="media">
-            <a class="pull-left" href="#">
-              <img class="media-object thumbnail" src="images/photos/user1.png" alt="" />
-            </a>
-            <div class="media-body">
-              <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-              <h4>Nusja Nawancali</h4>
-              <small class="text-muted">January 10, 2014 at 7:30am</small>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-          </li><!-- media -->
-          
-          <li class="media">
-            <a class="pull-left" href="#">
-              <img class="media-object thumbnail" src="images/photos/user4.png" alt="" />
-            </a>
-            <div class="media-body">
-              <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-              <h4>Weno Carasbong</h4>
-              <small class="text-muted">January 10, 2014 at 7:30am</small>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object thumbnail" src="images/photos/user3.png" alt="" />
-                </a>
-                <div class="media-body">
-                  <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
-                  <h4>Zaham Sindilmaca</h4>
-                  <small class="text-muted">January 10, 2014 at 7:30am</small>
-                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div><!-- media -->
-                  
-            </div>
-          </li><!-- media -->
-          
-        </ul><!-- comment-list -->
+        </ul>
         
         <div class="mb30"></div>
-        <h5 class="subtitle mb5">Leave A Comment</h5>
-        <p class="text-muted">Your email address will not be published.</p>
+        <h5 class="subtitle mb5">Deixe um comentário</h5>
         <div class="mb20"></div>
-        
-        <form>
-              <div class="row row-pad-5">
-                <div class="col-lg-4">
-                  <input type="text" class="form-control" placeholder="Name" name="name">
-                </div>
-                <div class="col-lg-4">
-                  <input type="email" class="form-control" placeholder="Email" name="email">
-                </div>
-                <div class="col-lg-4">
-                  <input type="url" class="form-control" placeholder="Website" name="website">
-                </div>
-              </div><!-- row -->
-              <textarea placeholder="Message" rows="5" class="form-control"></textarea>
-              <div class="mb10"></div>
-              <button class="btn btn-primary">Add Comment</button>
-            </form>
+        <?php echo $this->Form->create('BoostCake', array(
+          'inputDefaults' => array(
+            'wrapInput' => false
+          ),
+          'class' => 'well'
+        )); ?>
+        <?php $user = $_SESSION["Auth"]["User"]["username"];
+          echo $this->Form->input('text', array(
+          'label' => '',
+          'name' => 'data[Comment][user]',
+          'required' => 'required',
+          'maxlength' => 16,
+          'type' => 'hidden',
+          'value' => $user
+        )); ?>
+        <?php echo $this->Form->input('text', array(
+          'label' => '',
+          'name' => 'data[Comment][post]',
+          'required' => 'required',
+          'maxlength' => 16,
+          'type' => 'hidden',
+          'value' => h($post['Post']['id'])
+        )); ?>
+
+        <?php echo $this->Form->input('text', array(
+          'label' => '',
+          'placeholder' => 'Comentário...',
+          'rows' => 5,
+          'onfocus' => 'this.rows=5',
+          'class' => 'form-control',
+          'name' => 'data[Comment][content]',
+          'maxlength' => 255,
+          'required' => 'required',
+          'style' => 'resize:none;'
+        )); ?>
+      <?php echo $this->Form->submit('Publicar', array(
+      'div' => 'form-group',
+      'class' => 'btn btn-primary pull-right',
+      'type' => 'submit',
+      'value' => 'Submit',
+      'action' => '/index.php/posts/view',
+      'method' => 'post'
+      )); ?>
       
       </div><!-- col-sm-8 -->
       
@@ -201,8 +150,6 @@
       </div><!-- row -->
       
     </div><!-- contentpanel -->
-    
-  </div><!-- mainpanel -->
 
 
 <script src="js/jquery-1.10.2.min.js"></script>

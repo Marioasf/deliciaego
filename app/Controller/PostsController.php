@@ -97,6 +97,27 @@ class PostsController extends AppController {
 		$user = $this->User->find('all', array(
 			'conditions' => array('User.username' => $this->Auth->user('username'))
 		));
+		$comments = $this->Comment->find('all', array(
+			'Comment.post' => $current_post[0]['Post']['id'],
+			'order' => 'Comment.datemade'
+		));
+		for($i=0; $i<count($comments); $i++){
+			$user_comment = $this->User->find('all', array(
+				'conditions' => array('User.username' => $comments[$i]['Comment']['user'])
+			));
+		}
+		if ($this->request->is('post')) {
+			$this->Comment->create();
+			if ($this->Comment->save($this->request->data)) {
+				$this->Session->setFlash(__('The post has been saved.'));
+				return $this->redirect(array('action' => '/'));
+			} else {
+				$this->Session->setFlash(__('The post could not be saved. Please, try again.'));
+			}
+		}
+		$this->set('user_comment', $user_comment);
+		$this->set('current_post', $current_post);
+		$this->set('comments', $comments);
 		$this->set('user', $user);
 	}
 
