@@ -25,22 +25,28 @@
 							<p>Utilize esta página para editar os dados da sua conta.</p>
 						</div>
 						<div class="panel-body">
-
+							<?php echo $this->Form->input('id', array(
+								'type' => 'hidden'
+								)); ?>
 
 							
 							<?php echo $this->Form->input('first_name', array(
-								'placeholder' => 'Nome'
+								'type' => 'hidden'
 								)); ?>
 							<?php echo $this->Form->input('last_name', array(
-								'placeholder' => 'Apelido'
+								'type' => 'hidden'
 								)); ?>
 
+							<?php echo $this->Form->input('username', array(
+									'type' => 'hidden'
+									)); ?>
+
 							<?php echo $this->Form->input('email', array(
-								'placeholder' => 'Email'
+								'type' => 'hidden'
 								)); ?>
 								
 							<?php echo $this->Form->input('password', array(
-								'placeholder' => 'Password'
+								'type' => 'hidden'
 								)); ?>
 
 							<?php echo $this->Form->input('location', array(
@@ -329,20 +335,9 @@
 	<div class="col-md-6">
 
 
-		<!--<?php echo $this->Form->input('picture', array('type' => 'file')); ?>-->
-		<?php if (!empty($this->data['User']['picture'])): ?>
-		<div class="input">
-			<label>Uploaded File</label>
-			<?php
-				echo $this->Form->input('filepath', array('type'=>'hidden'));
-				echo $this->Html->link(basename($this->data['User']['picture']), $this->data['User']['picture']);
-			?>
-		</div>
-		<?php else: ?>
-		<?php echo $this->Form->input('filename',array(
-			'type' => 'file'
-		)); ?>
-		<?php endif; ?>
+		
+		<?php echo $this->Form->input('User.picture', array('type' => 'file')); ?>
+		<?php echo $this->Form->input('User.photo_dir', array('type' => 'hidden')); ?>
 
 		<?php echo $this->Form->input('website', array(
 			'placeholder' => 'Website'
@@ -357,7 +352,7 @@
 			'placeholder' => 'Twitter'
 			)); ?>
 		
-			<?php echo $this->Form->end(__('Submit', true));?>
+			<?php echo $this->Form->Submit(__('Submit', true));?>
 		</div> <!-- col-md-6 -->
 
 	</div><!-- row -->

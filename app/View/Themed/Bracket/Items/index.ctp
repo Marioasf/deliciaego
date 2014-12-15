@@ -19,6 +19,8 @@
           echo $paginator->sort('category', 'Categoria /');
           echo $paginator->sort('price', 'Preço');
         ?>
+        <?php var_dump($wishlist);?>
+        <?php echo $this->Session->flash();?>
       <div id="bloglist" class="row">
                 <?php for($i=0; $i<count($items); $i++){
                   echo '
@@ -31,12 +33,34 @@
                               <li>By: <a href="#">'.$items[$i]['Item']['user'].'</a></li>
                               <li>Jan 03, 2014</li>
                               <li><a href="#">2 Comments</a></li>
-                              <a href="#" class="tooltips" data-toggle="tooltip" title="Adiconar à lista de desejos">';
-                              echo $this->Form->button('<i class="glyphicon glyphicon-heart"></i>', array(
-                              'type' => 'button',
-                              'escape' => false));
-                            echo '</a></ul>
-                            <div class="blog-summary">
+                                <li>';
+                                if(isset($wishlist))
+                                {
+                                  for($j=0;$j<count($wishlist);$j++){
+                                    if($wishlist[$j]['Wishlist']['product_id']==$items[$i]['Item']['id']){//caso o item já esteja na lista de desejos
+                                          echo '<div class="tooltips" data-toggle="tooltip" title="Remover da sua lista de desejos">';
+                                          
+                                         
+                                               
+                                          echo $this->Form->submit(__('♥'),array('action' => 'delete', __('De certeza que deseja remover # %s da sua lista de desejos?', $wishlist[$i]['Wishlist']['id'])));
+                                            
+                                          echo '</div>';
+                                        }
+                                        else{
+                                          echo '<div class="tooltips" data-toggle="tooltip" title="Adicionar à lista de desejos">';
+                                          echo $this->Form->create('Wishlist');
+                                          echo $this->Form->input('product_id', array('type' => 'hidden','value' => $items[$i]['Item']['id']));
+                                          echo $this->Form->input('user', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username'])); 
+                                          echo $this->Form->submit('♡');
+                                          echo $this->Form->end();
+
+                                          echo '</div>';
+                                        }
+                                  }
+                                }
+                          echo '</li>
+                             </ul>
+                             <div class="blog-summary">
                               <p>'.$items[$i]['Item']['description'].'</p>
                               <button class="btn btn-sm btn-white">Read More</button>
                             </div>

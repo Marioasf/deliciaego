@@ -30,13 +30,16 @@
 			if ($this->Auth->login()) {
 				return $this->redirect($this->Auth->redirect());
 			}
-			$this->Session->setFlash(__('Your username or password was incorrect.'));
+			$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-danger'
+			));
 		}
 	}
 
 	public function logout() {
 		$this->layout = false;
-		return $this->redirect($this->Auth->logout());
+		return $this->redirect($this->Auth->login());
 	}
 
 
@@ -190,53 +193,22 @@
 	 * @param string $id
 	 * @return void
 	 */
-	public function edit($id = null) {
-		$this->Session->setFlash(__('Utilize esta página para editar os dados da sua conta.'), 'alert', array(
-			'plugin' => 'BoostCake',
-			'class' => 'alert-info'
-		));
-		if ($this->request->is(array('post', 'put'))) {
-				
-					if ($this->User->save($this->request->data)) {
-						$this->Session->setFlash(__('The user has been saved.'));
-						return $this->redirect(array('action' => 'index'));
-
-						// form validation failed
-					} else {
-						// check if file has been uploaded, if so get the file path
-						if (!empty($this->User->data['User']['picture']) && is_string($this->User->data['User']['picture'])) {
-							$this->request->data['User']['picture'] = $this->User->data['User']['picture'];
-						}
-					}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
-	}	       
-
-	/**
-	 * edit method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-		public function update_user_info($id = null) {
-			if (!$this->User->exists($id)) {
-				throw new NotFoundException(__('Invalid company'));
-			}
+		public function edit($id = null) {
 			if ($this->request->is(array('post', 'put'))) {
 					
 						if ($this->User->save($this->request->data)) {
-							$this->Session->setFlash(__('The user has been saved.'));
+							$this->Session->setFlash(__('Os dados foram guardados com sucesso.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-success'
+							));
 							return $this->redirect(array('action' => 'index'));
 
 							// form validation failed
 						} else {
-							// check if file has been uploaded, if so get the file path
-							if (!empty($this->User->data['User']['picture']) && is_string($this->User->data['User']['picture'])) {
-								$this->request->data['User']['picture'] = $this->User->data['User']['picture'];
-							}
+							$this->Session->setFlash(__('Erro ao submeter as alterações.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
 						}
 			} else {
 				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));

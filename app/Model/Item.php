@@ -63,4 +63,11 @@ class Item extends AppModel {
 			),
 		),
 	);
+
+	function getWishList(){
+		return $this->Wishlist->find('all', array(
+			'conditions' => array('Wishlist.user' => $this->Auth->user('username'))
+			));
+	}
+
 }

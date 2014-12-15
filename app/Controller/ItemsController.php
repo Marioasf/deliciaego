@@ -16,7 +16,7 @@ class ItemsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Item');
+	public $uses = array('Item','Wishlist');
 
 /**
  * index method
@@ -30,6 +30,37 @@ class ItemsController extends AppController {
 				  );
 		$items = $this->paginate('Item');
 		$this->set(compact('items'));
+
+		$wishlist = $this->Wishlist->find('all', array(
+			'conditions' => array('Wishlist.user' => $this->Auth->user('username'))
+			));
+
+		$this->set('wishlist',$wishlist);
+
+		if ($this->request->is('post')) {
+			$this->Wishlist->create();
+			if ($this->Wishlist->save($this->request->data)) {
+				$this->Session->setFlash(__('The item has been saved to the wishlist.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Este item não pôde ser adicionado à lista de desejos.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+			}
+		}/*
+		$this->request->allowMethod('post', 'delete');
+		if ($this->Item->delete()) {
+			$this->Session->setFlash(__('Este item foi removido da sua lista de desejos.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-success'
+				));
+		} else {
+			$this->Session->setFlash(__('Este item não foi removido da sua lista de desejos.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+		}*/
 	}
 
 /**

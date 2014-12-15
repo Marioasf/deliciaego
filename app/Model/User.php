@@ -6,7 +6,7 @@
 
         public $actsAs = array(
              'Upload.Upload' => array(
-                 'photo' => array(
+                 'picture' => array(
                      'fields' => array(
                          'dir' => 'photo_dir'
                      )
@@ -179,10 +179,10 @@
          * @return boolean
          */
         public function beforeSave($options = array()) {
-            if (isset($this->data[$this->alias]['password'])) {
+            if (!empty($this->data[$this->alias]['pwd'])) {
                 $passwordHasher = new BlowfishPasswordHasher();
                 $this->data[$this->alias]['password'] = $passwordHasher->hash(
-                    $this->data[$this->alias]['password']
+                    $this->data[$this->alias]['pwd']
                     );
             }
 

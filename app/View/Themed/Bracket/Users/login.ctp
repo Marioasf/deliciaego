@@ -27,12 +27,16 @@
 
   <section>
     
+    
     <div class="signinpanel">
-      
+  
+
       <div class="row">
-        
+           
         <div class="col-md-7">
-          
+                  <?php
+            echo $this->Session->flash();
+          ?>
           <div class="signin-info">
             <div class="logopanel">
               <h1><span>[</span> bracket <span>]</span></h1>
