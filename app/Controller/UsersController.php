@@ -21,14 +21,15 @@
 	public function beforeFilter() {
 		parent::beforeFilter();
 	    // Allow any user to login, logout and signup
-		$this->Auth->allow('login','logout','signup','add');
+		$this->Auth->allow('login','signup');
+
 	}
 
 	public function login() {
 		$this->layout = false;
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				return $this->redirect($this->Auth->redirect());
+				return $this->redirect($this->Auth->loginRedirect);
 			}
 			$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
 			'plugin' => 'BoostCake',
@@ -39,10 +40,29 @@
 
 	public function logout() {
 		$this->layout = false;
-		return $this->redirect($this->Auth->login());
+		return $this->redirect($this->Auth->logoutRedirect);
 	}
 
+	
 
+	public function lock() {
+		$user = $this->User->find('all', array(
+				'fields' => array('User.username', 'User.first_name', 'User.last_name', 'User.email'),
+				'conditions' => array('User.username' => $this->Auth->user('username'))
+				));
+		$this->set('user', $user);
+
+		$this->layout = false;
+		if ($this->request->is('post')) {
+			if ($this->Auth->login()) {
+				return $this->redirect($this->Auth->loginRedirect);
+			}
+			$this->Session->setFlash(__('A sua password está incorreta.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-danger'
+			));
+		}
+	}
 
 	/**
 	 * add method
