@@ -31,6 +31,8 @@ public function index() {
 		'fields' => 'Friend.user2',
 		'conditions' => array('Friend.user1' => $this->Auth->user('username'), array('Friend.accepted' => 1))
 	));
+	if(isset($friends))
+		$this->set('friends', $friends);
 
 	/*Friends user info*/
 	for($i=0; $i<count($friends); $i++){
@@ -39,8 +41,8 @@ public function index() {
 	));
 	}
 
-	$this->set('friends', $friends);
-	$this->set('friend_info', $friend_info);
+	if(isset($friend_info))
+		$this->set('friend_info', $friend_info);
 }
 
 /**

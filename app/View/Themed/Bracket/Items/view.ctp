@@ -1,7 +1,3 @@
-                  <?php
-              for($i=0; $i<count($users); $i++){
-                if($users[$i]['User']['username']==h($item['Item']['user']))
-                  {$user=$users[$i]['User'];} } ?>
      <link href="css/style.default.css" rel="stylesheet">
   <link href="css/prettyPhoto.css" rel="stylesheet">   
     <div class="pageheader">
@@ -41,11 +37,11 @@
         <div class="authorpanel">
           <div class="media">
             <a class="pull-left" href="#">
-             <?php echo '<img style="width: 50px; height: 50px; class="media-object thumbnail" src="'.$user['picture'].'" alt="" />'; ?>
+             <?php echo '<img style="width: 50px; height: 50px; class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />'; ?>
             </a>
             <div class="media-body event-body">
               <h4 class="subtitle">About The Author</h4>
-              <?php echo $user['about']; ?>
+              <?php echo $user['User']['about']; ?>
             </div>
           </div><!-- media -->
         </div><!-- authorpanel -->

@@ -68,6 +68,11 @@ class ItemsController extends AppController {
 		}
 		$options = array('conditions' => array('Item.' . $this->Item->primaryKey => $id));
 		$this->set('item', $this->Item->find('first', $options));
+
+		//find user
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$this->set('user', $this->User->find('first', $options));
+		
 	}
 
 /**

@@ -112,6 +112,10 @@
       'method' => 'post'
       )); ?>
       
+      <?php echo $this->Session->flash();
+      //echo '<br/>';
+      //var_dump($this->request->data);
+      ?>
       </div><!-- col-sm-8 -->
       
       <div class="col-sm-3">

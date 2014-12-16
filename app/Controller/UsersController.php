@@ -16,12 +16,12 @@
 	 */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('User','Friend','Item');
+	public $uses = array('User','Friend','Item','Wishlist');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 	    // Allow any user to login, logout and signup
-		$this->Auth->allow('login','signup');
+		$this->Auth->allow('login','signup', 'logout');
 
 	}
 
@@ -146,6 +146,7 @@
 			'conditions' => array('Friend.user1' => $this->Auth->user('username'))
 			));
 
+
 		$this->set('friends', $friends);
 			for($i=0; $i<count($friends); $i++){
 			$friend_info[$i] = $this->User->find('all', array(
@@ -153,7 +154,9 @@
 				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
 				));
 		}
-		$this->set('friend_info',$friend_info);
+		if(isset($friend_info))
+			$this->set('friend_info',$friend_info);
+
 		$this->set('user_in_session',$this->Auth->user('username'));
 		
 		if ($this->request->is('post')) {
@@ -178,28 +181,53 @@
 			if (!$this->User->exists($id)) {
 				throw new NotFoundException(__('Invalid user'));
 			}
+
+			//find user
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->set('user', $this->User->find('first', $options));
 			$current_user = $this->User->find('all', array(
 			'conditions' => array('User.id' => $id)
 			));
+
+			//find user friends
 			$friends = $this->Friend->find('all', array(
 			'conditions' => array('Friend.user1' => $current_user[0]['User']['username'])
 			));
-
 			$this->set('friends', $friends);
+
+			//find friend user info
 			for($i=0; $i<count($friends); $i++){
 				$friend_info[$i] = $this->User->find('all', array(
 				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
 				));
-		}
-		$this->set('friend_info',$friend_info);
-		$items = $this->Item->find('all', array(
-			'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price'),
-			'conditions' => array('Item.user' => $current_user[0]['User']['username'])
-		));
+			}
+			if(isset($friend_info))
+				$this->set('friend_info',$friend_info);
 
-		$this->set('items', $items);
+			//find items associated to the user in session
+			$items = $this->Item->find('all', array(
+				'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price', 'Item.id'),
+				'conditions' => array('Item.user' => $current_user[0]['User']['username'])
+			));
+			$this->set('items', $items);
+
+			//find session user wishlist items id's
+			$wishlist_items = $this->Wishlist->find('all', array(
+				'fields' => array('Wishlist.product_id'),
+				'conditions' => array('Wishlist.user' => $current_user[0]['User']['username'])
+			));
+			$this->set('wishlist_items', $wishlist_items);
+
+			//find session user wishlist products by id's
+			for($i=0; $i<count($wishlist_items); $i++){
+				$wishlist[$i] = $this->Item->find('all', array(
+					'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price'),
+					'conditions' => array('Item.id' => $wishlist_items[$i]['Wishlist']['product_id'])
+				));
+			}
+			if(isset($wishlist))
+				$this->set('wishlist', $wishlist);
+
 		}
 
 	/**

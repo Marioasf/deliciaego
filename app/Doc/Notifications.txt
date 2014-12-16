@@ -1,6 +1,7 @@
-Notifications:
-Acções feitas por amigos:
-- Comentários em posts do utilizador em sessão
-- Comentários em produtos do utilizador em sessão
-- Likes em posts do utilizador em sessão
-- Likes em produtos do utilizador em sessão
+Atividades (session user):
+Criar Posts
+Fazer Likes
+Fazer Comments
+Inserir Items
+
+Notificações (todas as atividades dos amigos do session user de que ele é alvo (Activities.user = friends / Activities.friend_user = session_user))

@@ -20,6 +20,7 @@
           <div class="mb30"></div>
           
           <h5 class="subtitle">Sobre</h5>
+
           <p class="mb30"><?php echo h($user['User']['about']);?>&nbsp;<a href="#">Mostrar mais</a></p>
           
           <h5 class="subtitle">Ligações</h5>
@@ -46,8 +47,8 @@
         <ul class="nav nav-tabs nav-justified nav-profile">
           <li class="active"><a href="#activities" data-toggle="tab"><strong>Actividades</strong></a></li>
           <li><a href="#followers" data-toggle="tab"><strong>Amigos</strong></a></li>
-          <li><a href="#following" data-toggle="tab"><strong>Lista de desejos</strong></a></li>
-          <li><a href="#events" data-toggle="tab"><strong>Produtos de <?php echo h($user['User']['first_name']) ?></strong></a></li>
+          <li><a href="#wishlist" data-toggle="tab"><strong>Lista de desejos</strong></a></li>
+          <li><a href="#myproducts" data-toggle="tab"><strong>Produtos de <?php echo h($user['User']['first_name']) ?></strong></a></li>
         </ul>
         
         <!-- Tab panes -->
@@ -203,74 +204,105 @@
           </div>
           <div class="tab-pane" id="followers">
             <div class="follower-list">
-             <?php for($i=0; $i<count($friends); $i++){
-                 echo ('<div class="media">
-                  <a class="pull-left" href="#">
-                    <img class="media-object" src="holder.js/100x125.html" alt="" />
-                  </a>
-                  <div class="media-body">
-                    <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
-                    <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
-                    <div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</a></div>
-                    
-                    <div class="mb20"></div>
-                    
-                    <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
-                    <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
-                  </div>
-                </div><!-- media -->');}             ?>
+            
+             <?php 
+             if(isset($friends)){
+               for($i=0; $i<count($friends); $i++){
+                   echo ('<div class="media">
+                    <a class="pull-left" href="#">
+                      <img class="media-object" src="holder.js/100x125.html" alt="" />
+                    </a>
+                    <div class="media-body">
+                      <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
+                      <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
+                      <div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</a></div>
+                      
+                      <div class="mb20"></div>
+                      
+                      <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
+                      <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
+                    </div>
+                  </div><!-- media -->');
+                 }     
+               }
+                else{
+                echo 
+                '<div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <strong>Atenção!</strong> Não adicionaste ainda qualquer amigo, <a href="/users" class="alert-link">clica aqui </a> para o fazer.
+                </div>';
+              }
+
+                        ?>
               
             </div><!--follower-list -->
             
           </div>
-          <div class="tab-pane" id="following">
+          <div class="tab-pane" id="wishlist">
           <br />
             <div class="row">
-                            <?php
-                 for($i=0; $i<count($items); $i++){
-                  echo '<div class="col-sm-6">
-                  <div class="media">
-                    <a class="pull-left" href="#">
-                      <img class="media-object"  style="width: 50px; height: 50px;" src="'.$items[$i]['Item']['picture'].'" alt="" />
-                    </a>
-                    <div class="media-body event-body">
-                      <h4 class="event-title"><a href="#">'.$items[$i]['Item']['name'].'</a></h4>
-                      <small class="text-muted"><i class="fa fa-user"></i>'.$items[$i]['Item']['user'].'</small>
-                      <small class="text-muted"><i class="fa fa-eur"></i>'.$items[$i]['Item']['price'].'</small>
-                      <p>'.$items[$i]['Item']['description'].'</p>
-                    </div>
-                  </div><!-- media -->
-                </div><!-- col-sm-6 -->';
-            }
-                ?>
+                     <?php
+                     if(isset($wishlist)){
+                        for($i=0; $i<count($wishlist); $i++){
+                         echo '<div class="col-sm-6">
+                         <div class="media">
+                           <a class="pull-left" href="#">
+                             <img class="media-object"  style="width: 50px; height: 50px;" src="'.$wishlist[0][$i]['Item']['picture'].'" alt="" />
+                           </a>
+                           <div class="media-body event-body">
+                             <h4 class="event-title"><a href="#">'.$wishlist[0][$i]['Item']['name'].'</a></h4>
+                             <small class="text-muted"><i class="fa fa-user"></i>'.$wishlist[0][$i]['Item']['user'].'</small>
+                             <small class="text-muted"><i class="fa fa-eur"></i>'.$wishlist[0][$i]['Item']['price'].'</small>
+                             <p>'.$wishlist[0][$i]['Item']['description'].'</p>
+                           </div>
+                         </div><!-- media -->
+                       </div><!-- col-sm-6 -->';
+                       }
+                   }
+                   else{
+                echo 
+                '<div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <strong>Atenção!</strong> Não adicionaste ainda qualquer produto à tua lista de desejos, <a href="/items" class="alert-link">clica aqui </a> para o fazer.
+                </div>';
+              }
+                     ?>
             </div>
           </div>
-          <div class="tab-pane" id="events">
-            <div class="events">
+          <div class="tab-pane" id="myproducts">
+
               
               <br />
-              
+
               <div class="row">
-                <?php
-                 for($i=0; $i<count($items); $i++){
-                  echo '<div class="col-sm-6">
-                  <div class="media">
-                    <a class="pull-left" href="#">
-                      <img class="media-object"  style="width: 50px; height: 50px;" src="'.$items[$i]['Item']['picture'].'" alt="" />
-                    </a>
-                    <div class="media-body event-body">
-                      <h4 class="event-title"><a href="#">'.$items[$i]['Item']['name'].'</a></h4>
-                      <small class="text-muted"><i class="fa fa-user"></i>'.$items[$i]['Item']['user'].'</small>
-                      <small class="text-muted"><i class="fa fa-eur"></i>'.$items[$i]['Item']['price'].'</small>
-                      <p>'.$items[$i]['Item']['description'].'</p>
-                    </div>
-                  </div><!-- media -->
-                </div><!-- col-sm-6 -->';
-            }
-                ?>
+               
+                                <?php
+                    if(isset($items)){
+                     for($i=0; $i<count($items); $i++){
+                      echo '<div class="col-sm-6">
+                      <div class="media">
+                        <a class="pull-left" href="/items/view/'.$items[$i]['Item']['id'].'">
+                          <img class="media-object"  style="width: 50px; height: 50px;" src="'.$items[$i]['Item']['picture'].'" alt="" />
+                        </a>
+                        <div class="media-body event-body">
+                          <h4 class="event-title"><a href="/items/view/'.$items[$i]['Item']['id'].'">'.$items[$i]['Item']['name'].'</a></h4>
+                          <small class="text-muted"><i class="fa fa-user"></i>'.$items[$i]['Item']['user'].'</small>
+                          <small class="text-muted"><i class="fa fa-eur"></i>'.$items[$i]['Item']['price'].'</small>
+                          <p>'.$items[$i]['Item']['description'].'</p>
+                        </div>
+                      </div><!-- media -->
+                    </div><!-- col-sm-6 -->';
+                }
+              }
+              else{
+                echo 
+                '<div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <strong>Atenção!</strong> Não adicionaste ainda qualquer produto, <a href="/items/add" class="alert-link">clica aqui </a> para o fazer.
+                </div>';
+              }
+                    ?>
               </div>
-              
-            </div><!-- events -->
           </div>
         </div><!-- tab-content -->
           
