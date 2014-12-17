@@ -137,13 +137,12 @@
 	          ?>       
 
 	        <script>
-	        //procura botão que foi clicado e altera o texto
-	        function friendRequest(id) {
-	            document.getElementById(id).value = "Pedido de amizade enviado";
-	            alert(document.getElementById(id).value + " a " + id);
-	            //enviar dados para tabela Friends
-
-	        }
+				//procura botão que foi clicado e altera o texto
+				function friendRequest(id) {
+				document.getElementById(id).value = "Pedido de amizade enviado";
+				alert(document.getElementById(id).value + " a " + id);
+				//enviar dados para tabela Friends
+				}
 	        </script>
 	        </div><!-- row -->
 	      </div><!-- people-list -->
