@@ -16,7 +16,7 @@
 	 */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('User','Friend','Item','Wishlist');
+	public $uses = array('User','Friend','Item','Wishlist', 'Activity');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -162,8 +162,24 @@
 		if ($this->request->is('post')) {
 			$this->Friend->create();
 			if ($this->Friend->save($this->request->data)) {
-				$this->Session->setFlash(__('The friend has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('O seu pedido de amizade foi enviado.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-succes'
+				));
+				$this->Activity->create();
+
+				$this->request->data['Activity']['type']='add';
+				//$this->request->data['Activity']['activity_id']=$this->data['Friend']['id'];
+				$this->request->data['Activity']['username']=$this->Auth->user('username');
+				$this->request->data['Activity']['friend_username']=$this->data['Friend']['user2'];
+
+				if($this->Activity->save($this->request->data)) {
+					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-succes'
+					));
+					return $this->redirect(array('action' => 'index'));
+				}
 			} else {
 				$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
 			}

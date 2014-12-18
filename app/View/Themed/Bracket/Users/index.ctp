@@ -54,7 +54,8 @@
 	        <div class="mb30"></div>
 	        
 	          <!--<a class="btn btn-info-alt">Ordenar por:</a>-->
-
+			
+			<?php echo $this->Session->flash();?>
 	         
 	        <div class="people-list">
 	          <div class="row">
