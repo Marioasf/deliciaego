@@ -82,21 +82,23 @@
         </form>
         
         <div class="header-right">
+        <!-- colocar action para enviar id's das notificações para o appcontroller ao clicar no botão-->
+          <?php //echo $this->Form->postLink('', array('action' => 'edit', $friend_requests[$i], 'type' => 'hidden'));?>
           <ul class="headermenu">
             <li>
               <div class="btn-group">
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-user"></i>
-                  <span class="badge"><?php echo count($friend_requests)?></span>
+                  <span class="badge"><?php if($requests_count>0) echo $requests_count; ?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
                   <h5 class="title">
-                  <?php if(count($friend_requests==1))
-                          echo 'Tem 1 pedido de amizade novo';
-                        else if(count($friend_requests)>1)
-                          echo 'Tem '.count($friend_requests).' pedidos de amizade novos';
-                        else
+                  <?php if($requests_count==0)
                           echo 'Não tem pedidos de amizade novos';
+                        else if($requests_count==1)
+                          echo 'Tem 1 pedido de amizade novo';
+                        else if($requests_count>1)
+                          echo 'Tem '.$requests_count.' pedidos de amizade novos';
                    ?>
                   </h5>
                   <ul class="dropdown-list user-list">
@@ -111,11 +113,12 @@
                         echo '" alt="" /></a></div>
                         <div class="desc">
                           <h5><a href="">';
+
                           echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') '.$friend_requests[$i]['Activity']['id'];
                           echo '</a> <span class="badge badge-success">';
-                          
-                          echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja aceitar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
-                          echo '</span></h5>
+                          //echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
+
+                          echo 'aceitar</span></h5>
                         </div>
                       </li>
                       ';

@@ -75,16 +75,28 @@
     public function beforeFilter() {
         $this->Auth->allow('login');
         //$this->Auth->allow('signup');
-        //carrega todas as atividades
+        //carrega todas as notificações do utilizador em sessão
          $activities = $this->Activity->find('all', array(
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
         'Activity.checked' => 0)));
 
-         //carrega os pedidos de amizade
-         $friend_requests = $this->Activity->find('all', array(
+         //carrega notificações dos pedidos de amizade ainda não vistas pelo utilizador em sessão
+         $requests_count = $this->Activity->find('count', array(
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
         'Activity.type' => 'add',           
         'Activity.checked' => 0)));
+
+         //carrega todas notificações dos pedidos de amizade relativos ao utilizador em sessão
+         $friend_requests = $this->Activity->find('all', array(
+        'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
+        'Activity.type' => 'add')));
+
+         //carrega id do pedido de amizade da tabela friends
+         /*$friend_request_id = $this->Friend->find('all', array(
+            'conditions' => array('Friend.user2' > $this->Auth->user('username'),
+                'Friend.accepted' => 0),
+            'fields' => array('Friend.id')));*/
+         
 
          //info a apresentar dos utilizadores que fizeram pedido de amizade
          for($i=0;$i<count($friend_requests);$i++)
@@ -96,6 +108,7 @@
         
         $this->set('activities',$activities);
         $this->set('friend_requests',$friend_requests);
+        $this->set('requests_count',$requests_count);
 
         if(isset($request_user))
             $this->set('request_user',$request_user);
@@ -106,28 +119,33 @@
     }
 
     /**
-     * edit method
+     * Changes the activity status to checked
      *
      * @throws NotFoundException
      * @param string $id
      * @return void
      */
-        public function edit($id = null) {
-            if (!$this->Activity->exists($id)) {
-                throw new NotFoundException(__('Invalid activity'));
-            }
-            if ($this->request->is(array('post', 'put'))) {
-                $this->request->data['Activity']['checked']='1';
-                if ($this->Activity->save($this->request->data)) {
-                    $this->Session->setFlash(__('The activity has been saved.'));
-                    return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash(__('The activity could not be saved. Please, try again.'));
+        public function edit($id_list = null)
+        {
+            for($i=0;$i<count($id_list);$i++)
+            {
+                $this->Activity->id = $id_list[$i]['Activity']['id'];
+                if (!$this->Activity->exists())
+                {
+                    $this->Session->setFlash('Invalid user', 'error');
+                    $this->redirect(array('action' => 'index'));
                 }
-            } else {
-                $options = array('conditions' => array('Activity.' . $this->Activity->primaryKey => $id));
-                $this->request->data = $this->Activity->find('first', $options);
+
+                $checked= $this->Activity->read('checked');
+                $checked=1;
+
+                $this->Activity->saveField('checked', $checked);
+                $this->Session->setFlash(__('A notificação '.$id_list[$i]['Activity']['id'].' foi removida.'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-success'
+                    ));
             }
+            $this->redirect(array('action' => 'index'));
         }
      
 }
