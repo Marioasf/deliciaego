@@ -80,19 +80,54 @@
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
         'Activity.checked' => 0)));
 
-         $friend_notifications=array();
-         //carrega as notificações de amizade
-        for($i=0;$i<count($activities);$i++){
-         $friend_notifications[$i] = $this->User->find('all', array(
-         'conditions' => array('User.username' => $activities[$i]['Activity']['username'])
-            ));
+         //carrega os pedidos de amizade
+         $friend_requests = $this->Activity->find('all', array(
+        'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
+        'Activity.type' => 'add',           
+        'Activity.checked' => 0)));
+
+         //info a apresentar dos utilizadores que fizeram pedido de amizade
+         for($i=0;$i<count($friend_requests);$i++)
+         {
+            $request_user[$i] = $this->User->find('all', array(
+            'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
+            'conditions' => array('User.username' => $friend_requests[$i]['Activity']['username'])));
         }
-         $this->set('activities',$activities);
-         $this->set('friend_notifications',$friend_notifications);
+        
+        $this->set('activities',$activities);
+        $this->set('friend_requests',$friend_requests);
+
+        if(isset($request_user))
+            $this->set('request_user',$request_user);
 
         //carrega as notificações de mensagens
-         //uma conversação => mensagens trocadas por utilizador em sessão e determinado user 
-         //a fazer
+        //uma conversação => mensagens trocadas por utilizador em sessão e determinado user 
+        //a fazer
     }
+
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
+        public function edit($id = null) {
+            if (!$this->Activity->exists($id)) {
+                throw new NotFoundException(__('Invalid activity'));
+            }
+            if ($this->request->is(array('post', 'put'))) {
+                $this->request->data['Activity']['checked']='1';
+                if ($this->Activity->save($this->request->data)) {
+                    $this->Session->setFlash(__('The activity has been saved.'));
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The activity could not be saved. Please, try again.'));
+                }
+            } else {
+                $options = array('conditions' => array('Activity.' . $this->Activity->primaryKey => $id));
+                $this->request->data = $this->Activity->find('first', $options);
+            }
+        }
      
-    }
+}

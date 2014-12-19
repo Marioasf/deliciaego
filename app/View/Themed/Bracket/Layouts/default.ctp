@@ -69,11 +69,12 @@
         
       </div><!-- leftpanelinner -->
     </div><!-- leftpanel -->
-    
     <div class="mainpanel">
 
       <div class="headerbar">
 
+    <?php //var_dump($request_user);?>
+    <?php //var_dump($activities);?>
         <a class="menutoggle"><i class="fa fa-bars"></i></a>
         
         <form class="searchform" action="http://themepixels.com/demo/webpage/bracket/index.html" method="post">
@@ -86,42 +87,40 @@
               <div class="btn-group">
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-user"></i>
-                  <span class="badge">2</span>
+                  <span class="badge"><?php echo count($friend_requests)?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
-                  <h5 class="title">2 novos utilizadores registados</h5>
+                  <h5 class="title">
+                  <?php if(count($friend_requests==1))
+                          echo 'Tem 1 pedido de amizade novo';
+                        else if(count($friend_requests)>1)
+                          echo 'Tem '.count($friend_requests).' pedidos de amizade novos';
+                        else
+                          echo 'Não tem pedidos de amizade novos';
+                   ?>
+                  </h5>
                   <ul class="dropdown-list user-list">
-                    <li class="novo">
-                      <div class="thumb"><a href=""><img src="images/photos/user1.png" alt="" /></a></div>
-                      <div class="desc">
-                        <h5><a href="">Draniem Daamul (@draniem)</a> <span class="badge badge-success">novo</span></h5>
-                      </div>
-                    </li>
-                    <li class="novo">
-                      <div class="thumb"><a href=""><img src="images/photos/user2.png" alt="" /></a></div>
-                      <div class="desc">
-                        <h5><a href="">Zaham Sindilmaca (@zaham)</a> <span class="badge badge-success">novo</span></h5>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="thumb"><a href=""><img src="images/photos/user3.png" alt="" /></a></div>
-                      <div class="desc">
-                        <h5><a href="">Weno Carasbong (@wenocar)</a></h5>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="thumb"><a href=""><img src="images/photos/user4.png" alt="" /></a></div>
-                      <div class="desc">
-                        <h5><a href="">Nusja Nawancali (@nusja)</a></h5>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="thumb"><a href=""><img src="images/photos/user5.png" alt="" /></a></div>
-                      <div class="desc">
-                        <h5><a href="">Lane Kitmari (@lane_kitmare)</a></h5>
-                      </div>
-                    </li>
-                    <li class="novo"><a href="">Ver todos os utilizadores</a></li>
+                  <?php
+                  //lista pedidos de amizade
+                  for($i=0;$i<count($friend_requests);$i++)
+                  {
+                    echo'
+                      <li class="novo">
+                        <div class="thumb"><a href=""><img src="';
+                        echo $request_user[$i][0]['User']['picture'];
+                        echo '" alt="" /></a></div>
+                        <div class="desc">
+                          <h5><a href="">';
+                          echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') '.$friend_requests[$i]['Activity']['id'];
+                          echo '</a> <span class="badge badge-success">';
+                          
+                          echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja aceitar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
+                          echo '</span></h5>
+                        </div>
+                      </li>
+                      ';
+                  }
+                    ?>
                   </ul>
                 </div>
               </div>

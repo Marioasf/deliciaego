@@ -169,9 +169,10 @@
 				$this->Activity->create();
 
 				$this->request->data['Activity']['type']='add';
-				//$this->request->data['Activity']['activity_id']=$this->data['Friend']['id'];
+				//$this->request->data['Activity']['activity_id']=$this->request->data['Friend']['id'];
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
 				$this->request->data['Activity']['friend_username']=$this->data['Friend']['user2'];
+				$this->request->data['Activity']['checked']='0';
 
 				if($this->Activity->save($this->request->data)) {
 					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
