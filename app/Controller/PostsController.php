@@ -247,7 +247,10 @@ class PostsController extends AppController {
 
 			if(array_key_exists('Post', $this->request->data))
 			{
-				
+				$this->Post->id = $id;
+				if (!$this->Post->exists()) {
+					throw new NotFoundException(__('Invalid post'));
+				}
 
 				if($this->request->allowMethod('post', 'delete')){
 					if ($this->Post->delete()) {
@@ -267,6 +270,10 @@ class PostsController extends AppController {
 			}
 			if(array_key_exists('Comment', $this->request->data))
 			{
+				$this->Comment->id = $id;
+				if (!$this->Post->exists()) {
+					throw new NotFoundException(__('Invalid comment'));
+				}
 				
 				if($this->request->allowMethod('post', 'delete')){
 					if ($this->Comment->delete()) {
