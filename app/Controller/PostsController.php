@@ -12,49 +12,81 @@ class PostsController extends AppController {
 
 	public function index(){
 
-		if ($this->request->is('post')) {
+		
 			//se o Post tiver conteúdo, introduzi-lo na BD
 			//if($this->request->data['Post']['content']!='')array_key_exists
 			if(array_key_exists('Post', $this->request->data))
 			{
-				$this->Post->create();
-				if ($this->Post->save($this->request->data)) {
-						$this->Session->setFlash(__('O seu post foi criado com sucesso.'), 'alert', array(
+				if ($this->request->is('post')) {
+					$this->Post->create();
+					if ($this->Post->save($this->request->data)) {
+							$this->Session->setFlash(__('O seu post foi criado com sucesso.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+						return $this->redirect(array('action' => '/'));
+					} else {
+						$this->Session->setFlash(__('A introdução do seu post falhou.'), 'alert', array(
 					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
+					'class' => 'alert-danger'
 					));
-					return $this->redirect(array('action' => '/'));
-				} else {
-					$this->Session->setFlash(__('A introdução do seu post falhou.'), 'alert', array(
-				'plugin' => 'BoostCake',
-				'class' => 'alert-danger'
-				));
-					debug($this->Post->invalidFields());
-					return false;
+						debug($this->Post->invalidFields());
+						return false;
+					}
+				}
+				if($this->request->allowMethod('delete')){
+					if ($this->Post->delete()) {
+						$this->Session->setFlash(__('O post foi removido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+					} else {
+						$this->Session->setFlash(__('O post não pôde ser removido.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+					}
+					return $this->redirect(array('action' => 'index'));
 				}
 			}
 		
 			//se o Comment tiver conteúdo, introduzi-lo na BD
 			if(array_key_exists('Comment',$this->request->data))
 			{
-				$this->Comment->create();
-				if ($this->Comment->save($this->request->data)) {
-						$this->Session->setFlash(__('O seu comentário foi feito com sucesso.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
-					return $this->redirect(array('action' => '/'));
-				} else {
-					$this->Session->setFlash(__('A introdução do seu comentário falhou.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-danger'
-					));
-					debug($this->Comment->invalidFields());
-					return false;
+				if($this->request->is('post')){
+					$this->Comment->create();
+					if ($this->Comment->save($this->request->data)) {
+							$this->Session->setFlash(__('O seu comentário foi feito com sucesso.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+						return $this->redirect(array('action' => '/'));
+					} else {
+						$this->Session->setFlash(__('A introdução do seu comentário falhou.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
+						debug($this->Comment->invalidFields());
+						return false;
+					}
+				}
+				if($this->request->allowMethod('post', 'delete')){
+					if ($this->Comment->delete()) {
+						$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+					} else {
+						$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+					}
+					return $this->redirect(array('action' => 'index'));
 				}
 			}
-		}
 		
+
 
 
 		$this->Post->recursive = 0;
@@ -201,6 +233,59 @@ class PostsController extends AppController {
 		
 		
 	}
+
+	/**
+	 * delete method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function delete($id = null) {
+
+			$this->autoRender = false;
+
+			if(array_key_exists('Post', $this->request->data))
+			{
+				
+
+				if($this->request->allowMethod('post', 'delete')){
+					if ($this->Post->delete()) {
+						$this->Session->setFlash(__('O post foi removido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+						return $this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('O post não pôde ser removido.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+						return $this->redirect(array('action' => 'index'));
+					}
+				}
+			}
+			if(array_key_exists('Comment', $this->request->data))
+			{
+				
+				if($this->request->allowMethod('post', 'delete')){
+					if ($this->Comment->delete()) {
+						$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+						return $this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+						return $this->redirect(array('action' => 'index'));
+					}
+					return $this->redirect(array('action' => 'index'));
+				}
+			}
+		}
 
 
 	/**

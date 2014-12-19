@@ -117,8 +117,14 @@
                                     } 
                                     echo '" alt="" />
                                 </a>
-                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
-                                <p>'.$comments[$j]['Comment']['content'].'</p>
+                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
+                                //<a href="#" class="panel-close text-right">×</a>
+                                echo '<div class="tooltips" data-toggle="tooltip" title="Remover comentário">';
+                                
+                                echo $this->Form->postLink('×', array('action' => 'delete', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right'));
+
+                                echo '</div>';
+                                echo '<p>'.$comments[$j]['Comment']['content'].'</p>
                             </li>';
                         }
                     }
