@@ -8,13 +8,17 @@ class PostsController extends AppController {
 
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Post', 'Friend', 'User', 'Comment');
+	public $uses = array('Post', 'Friend', 'User', 'Comment','Like');
 
 	public function index(){
+			//procura os posts em que o utilizador em sessão fez 'Like'
+			$likes = $this->Like->find('all', array(
+				'conditions' => array('Like.username' => $this->Auth->user('username'))
+				));
 
+			$this->set('likes',$likes);
 		
 			//se o Post tiver conteúdo, introduzi-lo na BD
-			//if($this->request->data['Post']['content']!='')array_key_exists
 			if(array_key_exists('Post', $this->request->data))
 			{
 				if ($this->request->is('post')) {
@@ -34,24 +38,11 @@ class PostsController extends AppController {
 						return false;
 					}
 				}
-				if($this->request->allowMethod('delete')){
-					if ($this->Post->delete()) {
-						$this->Session->setFlash(__('O post foi removido.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-success'
-						));
-					} else {
-						$this->Session->setFlash(__('O post não pôde ser removido.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-					}
-					return $this->redirect(array('action' => 'index'));
-				}
+				
 			}
 		
 			//se o Comment tiver conteúdo, introduzi-lo na BD
-			if(array_key_exists('Comment',$this->request->data))
+			else if(array_key_exists('Comment',$this->request->data))
 			{
 				if($this->request->is('post')){
 					$this->Comment->create();
@@ -70,25 +61,26 @@ class PostsController extends AppController {
 						return false;
 					}
 				}
-				if($this->request->allowMethod('post', 'delete')){
-					if ($this->Comment->delete()) {
-						$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+			}
+			//se for um Like
+			else if(array_key_exists('Like',$this->request->data)){
+				if ($this->request->is('post')) {
+					$this->Like->create();
+					if ($this->Like->save($this->request->data)) {
+						$this->Session->setFlash(__('Like inserido.'), 'alert', array(
 						'plugin' => 'BoostCake',
 						'class' => 'alert-success'
 						));
+						return $this->redirect(array('action' => 'index'));
 					} else {
-						$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
+						$this->Session->setFlash(__('Like inserido não inserido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
 					}
-					return $this->redirect(array('action' => 'index'));
 				}
 			}
 		
-
-
-
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->Paginator->paginate());
 
@@ -164,6 +156,18 @@ class PostsController extends AppController {
 			$this->set('user_comment', $user_comment);
 		}
 
+		//conta os likes de cada post
+		if(isset($friend_posts)){
+			for($i=0; $i<count($friend_posts); $i++){		
+				 $likes_count[$i] = $this->Like->find('count', array(
+				'conditions' => array('Like.post_id' => $friend_posts[$i]['Post']['id'])));
+			}
+		}
+
+		if(isset($likes_count)){
+			$this->set('likes_count', $likes_count);
+		}
+
 			
 	}
 
@@ -229,70 +233,105 @@ class PostsController extends AppController {
 			));
 		}
 		$this->set('user_comment', $user_comment);
-
-		
 		
 	}
 
 	/**
-	 * delete method
+	 * deleteComment method
 	 *
 	 * @throws NotFoundException
 	 * @param string $id
 	 * @return void
 	 */
 		public function delete($id = null) {
-
-			$this->autoRender = false;
-
-			if(array_key_exists('Post', $this->request->data))
-			{
-				$this->Post->id = $id;
-				if (!$this->Post->exists()) {
-					throw new NotFoundException(__('Invalid post'));
-				}
-
-				if($this->request->allowMethod('post', 'delete')){
-					if ($this->Post->delete()) {
-						$this->Session->setFlash(__('O post foi removido.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-success'
-						));
-						return $this->redirect(array('action' => 'index'));
-					} else {
-						$this->Session->setFlash(__('O post não pôde ser removido.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-						return $this->redirect(array('action' => 'index'));
-					}
-				}
+			$this->Post->id = $id;
+			if (!$this->Post->exists()) {
+				throw new NotFoundException(__('Invalid post'));
 			}
-			if(array_key_exists('Comment', $this->request->data))
-			{
-				$this->Comment->id = $id;
-				if (!$this->Post->exists()) {
-					throw new NotFoundException(__('Invalid comment'));
-				}
-				
-				if($this->request->allowMethod('post', 'delete')){
-					if ($this->Comment->delete()) {
-						$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-success'
-						));
-						return $this->redirect(array('action' => 'index'));
-					} else {
-						$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-						return $this->redirect(array('action' => 'index'));
-					}
-					return $this->redirect(array('action' => 'index'));
-				}
+			$this->request->allowMethod('post', 'delete');
+			if ($this->Post->delete()) {
+
+				$this->Session->setFlash(__('O seu post foi removido.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-success'
+			));
+				return $this->redirect(array('action' => 'myposts'));
+
+			} else {
+
+					$this->Session->setFlash(__('O seu post não pôde ser removido.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+					return $this->redirect(array('action' => 'myposts'));
+
 			}
 		}
+
+
+	/**
+	 * deleteComment method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function deleteComment($id = null) {
+			$this->Comment->id = $id;
+			if (!$this->Comment->exists()) {
+				throw new NotFoundException(__('Invalid comment'));
+			}
+			$this->request->allowMethod('post', 'delete');
+			if ($this->Comment->delete()) {
+
+				$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-success'
+			));
+				return $this->redirect(array('action' => '/'));
+
+			} else {
+
+					$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+					return $this->redirect(array('action' => '/'));
+
+			}
+		}
+
+		/**
+		 * deleteComment method
+		 *
+		 * @throws NotFoundException
+		 * @param string $id
+		 * @return void
+		 */
+			public function deleteLike($id = null) {
+				$this->Like->id = $id;
+				if (!$this->Like->exists()) {
+					throw new NotFoundException(__('Invalid like'));
+				}
+				$this->request->allowMethod('post', 'delete');
+				if ($this->Like->delete()) {
+
+					$this->Session->setFlash(__('O seu like foi removido.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-success'
+				));
+					return $this->redirect(array('action' => '/'));
+
+				} else {
+
+						$this->Session->setFlash(__('O seu like não pôde ser removido.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-danger'
+					));
+						return $this->redirect(array('action' => '/'));
+
+				}
+			}
 
 
 	/**
@@ -315,7 +354,7 @@ class PostsController extends AppController {
 			if ($this->Comment->save($this->request->data)) {
 				$this->Session->setFlash(__('O seu comment foi inserido com sucesso.'), 'alert', array(
 			'plugin' => 'BoostCake',
-			'class' => 'alert-danger'
+			'class' => 'alert-success'
 			));
 				return $this->redirect(array('action' => '/'));
 			} else {

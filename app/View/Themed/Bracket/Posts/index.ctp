@@ -71,6 +71,7 @@
       if(isset($friend_posts)){
           for($i=0; $i<count($friend_posts); $i++){
           	//if a post has picture only
+            $liked=FALSE;
             if($friend_posts[$i]['Post']['video'] =="" && $friend_posts[$i]['Post']['content'] == "" && $friend_posts[$i]['Post']['picture'] != ""){
                 echo '        <div class="col-sm-6">
                   <div class="panel panel-default panel-timeline">
@@ -93,13 +94,59 @@
                     <h4><a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'">'.$friend_posts[$i]['Post']['title'].'</a></h4>
                         <a href="/posts/view/'.$friend_posts[$i]['Post']['id'].'"><img src="'.$friend_posts[$i]['Post']['picture'].'" alt="" style="width: 400px; height: 250px;" /></a>
                         <div class="timeline-btns">
-                            <div class="pull-left">
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
-                                <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                            <div class="pull-left">';
+
+                                //<a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
+
+                                if(isset($likes))
+                                {
+                                  //percorrer lista de likes
+                                  for($j=0;$j<count($likes);$j++){
+                                    if($likes[$j]['Like']['post_id']==$friend_posts[$i]['Post']['id'] && !$liked){//caso o utilizador tenha feito like num post
+                                          $liked=TRUE;
+                                          echo '<div class="tooltips" data-toggle="tooltip" title="Não gostar">';    
+                                          echo $this->Form->postLink('♥', array('action' => 'deleteLike', $likes[$j]['Like']['id']));
+                                          echo '</div>';   
+                                    }
+                                }
+                                  //se utilizador não fez like
+                                  if(!$liked){
+                                          echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                          echo $this->Form->create('Like');
+                                          echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                          echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                          echo $this->Form->submit('♡');
+                                          echo $this->Form->end();
+                                          echo '</div>';
+
+                                     }
+                                 $liked=TRUE;
+                                  
+                              }
+                              //se utilizador não fez like
+                              else{
+                                      echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                      echo $this->Form->create('Like');
+                                      echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                      echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                     /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
+                                          'type' => 'button',
+                                          'class' => 'btn btn-warning fa fa-heart',
+                                          'escape' => false
+                                      ));*/
+                                      echo $this->Form->submit('♡');
+                                      echo $this->Form->end();
+                                      echo '</div>';
+                                 }
+
+                                echo '<a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
                                 <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                             </div>
                             <div class="pull-right">
-                                <small class="text-muted">2 pessoas gostam disto</small>
+                                <small class="text-muted">';
+                                if($likes_count[$i] > 1) echo $likes_count.' pessoas gostam disto';
+                                else if($likes_count[$i] == 1) echo '1 pessoa gosta disto';
+                                echo '</small>
                             </div>
                         </div>
                     </div><!-- panel-body -->
@@ -118,11 +165,8 @@
                                     echo '" alt="" />
                                 </a>
                                 <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
-                                //<a href="#" class="panel-close text-right">×</a>
-                                echo '<div class="tooltips" data-toggle="tooltip" title="Remover comentário">';
-                                
-                                echo $this->Form->postLink('×', array('action' => 'delete', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right'));
-
+                                echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
                                 echo '</div>';
                                 echo '<p>'.$comments[$j]['Comment']['content'].'</p>
                             </li>';
@@ -222,15 +266,60 @@
                             </div>
                           </div>
                             <div class="timeline-btns">
-                                <div class="pull-left">
-                                    <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
-                                    <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
-                                    <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
+                                <div class="pull-left">';
+                                   
+                                        if(isset($likes))
+                                        {
+                                          //percorrer lista de likes
+                                          for($j=0;$j<count($likes);$j++){
+                                            if($likes[$j]['Like']['post_id']==$friend_posts[$i]['Post']['id'] && !$liked){//caso o utilizador tenha feito like num post
+                                                  $liked=TRUE;
+                                                  echo '<div class="tooltips" data-toggle="tooltip" title="Não gostar">';    
+                                                  echo $this->Form->postLink('♥', array('action' => 'deleteLike', $likes[$j]['Like']['id']));
+                                                  echo '</div>';   
+                                            }
+                                        }
+                                          //se utilizador não fez like
+                                          if(!$liked){
+                                                  echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                                  echo $this->Form->create('Like');
+                                                  echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                                  echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                                  echo $this->Form->submit('♡');
+                                                  echo $this->Form->end();
+                                                  echo '</div>';
+
+                                             }
+                                         $liked=TRUE;
+                                          
+                                      }
+                                      //se utilizador não fez like
+                                      else{
+                                              echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                              echo $this->Form->create('Like');
+                                              echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                              echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                             /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
+                                                  'type' => 'button',
+                                                  'class' => 'btn btn-warning fa fa-heart',
+                                                  'escape' => false
+                                              ));*/
+                                              echo $this->Form->submit('♡');
+                                              echo $this->Form->end();
+                                              echo '</div>';
+                                         }
+
+                                        echo '<a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                                        <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <small class="text-muted">';
+                                        if($likes_count[$i] > 1) echo $likes_count.' pessoas gostam disto';
+                                        else if($likes_count[$i] == 1) echo '1 pessoa gosta disto';
+                                        echo '</small>
+                                    </div> 
+
                                 </div>
-                                <div class="pull-right">
-                                    <small class="text-muted">1 pessoas gostam disto</small>
-                                </div>
-                            </div>
                         </div><!-- panel-body -->';
                         for($j=0; $j<count($comments); $j++){
                             if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
@@ -245,7 +334,10 @@
                                     } 
                                 echo '" alt="" />
                                     </a>
-                                    <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                                    <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
+                                    echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                    echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                    echo '</div>
                                     <p>'.$comments[$j]['Comment']['content'].'</p>
                                 </li>
                                 </ul>';
@@ -353,14 +445,59 @@
                             </div>
                             
                             <div class="timeline-btns">
-                                <div class="pull-left">
-                                    <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
-                                    <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                                <div class="pull-left">';
+
+                                    if(isset($likes))
+                                    {
+                                      //percorrer lista de likes
+                                      for($j=0;$j<count($likes);$j++){
+                                        if($likes[$j]['Like']['post_id']==$friend_posts[$i]['Post']['id'] && !$liked){//caso o utilizador tenha feito like num post
+                                              $liked=TRUE;
+                                              echo '<div class="tooltips" data-toggle="tooltip" title="Não gostar">';    
+                                              echo $this->Form->postLink('♥', array('action' => 'deleteLike', $likes[$j]['Like']['id']));
+                                              echo '</div>';   
+                                        }
+                                    }
+                                      //se utilizador não fez like
+                                      if(!$liked){
+                                              echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                              echo $this->Form->create('Like');
+                                              echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                              echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                              echo $this->Form->submit('♡');
+                                              echo $this->Form->end();
+                                              echo '</div>';
+
+                                         }
+                                     $liked=TRUE;
+                                      
+                                  }
+                                  //se utilizador não fez like
+                                  else{
+                                          echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                          echo $this->Form->create('Like');
+                                          echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                          echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                         /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
+                                              'type' => 'button',
+                                              'class' => 'btn btn-warning fa fa-heart',
+                                              'escape' => false
+                                          ));*/
+                                          echo $this->Form->submit('♡');
+                                          echo $this->Form->end();
+                                          echo '</div>';
+                                     }
+
+                                    echo '<a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
                                     <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                                 </div>
                                 <div class="pull-right">
-                                    <small class="text-muted">6 pessoas gostam disto</small>
+                                    <small class="text-muted">';
+                                    if($likes_count[$i] > 1) echo $likes_count.' pessoas gostam disto';
+                                    else if($likes_count[$i] == 1) echo '1 pessoa gosta disto';
+                                    echo '</small>
                                 </div>
+                                    
                             </div>
                         </div><!-- panel-body -->';
                         for($j=0; $j<count($comments); $j++){
@@ -376,7 +513,10 @@
                                     } 
                                 echo '" alt="" />
                                     </a>
-                                    <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                                    <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
+                                    echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                    echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                    echo '</div>
                                     <p>'.$comments[$j]['Comment']['content'].'</p>
                                 </li>
                                 </ul>';
@@ -473,14 +613,59 @@
                   </div>
                     
                     <div class="timeline-btns">
-                        <div class="pull-left">
-                            <a href="#" class="tooltips" data-toggle="tooltip" title="Gostar"><i class="glyphicon glyphicon-heart"></i></a>
-                            <a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
+                        <div class="pull-left">';
+
+                            if(isset($likes))
+                            {
+                              //percorrer lista de likes
+                              for($j=0;$j<count($likes);$j++){
+                                if($likes[$j]['Like']['post_id']==$friend_posts[$i]['Post']['id'] && !$liked){//caso o utilizador tenha feito like num post
+                                      $liked=TRUE;
+                                      echo '<div class="tooltips" data-toggle="tooltip" title="Não gostar">';    
+                                      echo $this->Form->postLink('♥', array('action' => 'deleteLike', $likes[$j]['Like']['id']));
+                                      echo '</div>';   
+                                }
+                            }
+                              //se utilizador não fez like
+                              if(!$liked){
+                                      echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                      echo $this->Form->create('Like');
+                                      echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                      echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                      echo $this->Form->submit('♡');
+                                      echo $this->Form->end();
+                                      echo '</div>';
+
+                                 }
+                             $liked=TRUE;
+                              
+                          }
+                          //se utilizador não fez like
+                          else{
+                                  echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                  echo $this->Form->create('Like');
+                                  echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
+                                  echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                 /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
+                                      'type' => 'button',
+                                      'class' => 'btn btn-warning fa fa-heart',
+                                      'escape' => false
+                                  ));*/
+                                  echo $this->Form->submit('♡');
+                                  echo $this->Form->end();
+                                  echo '</div>';
+                             }
+
+                            echo '<a href="#" class="tooltips" data-toggle="tooltip" title="Adicionar Comentário"><i class="glyphicon glyphicon-comment"></i></a>
                             <a href="#" class="tooltips" data-toggle="tooltip" title="Partilhar"><i class="glyphicon glyphicon-Partilhar"></i></a>
                         </div>
                         <div class="pull-right">
-                            <small class="text-muted">1 pessoas gostam disto</small>
+                            <small class="text-muted">';
+                            if($likes_count[$i] > 1) echo $likes_count.' pessoas gostam disto';
+                            else if($likes_count[$i] == 1) echo '1 pessoa gosta disto';
+                            echo '</small>
                         </div>
+                            
                     </div>
                 </div><!-- panel-body -->';
                     for($j=0; $j<count($comments); $j++){
@@ -496,7 +681,10 @@
                                     } 
                                 echo '" alt="" />
                                 </a>
-                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>
+                                <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
+                                    echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                    echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                    echo '</div>
                                 <p>'.$comments[$j]['Comment']['content'].'</p>
                             </li>
                             </ul>';

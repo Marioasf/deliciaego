@@ -34,6 +34,9 @@
                 <p>'.$posts[$i]['Post']['content'].'</p>
                 <button class="btn btn-sm btn-white">Read More</button>
               </div>';}
+              echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover post">';
+              echo $this->Form->postLink('×', array('action' => 'delete', $posts[$i]['Post']['id']), array('confirm' => 'De certeza que deseja remover este post?'), array('class' => 'panel-close text-right pull-right'));
+              echo '</div>';
            echo' </div>
           </div><!-- blog-item -->
         </div><!-- col-xs-6 -->';
