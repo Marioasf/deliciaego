@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 10-Dez-2014 às 16:16
--- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
--- versão do PHP: 5.5.9-1ubuntu4.4
+-- Data de Criação: 23-Dez-2014 às 17:39
+-- Versão do servidor: 5.5.40-0ubuntu0.14.04.1
+-- versão do PHP: 5.5.9-1ubuntu4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,14 +28,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('post','item','comment','like') NOT NULL,
+  `type` enum('post','item','comment','like','add') NOT NULL,
   `activity_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `friend_username` varchar(255) NOT NULL,
   `datemade` datetime NOT NULL,
-  `checked` bit(1) NOT NULL DEFAULT b'0',
+  `checked` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Extraindo dados da tabela `activities`
+--
+
+INSERT INTO `activities` (`id`, `type`, `activity_id`, `username`, `friend_username`, `datemade`, `checked`) VALUES
+(7, 'add', 0, 'mario', 'jpeter', '0000-00-00 00:00:00', 0),
+(8, 'add', 0, 'jpeter', 'mario', '2014-12-01 00:00:00', 0),
+(9, 'add', 0, 'trafulha', 'mario', '2014-12-01 00:00:00', 0),
+(10, 'post', 0, '', '', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `datemade` datetime NOT NULL,
   `content` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Extraindo dados da tabela `comments`
@@ -88,9 +98,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 INSERT INTO `comments` (`id`, `post`, `product`, `user`, `datemade`, `content`) VALUES
 (1, 1, 0, 'mario', '2014-12-08 18:15:00', 'This is a great language!'),
-(2, 4, 0, 'mario', '2014-12-08 19:36:00', 'Leão na Savana!'),
-(3, 1, 0, 'mario', '2014-12-10 14:30:00', 'Esta publicação é bastante útil!'),
-(4, 1, 0, 'mario', '2014-12-05 13:24:13', 'Fantástico!');
+(4, 1, 0, 'mario', '2014-12-05 13:24:13', 'Fantástico!'),
+(10, 4, 0, 'mario', '0000-00-00 00:00:00', 'Hello world');
 
 -- --------------------------------------------------------
 
@@ -163,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `friends` (
   UNIQUE KEY `id` (`id`),
   KEY `id_2` (`id`),
   KEY `id_3` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Extraindo dados da tabela `friends`
@@ -176,7 +185,8 @@ INSERT INTO `friends` (`id`, `user1`, `user2`, `datemade`, `accepted`) VALUES
 (4, 'SidSepulveda', 'mario', '2014-09-23 00:00:00', 1),
 (5, 'mario', 'zemanel', '2014-11-19 12:29:34', 0),
 (9, 'mario', 'alexandracontas', '2014-11-19 08:46:53', 0),
-(10, 'maria_albertina', 'mario', '2014-11-19 09:24:24', 0);
+(10, 'jpeter', 'mario', '2014-11-19 09:24:24', 0),
+(23, 'trafulha', 'mario', '2014-11-19 09:24:24', 0);
 
 -- --------------------------------------------------------
 
@@ -213,6 +223,26 @@ INSERT INTO `items` (`id`, `name`, `description`, `picture`, `user`, `price`, `c
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `likes`
+--
+
+CREATE TABLE IF NOT EXISTS `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Extraindo dados da tabela `likes`
+--
+
+INSERT INTO `likes` (`id`, `post_id`, `username`) VALUES
+(7, 4, 'mario');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `photos`
 --
 
@@ -243,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `tagged` varchar(255) NOT NULL,
   `title` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Extraindo dados da tabela `posts`
@@ -257,11 +287,9 @@ INSERT INTO `posts` (`id`, `user`, `datemade`, `content`, `picture`, `video`, `l
 (5, 'mario', '2014-10-28 12:32:07', '\nWhy use CakePHP\nBuild Quickly\n\nUse code generation and scaffolding features to rapidly build prototypes.\nNo Configuration\n\nNo complicated XML or YAML files. Just setup your database and you''re ready to bake.\nFriendly License\n\nCakePHP is license', '', '', '', '', 'cakephp'),
 (6, 'mario', '2014-10-08 13:12:37', '', '', 'https://www.youtube.com/watch?v=3JluqTojuME', '', '', 'Web programming'),
 (7, 'mario', '0000-00-00 00:00:00', 'Hello world!', '', '', '', '', 'OlÃ¡'),
-(8, 'mario', '0000-00-00 00:00:00', 'Este post Ã© um teste', '', '', '', '', 'Teste'),
-(9, 'mario', '0000-00-00 00:00:00', 'isto Ã© um teste tambÃ©m', '', '', '', '', 'teste2'),
-(10, 'mario', '0000-00-00 00:00:00', 'jabsfpasfoafjaf', '', '', '', '', 'teste'),
 (11, 'mario', '0000-00-00 00:00:00', 'OlÃ¡', '', '', '', '', 'Hello'),
-(12, 'mario', '0000-00-00 00:00:00', 'agagwgwe', '', '', '', '', 'sdasfa');
+(12, 'mario', '0000-00-00 00:00:00', 'agagwgwe', '', '', '', '', 'sdasfa'),
+(13, 'mario', '0000-00-00 00:00:00', 'Este Ã© o meu primeiro post neste website!', '', '', '', '', 'OlÃ¡! :)');
 
 -- --------------------------------------------------------
 
@@ -318,9 +346,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `country`, `userlevel`, `about`, `title`, `company`, `phone`, `picture`, `website`, `facebook`, `google`, `twitter`, `ip`, `signup`, `lastlogin`, `notescheck`, `activated`, `photo_dir`) VALUES
 (1, 'admin', 'calpis.nomu@gmail.com', '12345', 'Luís', 'Francisco', 'Portugal', 'd', 'Um gajo 5 estrelas', 'Sr.', 'The amazing company!', '222333444', 'http://images.nationalgeographic.com/wpf/media-live/photos/000/004/cache/amazon-horned-frog_443_600x450.jpg', 'www.deliciaego.com', 'https://www.facebook.com/', 'https://plus.google.com/getstarted?fww=1', 'twitter.com', '192.168.1.2', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '1', ''),
-(2, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$10tq9DoFq5lHxZcDEZq3Xuxr6SrznnkGXPK.LkMqQgYWHF3empoCm', 'MÃ¡rio', 'Francisco', 'Portugal', 'a', 'HI', 'Mr.', 'Nespithe', '123456', 'http://upload.wikimedia.org/wikipedia/commons/3/31/Great_white_shark_south_africa.jpg', 'www.example.com', 'www.facebook.com/marioasfrancisco', 'www.google.com/marioasfrancisco', 'www.twitter.com/marioasfrancisco', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
+(2, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$JwtU/a/Y2CDbzAGgRN6r.u6nvivIP.TJxkCyi/9qlsdHN1ySMbfTq', 'Mário', 'Francisco', 'Portugal', 'a', 'HI', 'Mr.', 'Nespithe', '911234567', 'http://www.johndoe.pro/img/John_Doe.jpg', 'www.mario.com', 'www.facebook.com/marioasfrancisco', 'www.google.com/marioasfrancisco', 'www.twitter.com/marioasfrancisco', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2'),
 (3, 'SidSepulveda', 'jawnfkajwf@gmail.com', '$2a$10$PFTyDTW3Ij/q4tz5VoRAYeqpSxhc2HrbpV4LC1PyKAlGVo9jplqkS', 'Armando', 'Oliveira', 'Portugal', 'a', 'Macacos, gorilas, babuÃ­nos e companhia!', 'Sra.', 'Baboon', '911234356', 'http://irritableblonde.com/wp-content/uploads/2014/03/baboon.jpg', 'www.google.com', 'www.facebook.com/baboon', 'www.google.com/baboongoogle', 'www.twitter.com/baboontwitter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', ''),
-(4, 'zemanel', 'zemanel@gmail.com', '$2a$10$3jC66EpraL.zdYcj4Ev3LueFOEQHx71E1WeFqfz4TrRMwnrLQW3Te', 'JosÃ©', 'Manuel', 'Portugal', 'a', 'Gosto de passear, comer e beber bem!', 'Sr.', 'Tasca do ZÃ© Manel', '911237654', 'http://faltadar.files.wordpress.com/2011/05/tasca_rasca2006_021.jpg', '', 'www.facebook.com/zemanel', 'www.google.com/zemanel', 'www.twitter.com/zemanel', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
+(4, 'zemanel', 'zemanel@gmail.com', '$2a$10$3jC66EpraL.zdYcj4Ev3LueFOEQHx71E1WeFqfz4TrRMwnrLQW3Te', 'José', 'Manuel', 'Portugal', 'a', 'Gosto de passear, comer e beber bem!', 'Sr.', 'Tasca do ZÃ© Manel', '911237654', 'http://faltadar.files.wordpress.com/2011/05/tasca_rasca2006_021.jpg', '', 'www.facebook.com/zemanel', 'www.google.com/zemanel', 'www.twitter.com/zemanel', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
 (5, 'maria_albertina', 'marialbertina@gmail.com', '$2a$10$b6siKn0EB7iVcbc.Tj1v4uPyVefya2HBl9SyP9rAHEBLNbPPYWMQ2', 'Maria', 'Albertina', 'Portugal', 'a', 'Cozinheira profissional', 'Dona', 'Tasca do ZÃ© Manel', '938765678', 'http://tv.i.uol.com.br/televisao/2011/11/25/ana-maria-braga-durante-gravacao-do-tema-de-fim-de-ano-da-globo-271111-1322220956296_200x285.jpg', '', 'www.facebook.com/maria_albertina', 'www.google.com/maria_albertina', 'www.twitter.com/maria_albertina', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
 (6, 'trafulha', 'trafulha@gmail.com', '$2a$10$yKdjZv96bOofoUxJ6p1PbewziU/WxaojIVaKSXIrMmYCMDrxmwf5O', 'AntÃ³nio', 'Madureira', 'Portugal', 'a', 'Investidor de alto risco', 'Sr.', 'Loja do Trafulha', '252765478', 'http://5ones.com/wp-content/uploads/2008/11/greencard-300x299.jpg', '', 'www.facebook.com/trafulha', 'www.google.com/trafulha', 'www.twitter.com/trafulha', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
 (7, 'alexandracontas', 'alexandracontas@gmail.com', '$2a$10$bUC3EmVHjsdHbPmpyPEPVu1PtaR3qsPsvtwUjcvDDXNTg56FcY7KG', 'Alexandra', 'Ribeiro', 'Portugal', 'a', 'A melhor contabilista de Portugal.', 'Dra.', 'Loja do Trafulha', '967483956', 'http://educationcareerarticles.com/wp-content/uploads/2013/08/accountant.jpg', '', 'www.facebook.com/alexandra', 'www.google.com/alexandra', 'www.twitter.com/alexandra', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', ''),
