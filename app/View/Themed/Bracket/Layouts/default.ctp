@@ -117,8 +117,10 @@
                           echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') '.$friend_requests[$i]['Activity']['id'];
                           echo '</a> <span class="badge badge-success">';
                           //echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
-
-                          echo 'aceitar</span></h5>
+                          echo $this->Form->create('Activity');
+                          echo $this->Form->input('id');
+                          echo $this->Form->end('aceitar', array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
+                          echo '</span></h5>
                         </div>
                       </li>
                       ';
