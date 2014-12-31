@@ -1,6 +1,13 @@
 {
+	"config": {
+			"vendor-dir": "Vendor"
+		},
 	"require": {
 		"slywalker/boost_cake": "*",
-		"josegonzalez/cakephp-upload": "1.1.1"
+		"josegonzalez/cakephp-upload": "1.1.1",
+		"mjohnson/uploader": "4.*",
+		"mjohnson/transit": "1.*",
+		"aws/aws-sdk-php": "2.0.*",
+		"guzzle/guzzle": "3.0.*"
 	}
 }

@@ -75,6 +75,8 @@
 
     <?php //var_dump($request_user);?>
     <?php //var_dump($activities);?>
+    <?php //var_dump($requests_activities);?>
+    <?php echo $this->Session->flash();?>
         <a class="menutoggle"><i class="fa fa-bars"></i></a>
         
         <form class="searchform" action="http://themepixels.com/demo/webpage/bracket/index.html" method="post">
@@ -87,18 +89,44 @@
           <ul class="headermenu">
             <li>
               <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                <!-- ao clicar mandar form para colocar todas as notificações de amizade com checked = 1-->
+                <?php
+
+                  echo $this->Form->create('Activity');
+                  for($i=0;$i<count($requests_activities);$i++){
+                    echo $this->Form->input('id', array('type' => 'hidden','value' => $requests_activities[$i]['Activity']['id']));
+                    echo $this->Form->input('checked', array('type' => 'hidden','value' => 1));
+                  }
+
+                ?>
+                <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown" input action="checkActivities" type="submit" value="Submit">
                   <i class="glyphicon glyphicon-user"></i>
-                  <span class="badge"><?php if($requests_count>0) echo $requests_count; ?></span>
+                  <span class="badge"><?php if(count($requests_activities)>0) echo count($requests_activities); ?></span>
                 </button>
+              
+                <?php
+
+                  //echo $this->Form->end(array('type' => 'hidden','action' => 'checkActivities'));
+                ?>
+
+                <script>
+                  function submitAll() {
+                    var forms = document.getElementsByTagName('form');
+                    for (var formIndex = 0; formIndex < forms.length; formIndex++) 
+                    {
+                        forms[formIndex].submit();
+                    }
+                  }
+                </script>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
                   <h5 class="title">
-                  <?php if($requests_count==0)
+                  <?php
+                  if(count($requests_activities)==0)
                           echo 'Não tem pedidos de amizade novos';
-                        else if($requests_count==1)
+                        else if(count($requests_activities)==1)
                           echo 'Tem 1 pedido de amizade novo';
-                        else if($requests_count>1)
-                          echo 'Tem '.$requests_count.' pedidos de amizade novos';
+                        else if(count($requests_activities)>1)
+                          echo 'Tem '.count($requests_activities).' pedidos de amizade novos';
                    ?>
                   </h5>
                   <ul class="dropdown-list user-list">
@@ -114,13 +142,13 @@
                         <div class="desc">
                           <h5><a href="">';
 
-                          echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') '.$friend_requests[$i]['Activity']['id'];
+                          echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') ';
+                          if(isset($requests_activities[$i]['Activity']['id']))
+                            echo $requests_activities[$i]['Activity']['id'];
                           echo '</a> <span class="badge badge-success">';
                           //echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
-                          echo $this->Form->create('Activity');
-                          echo $this->Form->input('id');
-                          echo $this->Form->end('aceitar', array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
-                          echo '</span></h5>
+
+                          echo 'aceitar</span></h5>
                         </div>
                       </li>
                       ';
@@ -561,9 +589,10 @@
   
 </section>
 
+<?php echo $this->Html->script('jquery-1.10.2.min'); ?>
+
 <?php echo $this->Html->script('jquery.datatables'); ?>
 
-<?php echo $this->Html->script('jquery-1.10.2.min'); ?>
 <?php echo $this->Html->script('jquery-migrate-1.2.1.min'); ?>
 <?php echo $this->Html->script('bootstrap.min'); ?>
 <?php echo $this->Html->script('modernizr.min'); ?>
@@ -582,6 +611,7 @@
 
 <?php echo $this->Html->script('custom'); ?>
 <?php echo $this->Html->script('dashboard'); ?>
+
 
         
         <script type="text/javascript">

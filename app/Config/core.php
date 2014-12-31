@@ -18,6 +18,8 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+//require_once dirname(__DIR__) . '/Vendor/autoload.php';
+
 /**
  * CakePHP Debug Level:
  *
@@ -105,7 +107,7 @@
  * included primarily as a development convenience - and
  * thus not recommended for production applications.
  */
-	Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
 /**
  * To configure CakePHP to use a particular domain URL

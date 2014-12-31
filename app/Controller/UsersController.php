@@ -255,7 +255,54 @@
 	 * @return void
 	 */
 		public function edit($id = null) {
+			$folderToSaveFiles = WWW_ROOT . 'img/uploads/' ;
+			//debug($folderToSaveFiles);
 			if ($this->request->is(array('post', 'put'))) {
+
+				if(!empty($this->request->data))
+				   {
+				       //Check if image has been uploaded
+				       if(!empty($this->request->data['User']['picture']))
+				       {
+				               $file = $this->request->data['User']['picture'];
+				               $new_file = $this->data['User']['username'];
+				               debug( $file );
+
+				               $ext = substr(strtolower(strrchr($file, '.')), 1); //get the extension
+				               $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
+				               debug( $ext);
+				               //only process if the extension is valid
+				               if(in_array($ext, $arr_ext))
+				               {
+				               	debug($file);
+				               	debug($folderToSaveFiles . $new_file);
+				                   if(move_uploaded_file($file, $folderToSaveFiles . $new_file))
+				                   {
+				                   //atualiza nome do ficheiro a mandar para bd
+				                   $this->request->data['User']['picture'] = $new_file;
+				                   
+				                   }
+				                   else{
+				                   		$this->Session->setFlash(__('Falha no upload da imagem.'), 'alert', array(
+									'plugin' => 'BoostCake',
+									'class' => 'alert-danger'
+									));
+
+									return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+				                   }
+
+
+				               }
+				               else
+				               {
+				               		$this->Session->setFlash(__('Formato de imagem inválido.'), 'alert', array(
+									'plugin' => 'BoostCake',
+									'class' => 'alert-danger'
+									));
+
+									return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+				               }
+				       }
 					
 						if ($this->User->save($this->request->data)) {
 							$this->Session->setFlash(__('Os dados foram guardados com sucesso.'), 'alert', array(
@@ -271,6 +318,7 @@
 							'class' => 'alert-danger'
 							));
 						}
+					}
 			} else {
 				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 				$this->request->data = $this->User->find('first', $options);

@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
  */
 class PostsController extends AppController {
 
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator', 'Session','RequestHandler');
 
 	public $uses = array('Post', 'Friend', 'User', 'Comment','Like');
 
@@ -268,6 +268,30 @@ class PostsController extends AppController {
 			}
 		}
 
+		/**
+		 * addComment method
+		 *
+		 * @throws NotFoundException
+		 * @param string $id
+		 * @return void
+		 */
+			public function addComment($id = null) {
+
+				$this->autoRender=false; 
+				if($this->RequestHandler->isAjax()){ 
+					Configure::write('debug', 0); 
+				} 
+				if(!empty($this->data)){ 
+					if($this->Comment->save($this->data)){ 
+						echo 'Record has been added'; 
+					}
+					else{ 
+						echo 'Error while adding record'; 
+					} 
+				}
+
+			}
+
 
 	/**
 	 * deleteComment method
@@ -276,30 +300,55 @@ class PostsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-		public function deleteComment($id = null) {
-			$this->Comment->id = $id;
-			if (!$this->Comment->exists()) {
-				throw new NotFoundException(__('Invalid comment'));
+		/*public function deleteComment($id = null) {
+
+			if($this->RequestHandler->isAjax()){
+				$id=$this->request->data['id'];
+				if($this->Comment->delete($id)){
+					echo json_encode(array(
+						'return' => array(
+							'msg' => __('Comentário removido.')
+							)
+						)
+					);
+				}
+				else{
+					echo json_encode(array(
+						'return' => array(
+							'msg' => __('Comentário não removido.')
+							)
+						)
+					);
+					exit();
+				}
 			}
-			$this->request->allowMethod('post', 'delete');
-			if ($this->Comment->delete()) {
 
-				$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
-			'plugin' => 'BoostCake',
-			'class' => 'alert-success'
-			));
-				return $this->redirect(array('action' => '/'));
+		}*/
 
-			} else {
+		public function deleteComment($id = null) {
+				$this->Comment->id = $id;
+				if (!$this->Comment->exists()) {
+					throw new NotFoundException(__('Invalid comment'));
+				}
+				$this->request->allowMethod('post', 'delete');
+				if ($this->Comment->delete()) {
 
-					$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+					$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
 				'plugin' => 'BoostCake',
-				'class' => 'alert-danger'
+				'class' => 'alert-success'
 				));
 					return $this->redirect(array('action' => '/'));
 
+				} else {
+
+						$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-danger'
+					));
+						return $this->redirect(array('action' => '/'));
+
+				}
 			}
-		}
 
 		/**
 		 * deleteComment method

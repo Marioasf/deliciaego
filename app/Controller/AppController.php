@@ -34,7 +34,7 @@
 
         public $theme = 'Bracket';
 
-        public $uses = array('Activity','User');
+        public $uses = array('Activity','User','Friend');
 
         public $helpers = array(
             'Session',
@@ -46,6 +46,7 @@
 
         public $components = array(
             'Session',
+            'RequestHandler',
             'Auth' => array(
                 'loginRedirect' => array(
                     'controller' => 'posts',
@@ -73,6 +74,8 @@
 
     // only allow the login controllers only
     public function beforeFilter() {
+    
+
         $this->Auth->allow('login');
         //$this->Auth->allow('signup');
         //carrega todas as notificações do utilizador em sessão
@@ -81,15 +84,15 @@
         'Activity.checked' => 0)));
 
          //carrega notificações dos pedidos de amizade ainda não vistas pelo utilizador em sessão
-         $requests_count = $this->Activity->find('count', array(
+         $requests_activities = $this->Activity->find('all', array(
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
         'Activity.type' => 'add',           
         'Activity.checked' => 0)));
 
          //carrega todas notificações dos pedidos de amizade relativos ao utilizador em sessão
-         $friend_requests = $this->Activity->find('all', array(
-        'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
-        'Activity.type' => 'add')));
+         $friend_requests = $this->Friend->find('all', array(
+        'conditions' => array('Friend.user2' => $this->Auth->user('username'),
+        'Friend.accepted' => 0)));
 
          //carrega id do pedido de amizade da tabela friends
          /*$friend_request_id = $this->Friend->find('all', array(
@@ -103,12 +106,12 @@
          {
             $request_user[$i] = $this->User->find('all', array(
             'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
-            'conditions' => array('User.username' => $friend_requests[$i]['Activity']['username'])));
+            'conditions' => array('User.username' => $friend_requests[$i]['Friend']['user1'])));
         }
         
         $this->set('activities',$activities);
         $this->set('friend_requests',$friend_requests);
-        $this->set('requests_count',$requests_count);
+        $this->set('requests_activities',$requests_activities);
 
         if(isset($request_user))
             $this->set('request_user',$request_user);
@@ -118,6 +121,14 @@
         //a fazer
     }
 
+    public function checkActivities(){
+        $this->Activity->saveMany($this->request->data);
+        $this->Session->setFlash(__('As atividades foram gravadas.'), 'alert', array(
+        'plugin' => 'BoostCake',
+        'class' => 'alert-success'
+        ));
+    }
+
     /**
      * Changes the activity status to checked
      *
@@ -125,26 +136,23 @@
      * @param string $id
      * @return void
      */
-        public function edit($id_list = null)
+        public function edit($id = null)
         {
-            for($i=0;$i<count($id_list);$i++)
+            $this->Activity->id = $id;
+            if (!$this->Activity->exists())
             {
-                $this->Activity->id = $id_list[$i]['Activity']['id'];
-                if (!$this->Activity->exists())
-                {
-                    $this->Session->setFlash('Invalid user', 'error');
-                    $this->redirect(array('action' => 'index'));
-                }
-
-                $checked= $this->Activity->read('checked');
-                $checked=1;
-
-                $this->Activity->saveField('checked', $checked);
-                $this->Session->setFlash(__('A notificação '.$id_list[$i]['Activity']['id'].' foi removida.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-success'
-                    ));
+                $this->Session->setFlash('Invalid user', 'error');
+                $this->redirect(array('action' => 'index'));
             }
+
+            $checked= $this->Activity->read('checked');
+            $checked=1;
+
+            $this->Activity->saveField('checked', $checked);
+            $this->Session->setFlash(__('O post não pôde ser removido.'), 'alert', array(
+                'plugin' => 'BoostCake',
+                'class' => 'alert-success'
+                ));
             $this->redirect(array('action' => 'index'));
         }
      

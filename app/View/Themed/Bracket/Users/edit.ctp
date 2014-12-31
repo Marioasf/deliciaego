@@ -1,11 +1,13 @@
 	<div class="contentpanel">
 
 		<?php echo $this->Session->flash(); ?>
-
+		<?php var_dump($this->request->data['User']['picture']); ?>
 		<div class="panel panel-default">
 			<div class="row">
 				<?php echo $this->Form->create('User', array(
 					'type' => 'file',
+					'controller' => 'posts',
+					'action' => 'index',
 					'inputDefaults' => array(
 						'div' => 'form-group',
 						'label' => array(
@@ -14,7 +16,7 @@
 						'wrapInput' => 'col col-md-9',
 						'class' => 'form-control'
 						),
-					'class' => 'well form-horizontal'
+					'class' => 'well form-horizontal',
 					)); ?>
 					<div class="panel-heading">
 
@@ -332,8 +334,7 @@
 
 	<div class="col-md-6">
 		<div class="panel-body">
-			<?php echo $this->Form->input('User.picture', array('type' => 'file')); ?>
-			<?php echo $this->Form->input('User.photo_dir', array('type' => 'hidden')); ?>
+			<?php echo $this->Form->input('picture', array('type' => 'file')); ?>
 
 			<?php echo $this->Form->input('website', array(
 				'placeholder' => 'Website'
@@ -354,13 +355,12 @@
 		</div> <!-- col-md-6 -->
 		</div> <!-- form-group-->
 				<div class="col-md-offset-3">
-					<?php echo $this->Form->submit('Guardar', array(
+					<?php echo $this->Form->end('Guardar', array(
 						'div' => false,
 						'class' => 'btn btn-primary'
 					)); ?>
 					<!--<button type="button" class="btn btn-default">Cancelar</button>-->
 				</div>
-		<?php echo $this->Form->end(); ?>
 
 	</div><!-- row -->
 	</div><!--panel-default-->

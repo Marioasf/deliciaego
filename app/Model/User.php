@@ -4,17 +4,6 @@
 
     class User extends AppModel {
 
-        public $actsAs = array(
-             'Upload.Upload' => array(
-                 'picture' => array(
-                     'fields' => array(
-                         'dir' => 'photo_dir'
-                     )
-                 )
-             )
-         );
-
-
         public $validate = array(
             'username' => array(
                 'nonEmpty' => array(

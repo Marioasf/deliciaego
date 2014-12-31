@@ -166,7 +166,16 @@
                                 </a>
                                 <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
                                 echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+
                                 echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                
+                                /*echo $this->Html->link('×', '#',
+                                  array('confirm' => 'De certeza que deseja remover este comentário?'),
+                                  array(
+                                    'class' => 'delete_comment text-right pull-right',
+                                    'id' => $comments[$j]['Comment']['id']
+                                    ));*/
+
                                 echo '</div>';
                                 echo '<p>'.$comments[$j]['Comment']['content'].'</p>
                             </li>';
@@ -180,11 +189,15 @@
                             </a>
                             <div class="media-body">';
 
-                              echo $this->Form->create('BoostCake', array(
+                              /*echo $this->Form->create('BoostCake', array(
                                 'inputDefaults' => array(
-                                  'wrapInput' => false,
-                                )
-                              )); 
+                                  'wrapInput' => false),
+                                  array(
+                                  'action' => 'addComment',
+                                  'id' => 'saveForm'
+                                  )
+                              )); */
+                              echo $this->Form->create('Comment',array('action'=>'addComment','id'=>'saveForm'));
                               $user = $_SESSION["Auth"]["User"]["username"];
                                 echo $this->Form->input('text', array(
                                 'name' => 'data[Comment][user]',
@@ -216,12 +229,13 @@
 
                             echo $this->Form->submit('Publicar', array(
                             'div' => 'form-group',
-                            'class' => 'btn btn-primary pull-right',
-                            'type' => 'submit',
-                            'value' => 'Submit',
-                            'action' => '/index.php/posts/index',
-                            'method' => 'post'
+                            'class' => 'btn btn-primary pull-right publish',
+                            //'type' => 'submit',
+                            //'value' => 'Submit',
+                            //'action' => '/index.php/posts/index',
+                            //'method' => 'post'
                             ));
+
                             echo $this->Form->end();
 
                         echo '</div><!-- media-body -->
@@ -325,18 +339,20 @@
                             if($friend_posts[$i]['Post']['id']===$comments[$j]['Comment']['post']){
                                 echo '<ul class="media-list comment-list">
                                 <li class="media">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object thumbnail" src="';
+                                    <a class="pull-left" href="#">';
                                     for($k=0; $k<count($user_comment); $k++){
                                         if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
-                                            echo $user_comment[$k]['User']['picture'];
+                                            //echo $user_comment[$k]['User']['picture'];
+                                            echo $this->Html->image('/uploads/'.$_SESSION['Auth']['User']['picture'], array('class'=>'media-object thumbnail', 'alt' => 'No image'));
                                         }
                                     } 
                                 echo '" alt="" />
                                     </a>
                                     <small class="text-muted">'.$comments[$j]['Comment']['datemade'].'</small>';
                                     echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+
                                     echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                    
                                     echo '</div>
                                     <p>'.$comments[$j]['Comment']['content'].'</p>
                                 </li>
@@ -760,5 +776,75 @@
         
         
       </div><!-- row -->
-          
 
+<?php
+    
+    echo $this->Html->script('jquery-1.10.2.min');
+    ?>
+    <!--
+    <?php
+    echo $this->Html->script('jquery.ajaxDelete');  
+    echo $this->Html->script('jquery.ajaxInsert');
+?>
+<script type="text/javascript">
+    $(function() {
+        $('.delete_comment').ajaxDelete({url: 'Posts/deleteComment'});
+    });
+</script>
+
+<script type="text/javascript">  
+function submitAndsaveData() {     
+  $.ajax({
+      url: '/Posts/addComment',
+      async: true,
+      cache: false,
+      data: $('#BoostCakeIndexForm').serialize(),
+      type: 'post',     
+      success: function (data) {
+        data=data.replace(/\\s+/g,"");
+        if(data == "true"){
+        //alert("success");
+          $('.qc-errmsg').empty();
+          $('#formregister').hide();  
+          $('#frmRegister').hide(); 
+          $('div#successfulpost').fadeIn();     
+        }
+        else {
+             //alert(data+" failed");
+          $('#frmRegister').show(function(){          
+          $('.qc-errmsg').html(data);
+          $('.qc-errmsg').fadeIn(500);
+          });
+        }
+      },
+      error : function(XMLHttpRequest, textStatus, errorThrown) {
+        alert(textStatus);
+      }
+  });
+  return false;
+}
+</script>
+
+<script type="text/javascript"> 
+  $(document).ready(function () { $
+    ('#saveForm').submit(function(){ 
+      var url_base = document.location.pathname + 'Post/addComment';
+      var formData = $(this).serialize(); 
+      var formUrl = url_base; 
+      $.ajax({ 
+        type: 'POST', 
+        url: formUrl, 
+        data: formData, 
+        success: function(data,textStatus,xhr){ 
+          alert(data); 
+        }, 
+        error: function(xhr,textStatus,error){ 
+          alert(textStatus+' '+formUrl); 
+          alert(error);
+        } 
+      }); 
+      return false; 
+    }); 
+  }); 
+</script>
+-->
