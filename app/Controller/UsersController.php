@@ -40,7 +40,7 @@
 
 	public function logout() {
 		$this->layout = false;
-		return $this->redirect($this->Auth->logoutRedirect);
+		return $this->redirect($this->Auth->logout());
 	}
 
 	
@@ -79,10 +79,15 @@
 
 		if ($this->request->is('post')) {
 
-			$this->User->create();
+			//$this->User->create();
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'login'));
+				$id = $this->User->id;
+				        $this->request->data['User'] = array_merge(
+				            $this->request->data['User'],
+				            array('id' => $id)
+				            );
+				$this->Auth->login($this->request->data['User']);
+        		return $this->redirect('/posts');
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}

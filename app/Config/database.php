@@ -72,7 +72,7 @@ class DATABASE_CONFIG {
 		'password' => 'root',
 		'database' => 'deliciae_bd',
 		'prefix' => '',
-		//'encoding' => 'utf8',
+		'encoding' => 'utf8',
 	);
 
 	public $test = array(
