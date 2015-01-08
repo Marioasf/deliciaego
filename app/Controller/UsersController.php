@@ -260,75 +260,81 @@
 	 * @return void
 	 */
 		public function edit($id = null) {
+			 error_reporting(E_ALL);
 			$folderToSaveFiles = WWW_ROOT . 'img/uploads/' ;
-			//debug($folderToSaveFiles);
+			if (!$this->User->exists($id)) {
+				throw new NotFoundException(__('Invalid user'));
+			}
 			if ($this->request->is(array('post', 'put'))) {
+				//se o utilizador tiver feito upload de imagem
+				/* A opção de fazer upload de imagens encontra-se desabilitada
+				if(!empty($this->request->data['User']['picture']))
+					{
+						$file = $this->request->data['User']['picture'];
+						$new_file = $this->data['User']['username'];
+								               debug( $file );
 
-				if(!empty($this->request->data))
-				   {
-				       //Check if image has been uploaded
-				       if(!empty($this->request->data['User']['picture']))
-				       {
-				               $file = $this->request->data['User']['picture'];
-				               $new_file = $this->data['User']['username'];
-				               debug( $file );
+								               $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+								               $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
+								               debug( $ext);
+								               //only process if the extension is valid
+								               debug(in_array($ext, $arr_ext));
+								               if(in_array($ext, $arr_ext))
+								               {
+								               	debug($file);
+								               	debug($folderToSaveFiles . $new_file);
+								                   if(move_uploaded_file($file['name'], $folderToSaveFiles . $new_file))
+								                   {
+								                   //atualiza nome do ficheiro a mandar para bd
+								                   $this->request->data['User']['picture'] = $new_file;
+								                   
+								                   }
+								                   else{
+								                   	$this->request->data['User']['picture'] = 'user.png';
+								                   		$this->Session->setFlash(__('Falha no upload da imagem.'), 'alert', array(
+													'plugin' => 'BoostCake',
+													'class' => 'alert-danger'
+													));
 
-				               $ext = substr(strtolower(strrchr($file, '.')), 1); //get the extension
-				               $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
-				               debug( $ext);
-				               //only process if the extension is valid
-				               if(in_array($ext, $arr_ext))
-				               {
-				               	debug($file);
-				               	debug($folderToSaveFiles . $new_file);
-				                   if(move_uploaded_file($file, $folderToSaveFiles . $new_file))
-				                   {
-				                   //atualiza nome do ficheiro a mandar para bd
-				                   $this->request->data['User']['picture'] = $new_file;
-				                   
-				                   }
-				                   else{
-				                   		$this->Session->setFlash(__('Falha no upload da imagem.'), 'alert', array(
-									'plugin' => 'BoostCake',
-									'class' => 'alert-danger'
-									));
-
-									return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
-				                   }
+													//return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+								                   }
 
 
-				               }
-				               else
-				               {
-				               		$this->Session->setFlash(__('Formato de imagem inválido.'), 'alert', array(
-									'plugin' => 'BoostCake',
-									'class' => 'alert-danger'
-									));
+								               }
+								               else
+								               {
 
-									return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
-				               }
-				       }
-					
-						if ($this->User->save($this->request->data)) {
-							$this->Session->setFlash(__('Os dados foram guardados com sucesso.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-success'
-							));
-							return $this->redirect(array('action' => 'index'));
+								                   	$this->request->data['User']['picture'] = 'user.png';
+								               		$this->Session->setFlash(__('Formato de imagem inválido.'), 'alert', array(
+													'plugin' => 'BoostCake',
+													'class' => 'alert-danger'
+													));
 
-							// form validation failed
-						} else {
-							$this->Session->setFlash(__('Erro ao submeter as alterações.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-						}
-					}
+													//return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+								               }
+								       }
+								       */
+
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('As alterações ao seu perfil foram guardadas.'), 'alert', array(
+													'plugin' => 'BoostCake',
+													'class' => 'alert-success'
+													));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('As alterações ao seu perfil não foram alteradas.'), 'alert', array(
+													'plugin' => 'BoostCake',
+													'class' => 'alert-danger'
+													));
+				}
 			} else {
 				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 				$this->request->data = $this->User->find('first', $options);
 			}
-		} 
+		}
+
+
+
 		   
 	/**
 	 * delete method

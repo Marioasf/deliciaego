@@ -84,7 +84,10 @@ class ItemsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Item->create();
 			if ($this->Item->save($this->request->data)) {
-				$this->Session->setFlash(__('The item has been saved.'));
+				$this->Session->setFlash(__('O item foi guardado com sucesso.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-sucess'
+				));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The item could not be saved. Please, try again.'));

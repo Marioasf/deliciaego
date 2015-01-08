@@ -15,7 +15,7 @@
       
       <div class="row">
         <div class="col-sm-3">
-          <img src="<?php echo h($user['User']['picture']);?>" class="thumbnail img-responsive" alt="" />
+          <img src=<?php echo '"'.h($user['User']['picture']).'"';?> class="thumbnail img-responsive" alt="" />
           
           <div class="mb30"></div>
           

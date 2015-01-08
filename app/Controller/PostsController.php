@@ -85,16 +85,27 @@ class PostsController extends AppController {
 		$this->set('posts', $this->Paginator->paginate());
 
 		$friends = $this->Friend->find('all', array(
-			'fields' => 'Friend.user2',
-			'conditions' => array('Friend.user1' => $this->Auth->user('username'))
-		));
+			'conditions' => 
+				array(
+					'Friend.accepted' => 1
+					),
+				array(
+					"AND" => array(array('Friend.user1' => $this->Auth->user('username')), "OR" => array('Friend.user2' => $this->Auth->user('username')))
+					)
+					 	
+			)
+		);
 		
 		//adiciona username de amigos a uma lista simples
 		if(isset($friends)){
 			$this->set('friends', $friends);	
 			for($i=0; $i<count($friends); $i++)
 			{
+				//se não for o utilizador em sessão guarda o seu username
+				if($friends[$i]['Friend']['user1'] == $this->Auth->user('username'))
 				 $friend_list[$i]=$friends[$i]['Friend']['user2'];
+				else
+					$friend_list[$i]=$friends[$i]['Friend']['user1'];
 			}
 		}
 

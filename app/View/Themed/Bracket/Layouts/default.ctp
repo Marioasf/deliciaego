@@ -26,7 +26,6 @@
   <section>
 
     <div class="leftpanel">
-    <!--<?php var_dump($notifications); ?>-->
       <div class="logopanel">
         <h1><a href="/"><span>[</span> Deliciaego <span>]</span></a></h1>
       </div><!-- logopanel -->
@@ -73,65 +72,36 @@
 
       <div class="headerbar">
 
-    <?php //var_dump($request_user);?>
-    <?php //var_dump($activities);?>
-    <?php //var_dump($requests_activities);?>
-    <?php echo $this->Session->flash();?>
+      <?php echo $this->Session->flash();?>
         <a class="menutoggle"><i class="fa fa-bars"></i></a>
         
-        <form class="searchform" action="http://themepixels.com/demo/webpage/bracket/index.html" method="post">
-          <input type="text" class="form-control" name="keyword" placeholder="Pesquisa aqui..." />
-        </form>
-        
         <div class="header-right">
-        <!-- colocar action para enviar id's das notificações para o appcontroller ao clicar no botão-->
-          <?php //echo $this->Form->postLink('', array('action' => 'edit', $friend_requests[$i], 'type' => 'hidden'));?>
+  
           <ul class="headermenu">
             <li>
               <div class="btn-group">
-                <!-- ao clicar mandar form para colocar todas as notificações de amizade com checked = 1-->
-                <?php
 
-                  echo $this->Form->create('Activity');
-                  for($i=0;$i<count($requests_activities);$i++){
-                    echo $this->Form->input('id', array('type' => 'hidden','value' => $requests_activities[$i]['Activity']['id']));
-                    echo $this->Form->input('checked', array('type' => 'hidden','value' => 1));
-                  }
-
-                ?>
+                <!-- Número de pedidos de amizade a apresentar no icon-->
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown" input action="checkActivities" type="submit" value="Submit">
                   <i class="glyphicon glyphicon-user"></i>
-                  <span class="badge"><?php if(count($requests_activities)>0) echo count($requests_activities); ?></span>
+                  <span class="badge"><?php if(count($friend_requests)>0) echo count($friend_requests); ?></span>
                 </button>
-              
-                <?php
 
-                  //echo $this->Form->end(array('type' => 'hidden','action' => 'checkActivities'));
-                ?>
-
-                <script>
-                  function submitAll() {
-                    var forms = document.getElementsByTagName('form');
-                    for (var formIndex = 0; formIndex < forms.length; formIndex++) 
-                    {
-                        forms[formIndex].submit();
-                    }
-                  }
-                </script>
+                <!-- Número de pedidos de amizade -->
                 <div class="dropdown-menu dropdown-menu-head pull-right">
                   <h5 class="title">
                   <?php
-                  if(count($requests_activities)==0)
+                  if(count($friend_requests)==0)
                           echo 'Não tem pedidos de amizade novos';
-                        else if(count($requests_activities)==1)
+                        else if(count($friend_requests)==1)
                           echo 'Tem 1 pedido de amizade novo';
-                        else if(count($requests_activities)>1)
-                          echo 'Tem '.count($requests_activities).' pedidos de amizade novos';
+                        else if(count($friend_requests)>1)
+                          echo 'Tem '.count($friend_requests).' pedidos de amizade novos';
                    ?>
                   </h5>
                   <ul class="dropdown-list user-list">
                   <?php
-                  //lista pedidos de amizade
+                  /* Listagem dos pedidos de amizade */
                   for($i=0;$i<count($friend_requests);$i++)
                   {
                     echo'
@@ -143,16 +113,16 @@
                           <h5><a href="">';
 
                           echo $request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name']. '(@'.$request_user[$i][0]['User']['username'].') ';
-                          if(isset($requests_activities[$i]['Activity']['id']))
-                            echo $requests_activities[$i]['Activity']['id'];
-                          echo '</a> <span class="badge badge-success">';
-                          //echo $this->Form->postLink('aceitar', array('action' => 'edit', $friend_requests[$i]['Activity']['id']), array('confirm' => 'De certeza que deseja adicionar '.$request_user[$i][0]['User']['first_name'].' '.$request_user[$i][0]['User']['last_name'].' como seu amigo?'));
-
-                          echo 'aceitar</span></h5>
+                         
+                          echo '</a> <span class="badge badge-success">
+                          Novo
+                          </span></h5>
                         </div>
                       </li>
                       ';
                   }
+
+                    echo '<li class="novo"><a href="/friends/accept_index/">Ver todos os pedidos</a></li>';
                     ?>
                   </ul>
                 </div>
@@ -160,66 +130,58 @@
             </li>
             <li>
               <div class="btn-group">
+                <!-- Número de mensagens a apresentar no icon-->
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-envelope"></i>
-                  <span class="badge">1</span>
+                  <span class="badge"><?php if(count($chat_received)+count($chat_sent)>0) echo count($chat_received)+count($chat_sent); ?></span>
                 </button>
+
+                <!-- Número de mensagens-->
                 <div class="dropdown-menu dropdown-menu-head pull-right">
                     <h5 class="title"><?php 
-                  if(count($message)==1)
+                  if(count($chat_received)+count($chat_sent)==1)
                     echo 'Tens 1 mensagem nova';
-                  else if(count($message)>1)
-                    echo 'Tens '.count($message).' mensagens novas';
+                  else if(count($chat_received)+count($chat_sent)>1)
+                    echo 'Tens '.count($chat_received)+count($chat_sent).' mensagens novas';
                   else
                     echo 'Não tens mensagens novas';
                   ?></h5>
                   <ul class="dropdown-list gen-list">
-                    <li class="novo">
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user1.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Draniem Daamul <span class="badge badge-success">novo</span></span>
-                          <span class="msg">Lorem ipsum dolor sit amet...</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user2.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Nusja Nawancali</span>
-                          <span class="msg">Lorem ipsum dolor sit amet...</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user3.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Weno Carasbong</span>
-                          <span class="msg">Lorem ipsum dolor sit amet...</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user4.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Zaham Sindilmaca</span>
-                          <span class="msg">Lorem ipsum dolor sit amet...</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="">
-                        <span class="thumb"><img src="images/photos/user5.png" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">Veno Leongal</span>
-                          <span class="msg">Lorem ipsum dolor sit amet...</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li class="novo"><a href="">Ler todas as mensagens</a></li>
+
+                  <!-- Listagem das mensagens-->
+                  <?php 
+                  for($i=0;$i<count($chat_received);$i++)
+                  {
+                    if($chat_session_user[$i][0]['User']['username'] != $_SESSION["Auth"]["User"]["username"])
+                    echo '
+                      <li class="novo">
+                        <a href="">
+                          <span class="thumb"><img src="img/uploads/'. $chat_session_user[$i][0]['User']['picture'] .'" alt="" /></span>
+                          <span class="desc">
+                            <span class="name">'.$chat_session_user[$i][0]['User']['first_name']. ' '.$chat_session_user[$i][0]['User']['last_name'].'<span class="badge badge-success">novo</span></span>
+                            <span class="msg">'. $chat_received[$i]['Chat']['text'] .'</span>
+                          </span>
+                        </a>
+                      </li>
+                    '; 
+                  } 
+                  for($i=0;$i<count($chat_sent);$i++)
+                  {
+                    if($chat_user[$i][0]['User']['username'] != $_SESSION["Auth"]["User"]["username"])
+                    echo '
+                      <li class="novo">
+                        <a href="">
+                          <span class="thumb"><img src="img/uploads/'. $chat_user[$i][0]['User']['picture'] .'" alt="" /></span>
+                          <span class="desc">
+                            <span class="name">'.$chat_user[$i][0]['User']['first_name']. ' '.$chat_user[$i][0]['User']['last_name'].'<span class="badge badge-success">novo</span></span>
+                            <span class="msg">'. $chat_sent[$i]['Chat']['text'] .'</span>
+                          </span>
+                        </a>
+                      </li>
+                    '; 
+                  } 
+                  ?>
+                    <li class="novo"><a href="/chats/index">Ler todas as mensagens</a></li>
                   </ul>
                 </div>
               </div>
@@ -228,9 +190,13 @@
               <div class="btn-group">
                 <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-globe"></i>
+
+                  <!-- Número de actividades a apresentar no icon-->
                   <span class="badge"><?php if(count($activities)>0){echo count($activities);}?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-head pull-right">
+
+                <!-- Número de actividades -->
                   <h5 class="title"><?php 
                   if(count($activities)==1)
                     echo 'Tens 1 notificação nova';
@@ -240,25 +206,30 @@
                     echo 'Não tens notificações novas';
                   ?></h5>
                   <ul class="dropdown-list gen-list">
-                  <!--Repetir este código por cada notificação -->
-                   <?php for($i=0;$i<count($friend_notifications);$i++){
-                    echo '<li class="novo">';
-                      if($activities[$i]['Activity']['type']=='comment' || 'like' || 'post'){ echo '<a href="/posts/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
-                      else{ echo '<a href="/items/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
-                        echo '<span class="thumb"><img src="'.$friend_notifications[0][$i]['User']['picture'].'" alt="" /></span>
-                        <span class="desc">
-                          <span class="name">'.$friend_notifications[0][$i]['User']['first_name']." ".$friend_notifications[0][$i]['User']['last_name']."";
-                          if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
-                          if($activities[$i]['Activity']['type']=='comment'){echo '<span class="msg">comentou uma publicação tua</span>';}
-                          if($activities[$i]['Activity']['type']=='like'){echo '<span class="msg">gostou de uma publicação tua</span>';}
-                          if($activities[$i]['Activity']['type']=='item'){echo '<span class="msg">publicou um produto</span>';}
-                          if($activities[$i]['Activity']['type']=='post'){echo '<span class="msg">publicou um post</span>';}
-                       echo ' </span>
-                      </a>
-                    </li>';}
+                  <!-- Listagem das actividades -->
+                   <?php 
+                   if(count($activities)>0)
+                   {
+                     for($i=0;$i<count($activities);$i++){
+                      echo '<li class="novo">';
+                        if($activities[$i]['Activity']['type']=='comment' || 'like' || 'post'){ echo '<a href="/posts/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
+                        else{ echo '<a href="/items/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
+                          echo '<span class="thumb"><img src="'.$activity_user[0][$i]['User']['picture'].'" alt="" /></span>
+                          <span class="desc">
+                            <span class="name">'.$activity_user[0][$i]['User']['first_name']." ".$activity_user[0][$i]['User']['last_name']."";
+                            if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
+                            if($activities[$i]['Activity']['type']=='comment'){echo '<span class="msg">comentou uma publicação tua</span>';}
+                            if($activities[$i]['Activity']['type']=='like'){echo '<span class="msg">gostou de uma publicação tua</span>';}
+                            if($activities[$i]['Activity']['type']=='item'){echo '<span class="msg">publicou um produto</span>';}
+                            if($activities[$i]['Activity']['type']=='post'){echo '<span class="msg">fez uma publicação</span>';}
+                         echo ' </span>
+                        </a>
+                      </li>';
+                    }
+                  }
                     //var_dump($activities);
                    ?>
-                    <li class="novo"><a href="">Ver todas as notificações</a></li>
+                    <li class="novo"><a href="/activities/index">Ver todas as notificações</a></li>
                   </ul>
                 </div>
               </div>
@@ -280,11 +251,6 @@
                 </ul>
               </div>
             </li>
-            <li>
-              <button id="chatview" class="btn btn-default tp-icon chat-icon">
-                <i class="glyphicon glyphicon-comment"></i>
-              </button>
-            </li>
           </ul>
         </div><!-- header-right -->
         
@@ -297,296 +263,6 @@
      
    </div><!-- mainpanel -->
    
-   <div class="rightpanel">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs nav-justified">
-      <li class="active"><a href="rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
-      <li><a href="#rp-favorites" data-toggle="tab"><i class="fa fa-heart"></i></a></li>
-      <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
-      <li><a href="#rp-settings" data-toggle="tab"><i class="fa fa-gear"></i></a></li>
-    </ul>
-    
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane active" id="rp-alluser">
-        <h5 class="sidebartitle">Utilizadores online</h5>
-        <ul class="chatuserlist">
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/userprofile.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Eileen Sideways</strong>
-                <small>Los Angeles, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user1.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <span class="pull-right badge badge-danger">2</span>
-                <strong>Zaham Sindilmaca</strong>
-                <small>San Francisco, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user2.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Nusja Nawancali</strong>
-                <small>Bangkok, Thailand</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user3.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Renov Leongal</strong>
-                <small>Cebu City, Philippines</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user4.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Weno Carasbong</strong>
-                <small>Tokyo, Japan</small>
-              </div>
-            </div><!-- media -->
-          </li>
-        </ul>
-        
-        <div class="mb30"></div>
-        
-        <h5 class="sidebartitle">Utilizadores offline</h5>
-        <ul class="chatuserlist">
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user5.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Eileen Sideways</strong>
-                <small>Los Angeles, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user2.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Zaham Sindilmaca</strong>
-                <small>San Francisco, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user3.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Nusja Nawancali</strong>
-                <small>Bangkok, Thailand</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user4.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Renov Leongal</strong>
-                <small>Cebu City, Philippines</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user5.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Weno Carasbong</strong>
-                <small>Tokyo, Japan</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user4.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Renov Leongal</strong>
-                <small>Cebu City, Philippines</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user5.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Weno Carasbong</strong>
-                <small>Tokyo, Japan</small>
-              </div>
-            </div><!-- media -->
-          </li>
-        </ul>
-      </div>
-      <div class="tab-pane" id="rp-favorites">
-        <h5 class="sidebartitle">Favoritos</h5>
-        <ul class="chatuserlist">
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user2.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Eileen Sideways</strong>
-                <small>Los Angeles, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user1.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Zaham Sindilmaca</strong>
-                <small>San Francisco, CA</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user3.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Nusja Nawancali</strong>
-                <small>Bangkok, Thailand</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user4.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Renov Leongal</strong>
-                <small>Cebu City, Philippines</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user5.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Weno Carasbong</strong>
-                <small>Tokyo, Japan</small>
-              </div>
-            </div><!-- media -->
-          </li>
-        </ul>
-      </div>
-      <div class="tab-pane" id="rp-history">
-        <h5 class="sidebartitle">Histórico</h5>
-        <ul class="chatuserlist">
-          <li class="online">
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user4.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Eileen Sideways</strong>
-                <small>Hi hello, ctc?... would you mind if I go to your...</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user2.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Zaham Sindilmaca</strong>
-                <small>This is to inform you that your product that we...</small>
-              </div>
-            </div><!-- media -->
-          </li>
-          <li>
-            <div class="media">
-              <a href="" class="pull-left media-thumb">
-                <img alt="" src="images/photos/user3.png" class="media-object">
-              </a>
-              <div class="media-body">
-                <strong>Nusja Nawancali</strong>
-                <small>Are you willing to have a long term relat...</small>
-              </div>
-            </div><!-- media -->
-          </li>
-        </ul>
-      </div>
-      <div class="tab-pane pane-settings" id="rp-settings">
-
-        <h5 class="sidebartitle mb20">Definições</h5>
-        <div class="form-group">
-          <label class="col-xs-8 control-label">Mostrar utilizadores offline</label>
-          <div class="col-xs-4 control-label">
-            <div class="toggle toggle-success"></div>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-xs-8 control-label">Ligar histórico</label>
-          <div class="col-xs-4 control-label">
-            <div class="toggle toggle-success"></div>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-xs-8 control-label">Mostrar nome completo</label>
-          <div class="col-xs-4 control-label">
-            <div class="toggle-chat1 toggle-success"></div>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-xs-8 control-label">Mostrar localização</label>
-          <div class="col-xs-4 control-label">
-            <div class="toggle toggle-success"></div>
-          </div>
-        </div>
-        
-      </div><!-- tab-pane -->
-      
-    </div><!-- tab-content -->
-  </div><!-- rightpanel -->
-  
-  
 </section>
 
 <?php echo $this->Html->script('jquery-1.10.2.min'); ?>

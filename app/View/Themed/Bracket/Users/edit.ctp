@@ -1,13 +1,10 @@
-	<div class="contentpanel">
+
 
 		<?php echo $this->Session->flash(); ?>
-		<?php var_dump($this->request->data['User']['picture']); ?>
-		<div class="panel panel-default">
-			<div class="row">
+		<?php //var_dump($this->request->data['User']['picture']); ?>
+
 				<?php echo $this->Form->create('User', array(
 					'type' => 'file',
-					'controller' => 'posts',
-					'action' => 'index',
 					'inputDefaults' => array(
 						'div' => 'form-group',
 						'label' => array(
@@ -325,7 +322,8 @@
 		'placeholder' => 'Empresa'
 		)); ?>
 	<?php echo $this->Form->input('phone', array(
-		'placeholder' => 'Telefone'
+		'placeholder' => 'Telefone',
+				'type' => 'number'
 		)); ?>
 	
 	</div>
@@ -334,7 +332,11 @@
 
 	<div class="col-md-6">
 		<div class="panel-body">
-			<?php echo $this->Form->input('picture', array('type' => 'file')); ?>
+			<?php //echo $this->Form->input('picture', array('type' => 'file', 'label' => 'Imagem')); ?>
+			<?php echo $this->Form->input('picture', array(
+				'label' => 'Link da imagem',
+				'type' => 'url'
+				)); ?>
 
 			<?php echo $this->Form->input('website', array(
 				'placeholder' => 'Website'
@@ -362,9 +364,6 @@
 					<!--<button type="button" class="btn btn-default">Cancelar</button>-->
 				</div>
 
-	</div><!-- row -->
-	</div><!--panel-default-->
-	</div><!--contentpanel-->
 
 
 	<?php echo $this->Html->script('jquery.maskedinput.min'); ?>

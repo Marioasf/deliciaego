@@ -121,8 +121,7 @@
 					        echo $this->Form->submit(' Enviar pedido de amizade', array(
 					        	'id' => $users[$i]['User']['username'],
 								'class' => 'btn btn-sm btn-success mr5',
-								'onclick' => 'friendRequest(this.id)',
-								'title' => '</div class="pull-left"><i class="fa fa-user"></i>'
+								'onclick' => 'friendRequest(this.id)'
 							));
 							echo $this->Form->end();
 							//echo '</div></div>';
