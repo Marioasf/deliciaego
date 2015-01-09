@@ -105,13 +105,25 @@ class CompaniesController extends AppController {
  * @return void
  */
 	public function add() {
+		$user_company = $this->Company->find('all', array(
+			'conditions' => array('Company.user' => $_SESSION["Auth"]["User"]["username"])
+		));
+		if(isset($user_company))
+			$this->set('user_company', $user_company);
+
 		if ($this->request->is('post')) {
 			$this->Company->create();
 			if ($this->Company->save($this->request->data)) {
-				$this->Session->setFlash(__('The company has been saved.'));
+				$this->Session->setFlash(__('A sua empresa foi guardada com sucesso.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The company could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Ocorreu um erro. A sua empresa não pôde ser adicionada.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
 			}
 		}
 	}

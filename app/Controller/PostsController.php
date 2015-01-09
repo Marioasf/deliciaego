@@ -195,7 +195,52 @@ class PostsController extends AppController {
 
 	public function view($id=null){
 		
+		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
+		$this->set('post', $this->Post->find('first', $options));
 
+		//procurar informação sobre o post em questão
+		$current_post = $this->Post->find('all', array(
+		'conditions' => array('Post.id' => $id)
+		));
+		if(isset($current_post))
+			$this->set('current_post', $current_post);
+
+
+		//procurar informação do utilizador em sessão
+		$user = $this->User->find('all', array(
+			'conditions' => array('User.username' => $this->Auth->user('username'))
+		));
+		if(isset($user))
+			$this->set('user', $user);
+
+		//procurar todos os comentários relacionados com este post
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+			'Comment.post' => $current_post[0]['Post']['id']),
+			'order' => 'Comment.datemade'
+		));
+		if(isset($comments))
+			$this->set('comments', $comments);
+		
+		//procurar informação dos utilizadores responsaveis pelos comentários
+		for($i=0; $i<count($comments); $i++){
+			$user_comment = $this->User->find('all', array(
+				'conditions' => array('User.username' => $comments[$i]['Comment']['user'])
+			));
+		}
+		if(isset($user_comment))
+			$this->set('user_comment', $user_comment);
+
+		//procurar id's e títulos de todos os posts do utilizadr
+		/*$all_posts = $this->Post->find('all', array(
+		'conditions' => array('Post.user' => $this->Auth->user('username')),
+			'fields' => array('id','title')
+		));
+		if(isset($all_posts))
+			$this->set('all_posts', $all_posts);
+		//debug($all_posts);*/
+
+		
 		if ($this->request->is('post')) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
@@ -213,37 +258,6 @@ class PostsController extends AppController {
 				return false;
 			}
 		}
-
-		//
-		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
-		$this->set('post', $this->Post->find('first', $options));
-
-		//
-		$current_post = $this->Post->find('all', array(
-		'conditions' => array('Post.id' => $id)
-		));
-		$this->set('current_post', $current_post);
-
-		//
-		$user = $this->User->find('all', array(
-			'conditions' => array('User.username' => $this->Auth->user('username'))
-		));
-		$this->set('user', $user);
-
-		//
-		$comments = $this->Comment->find('all', array(
-			'Comment.post' => $current_post[0]['Post']['id'],
-			'order' => 'Comment.datemade'
-		));
-		$this->set('comments', $comments);
-
-		//
-		for($i=0; $i<count($comments); $i++){
-			$user_comment = $this->User->find('all', array(
-				'conditions' => array('User.username' => $comments[$i]['Comment']['user'])
-			));
-		}
-		$this->set('user_comment', $user_comment);
 		
 	}
 

@@ -13,13 +13,29 @@
       
       <div id="bloglist" class="row">
         <?php
+          function get_youtube_id_from_url($url)
+          {
+              if (stristr($url,'youtu.be/'))
+                  {preg_match('/(https:|http:|)(\/\/www\.|\/\/|)(.*?)\/(.{11})/i', $url, $final_ID); return $final_ID[4]; }
+              else 
+                  {@preg_match('/(https:|http:|):(\/\/www\.|\/\/|)(.*?)\/(embed\/|watch.*?v=|)([a-z_A-Z0-9\-]{11})/i', $url, $IDD); return $IDD[5]; }
+          }
+
           for($i=0; $i<count($posts); $i++){
               echo '        <div class="col-xs-6 col-sm-4 col-md-3">
           <div class="blog-item">
             <a href="/posts/view/'.$posts[$i]['Post']['id'].'" class="blog-img"><img src="'.$posts[$i]['Post']['picture'].'" class="img-responsive" alt="" /></a>';
            if($posts[$i]['Post']['video'] !=""){
-            echo '<div class="blog-video">
-              <iframe src="'.$posts[$i]['Post']['video'].'" allowfullscreen></iframe>
+            echo '<div class="timeline-video">';
+                
+                $url=$posts[$i]['Post']['video'];
+
+               
+                echo '<object width="420" height="315"
+                 data="http://www.youtube.com/v/'.
+                    get_youtube_id_from_url($url)
+                 .'">
+                </object>
             </div>';
            }
             echo '<div class="blog-details">
@@ -32,8 +48,9 @@
               if($posts[$i]['Post']['content'] != "") {
               echo '<div class="blog-summary">
                 <p>'.$posts[$i]['Post']['content'].'</p>
-                <button class="btn btn-sm btn-white">Read More</button>
-              </div>';}
+                <button class="btn btn-sm btn-white" onclick="window.location.href=/posts/view/'.$posts[$i]['Post']['id'].'">Ver post</button>
+              </div>';
+            }
               echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover post">';
               echo $this->Form->postLink('×', array('action' => 'delete', $posts[$i]['Post']['id']), array('confirm' => 'De certeza que deseja remover este post?'), array('class' => 'panel-close text-right pull-right'));
               echo '</div>';

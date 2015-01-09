@@ -8,7 +8,7 @@
       'class' => 'well form-inline'
 )); ?>     
 <div class="pageheader">
-      <h2><i class="fa fa-folder-open"></i> Está associado a uma empresa? <span>Adicione aqui a sua empresa</span></h2>
+      <h2><i class="fa fa-folder-open"></i> Está associado a uma empresa! <span>Edite aqui os dados da sua empresa</span></h2>
 </div>
 <div class="contentpanel">
       <div class="col-md-6">

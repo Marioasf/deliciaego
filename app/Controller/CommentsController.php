@@ -50,10 +50,16 @@ class CommentsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('The comment has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('O seu comment foi criado com sucesso.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+				return $this->redirect(array('controller' => 'posts','action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Ocorreu um erro. O seu comment não foi criado.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
 			}
 		}
 	}

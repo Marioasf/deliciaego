@@ -12,12 +12,52 @@
               <li><?php echo h($post['Post']['datemade']); ?></li>
               <li><a href="#"><?php echo count($comments); echo " "; echo "Comments"; ?></a></li>
             </ul>
-            
+           
             <br />
-           <?php echo '<div class="blog-img"><img src="'.h($post['Post']['picture']).'" class="img-responsive" alt="" /></div>'; ?>
+           <?php //Conteúdo imagem do post
+           if(isset($post['Post']['picture']) && !empty($post['Post']['picture']))
+           {
+           echo '<div class="blog-img"><img src="'.h($post['Post']['picture']).'" class="img-responsive" alt="" /></div>'; 
+            }
+           ?>
             <div class="mb20"></div>
             
-            <p><?php echo h($post['Post']['content']); ?></p>
+            <?php //Conteúdo vídeo do post
+
+              if(isset($post['Post']['video']) && !empty($post['Post']['video']))
+              {
+               
+                $url=$post['Post']['video'];
+                function get_youtube_id_from_link($url)
+                {
+                    if (stristr($url,'youtu.be/'))
+                        {preg_match('/(https:|http:|)(\/\/www\.|\/\/|)(.*?)\/(.{11})/i', $url, $final_ID); return $final_ID[4]; }
+                    else 
+                        {@preg_match('/(https:|http:|):(\/\/www\.|\/\/|)(.*?)\/(embed\/|watch.*?v=|)([a-z_A-Z0-9\-]{11})/i', $url, $IDD); return $IDD[5]; }
+                }
+                echo '<div class="timeline-video">';
+                
+                $url=$post['Post']['video'];
+
+               
+                echo '<object width="420" height="315"
+                 data="http://www.youtube.com/v/'.
+                    get_youtube_id_from_link($url)
+                 .'">
+                </object>
+            </div>';
+              }
+            ?>
+
+            <!-- Conteúdo em texto do post-->
+            <p>
+              <?php
+                if(isset($post['Post']['content']) && !empty($post['Post']['content']))
+                {
+                  echo h($post['Post']['content']);
+                } 
+              ?>
+            </p>
           
           </div><!-- panel-body -->
         </div><!-- panel -->
@@ -128,12 +168,17 @@
           
           <h5 class="subtitle">Categories</h5>
           <ul class="sidebar-list">
-            <li><a href="#"><i class="fa fa-angle-right"></i> Science &amp; Technology</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Food &amp; Health</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Entertainment</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Web Development</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Communication</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Movies &amp; TV Shows</a></li>
+          <?php
+            if(isset($all_posts) && !empty($all_posts))
+            {
+              for($i=0;$i<$all_posts;$i++)
+              {
+                echo '
+                  <li><a href="/'. $all_posts[$i]['Post']['id'] .'"><i class="fa fa-angle-right"></i>'. $all_posts[$i]['Post']['title'] .'</a></li>
+                ';
+              }
+            }
+            ?>
           </ul>
           
           <div class="mb30"></div>

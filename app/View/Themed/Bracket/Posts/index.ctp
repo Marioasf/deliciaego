@@ -49,10 +49,59 @@
             </div>
             <div class="panel-footer">
                 <div class="timeline-btns text-center">
-                    <a href="#" class="tooltips" data-toggle="tooltip" title="Foto" ><i class="glyphicon glyphicon-picture" ></i></a>
-                    <a href="#" class="tooltips" data-toggle="tooltip" title="Video" ><i class="glyphicon glyphicon-facetime-video"></i></a>
+                    
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"><a href="#" class="tooltips" data-toggle="tooltip" title="Foto" ><i class="glyphicon glyphicon-picture" ></i></a></button>
+
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <?php echo $this->Form->input('picture', array(
+                              'label' => '',
+                              'placeholder' => 'Introduza aqui o link da imagem.',
+                              'rows' => 5,
+                              'onfocus' => 'this.rows=5',
+                              'class' => 'form-control',
+                              'name' => 'data[Post][picture]',
+                              'maxlength' => 255,
+                              'style' => 'resize:none;'
+                          )); ?>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                          </div>
+                        </div>
+                       
+                      </div>
+
+                    </div>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm2">
+                    <a href="#" class="tooltips" data-toggle="tooltip" title="Video" ><i class="glyphicon glyphicon-facetime-video"></i></a></button>
+
+                    <div class="modal fade bs-example-modal-sm2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <?php echo $this->Form->input('video', array(
+                              'label' => '',
+                              'placeholder' => 'Introduza aqui o link do vídeo.',
+                              'rows' => 5,
+                              'onfocus' => 'this.rows=5',
+                              'class' => 'form-control',
+                              'name' => 'data[Post][video]',
+                              'maxlength' => 255,
+                              'style' => 'resize:none;'
+                          )); ?>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                          </div>
+                        </div>
+                       
+                      </div>
+
+                    </div>
+                    <!-- Localização e tags de utilizadores desativada
                     <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" ><i class="glyphicon glyphicon-map-marker"></i></a>
                     <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" ><i class="glyphicon glyphicon-user"></i></a>
+                    -->
                 </div>
 
                 <?php echo $this->Form->submit('Submeter Post', array(
@@ -60,7 +109,7 @@
                 'class' => 'btn btn-primary pull-left',
                 'type' => 'submit',
                 'value' => 'Submit',
-                'action' => '/index.php/posts/index',
+                'action' => '/posts/index',
                 'method' => 'post'
                 )); ?>
                   <?php echo $this->Form->end(); ?>
@@ -197,7 +246,7 @@
                                   'id' => 'saveForm'
                                   )
                               )); */
-                              echo $this->Form->create('Comment',array('action'=>'addComment','id'=>'saveForm'));
+                              echo $this->Form->create('Comment',array('action'=>'add','id'=>'saveForm'));
                               $user = $_SESSION["Auth"]["User"]["username"];
                                 echo $this->Form->input('text', array(
                                 'name' => 'data[Comment][user]',
@@ -232,7 +281,7 @@
                             'class' => 'btn btn-primary pull-right publish',
                             //'type' => 'submit',
                             //'value' => 'Submit',
-                            //'action' => '/index.php/posts/index',
+                            //'action' => '/posts/index',
                             //'method' => 'post'
                             ));
 
@@ -407,7 +456,7 @@
                                 'class' => 'btn btn-primary pull-right',
                                 'type' => 'submit',
                                 'value' => 'Submit',
-                                'action' => '/index.php/posts/index',
+                                'action' => '/posts/index',
                                 'method' => 'post'
                                 ));
                                 echo $this->Form->end();
@@ -584,7 +633,7 @@
                             'class' => 'btn btn-primary pull-right',
                             'type' => 'submit',
                             'value' => 'Submit',
-                            'action' => '/index.php/posts/index',
+                            'action' => '/posts/index',
                             'method' => 'post'
                             ));
                             echo $this->Form->end();
@@ -752,7 +801,7 @@
                             'class' => 'btn btn-primary pull-right',
                             'type' => 'submit',
                             'value' => 'Submit',
-                            'action' => '/index.php/posts/index',
+                            'action' => 'posts/index',
                             'method' => 'post'
                             ));
                             echo $this->Form->end();
