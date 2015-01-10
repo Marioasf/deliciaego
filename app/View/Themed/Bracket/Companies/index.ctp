@@ -76,36 +76,38 @@
                           <div class="text-muted"><i class="fa fa-globe"></i> '.$companies[$i]['Company']['location'].'</a></div>
                           <ul class="social-list">
                            <li>';
-                           for($j=0; $j<count($followers);$j++)
+                           if ($this->Session->read('Auth.User')) 
                            {
+                             for($j=0; $j<count($followers);$j++)
+                             {
 
-                            if($followers[$j]['Follower']['company']===$companies[$i]['Company']['name'] && $followers[$j]['Follower']['user']===$_SESSION["Auth"]["User"]["username"] && !$found_company)//verificar se utilizador segue a empresa
-                               { 
-                                 
-                                    echo '<button id="follower" class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> A seguir</button>';
+                              if($followers[$j]['Follower']['company']===$companies[$i]['Company']['name'] && $followers[$j]['Follower']['user']===$_SESSION["Auth"]["User"]["username"] && !$found_company)//verificar se utilizador segue a empresa
+                                 { 
+                                   
+                                      echo '<button id="follower" class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> A seguir</button>';
+                                      $found_company=true;
+                                  }
+                              }
+                              if(!$found_company)//senão coloca botão para adicionar amigos
+                              {
+                                      echo $this->Form->create('Follower');
+                                      echo $this->Form->input('user',array('value' => $_SESSION["Auth"]["User"]["username"], 'type' => 'hidden'));
+                                      echo $this->Form->input('company',array('value' => $companies[$i]['Company']['name'], 'type' => 'hidden'));
+                                      $dt = date("Y-m-d h:i:s");
+                                      echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
+                                      //echo '<div class="pull-left"><i class="fa fa-user"></i>';
+                                      //echo '<div class="pull-right">';
+                                      echo $this->Form->submit(' Seguir esta empresa', array(
+                                          'id' => $companies[$i]['Company']['name'],
+                                          'class' => 'btn btn-sm btn-success mr5',
+                                          'onclick' => 'followerRequest(this.id)',
+                                          'title' => '</div class="pull-left"><i class="fa fa-user"></i>'
+                                      ));
+                                      echo $this->Form->end();
+                                      //echo '</div></div>';
                                     $found_company=true;
-                                }
-                            }
-                            if(!$found_company)//senão coloca botão para adicionar amigos
-                            {
-                                    echo $this->Form->create('Follower');
-                                    echo $this->Form->input('user',array('value' => $_SESSION["Auth"]["User"]["username"], 'type' => 'hidden'));
-                                    echo $this->Form->input('company',array('value' => $companies[$i]['Company']['name'], 'type' => 'hidden'));
-                                    $dt = date("Y-m-d h:i:s");
-                                    echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
-                                    //echo '<div class="pull-left"><i class="fa fa-user"></i>';
-                                    //echo '<div class="pull-right">';
-                                    echo $this->Form->submit(' Seguir esta empresa', array(
-                                        'id' => $companies[$i]['Company']['name'],
-                                        'class' => 'btn btn-sm btn-success mr5',
-                                        'onclick' => 'followerRequest(this.id)',
-                                        'title' => '</div class="pull-left"><i class="fa fa-user"></i>'
-                                    ));
-                                    echo $this->Form->end();
-                                    //echo '</div></div>';
-                                  $found_company=true;
-                             }
-                              
+                               }
+                          }
                           
                         echo ' </li>
                       </ul>

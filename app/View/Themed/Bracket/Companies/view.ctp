@@ -11,7 +11,6 @@
         </ol>
       </div>
     </div>
-    <?php echo var_dump($friend_info); ?>
     
     <div class="contentpanel">
       

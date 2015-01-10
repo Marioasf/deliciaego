@@ -1,16 +1,20 @@
-<div id="preloader">
-    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
-</div>
+ <?php
+if ($this->Session->read('Auth.User')) {
+ //var_dump($friend_list);
 
-    <?php echo $this->Session->flash();?>
-    <div class="contentpanel">
-      <?php echo $this->Form->create('BoostCake', array(
+echo '<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>';
+
+    $this->Session->flash();
+    echo '<div class="contentpanel">';
+     echo $this->Form->create('BoostCake', array(
         'inputDefaults' => array(
             'wrapInput' => false
         ),
         'class' => 'well'
-      )); ?>
-      <?php $user = $_SESSION["Auth"]["User"]["username"];
+      ));
+        $user = $_SESSION["Auth"]["User"]["username"];
         echo $this->Form->input('text', array(
         'label' => '',
         'placeholder' => 'Título do seu post...',
@@ -19,10 +23,10 @@
         'maxlength' => 16,
         'type' => 'hidden',
         'value' => $user
-      )); ?>
-      <div class="panel panel-dark panel-alt timeline-post">
-            <div class="panel">
-            <?php echo $this->Form->input('text', array(
+      ));
+      echo '<div class="panel panel-dark panel-alt timeline-post">
+            <div class="panel">';
+              echo $this->Form->input('text', array(
                 'label' => '',
                 'placeholder' => 'Título do seu post...',
                 'name' => 'data[Post][title]',
@@ -32,10 +36,10 @@
                 'onfocus' => 'this.rows=1',
                 'style' => 'resize:none;',
                 'maxlength' => 25
-            )); ?>
-            </div>
-            <div class="panel-body">
-            <?php echo $this->Form->input('text', array(
+            ));  
+            echo '</div>
+            <div class="panel-body">';
+              echo $this->Form->input('text', array(
                 'label' => '',
                 'placeholder' => 'Diga algo sobre si...',
                 'rows' => 5,
@@ -45,8 +49,8 @@
                 'maxlength' => 255,
                 'required' => 'required',
                 'style' => 'resize:none;'
-            )); ?>
-            </div>
+            ));  
+            echo '</div>
             <div class="panel-footer">
                 <div class="timeline-btns text-center">
                     
@@ -54,8 +58,8 @@
 
                     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                          <?php echo $this->Form->input('picture', array(
+                        <div class="modal-content">';
+                            echo $this->Form->input('picture', array(
                               'label' => '',
                               'placeholder' => 'Introduza aqui o link da imagem.',
                               'rows' => 5,
@@ -64,8 +68,8 @@
                               'name' => 'data[Post][picture]',
                               'maxlength' => 255,
                               'style' => 'resize:none;'
-                          )); ?>
-                          <div class="modal-footer">
+                          ));  
+                          echo '<div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                           </div>
                         </div>
@@ -79,8 +83,8 @@
 
                     <div class="modal fade bs-example-modal-sm2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                          <?php echo $this->Form->input('video', array(
+                        <div class="modal-content">';
+                            echo $this->Form->input('video', array(
                               'label' => '',
                               'placeholder' => 'Introduza aqui o link do vídeo.',
                               'rows' => 5,
@@ -89,8 +93,8 @@
                               'name' => 'data[Post][video]',
                               'maxlength' => 255,
                               'style' => 'resize:none;'
-                          )); ?>
-                          <div class="modal-footer">
+                          ));  
+                          echo '<div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                           </div>
                         </div>
@@ -102,21 +106,21 @@
                     <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" ><i class="glyphicon glyphicon-map-marker"></i></a>
                     <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" ><i class="glyphicon glyphicon-user"></i></a>
                     -->
-                </div>
+                </div>';
 
-                <?php echo $this->Form->submit('Submeter Post', array(
+                  echo $this->Form->submit('Submeter Post', array(
                 'div' => 'form-group',
                 'class' => 'btn btn-primary pull-left',
                 'type' => 'submit',
                 'value' => 'Submit',
                 'action' => '/posts/index',
                 'method' => 'post'
-                )); ?>
-                  <?php echo $this->Form->end(); ?>
-            </div><!-- panel-footer-->
+                ));  
+                    echo $this->Form->end();  
+            echo '</div><!-- panel-footer-->
       </div>
-      <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">
-      <?php
+      <div style="position: relative; height: 1641.38px;" id="bloglist" class="row">';
+       
       if(isset($friend_posts)){
           for($i=0; $i<count($friend_posts); $i++){
           	//if a post has picture only
@@ -218,13 +222,7 @@
 
                                 echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$j]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
                                 
-                                /*echo $this->Html->link('×', '#',
-                                  array('confirm' => 'De certeza que deseja remover este comentário?'),
-                                  array(
-                                    'class' => 'delete_comment text-right pull-right',
-                                    'id' => $comments[$j]['Comment']['id']
-                                    ));*/
-
+                            
                                 echo '</div>';
                                 echo '<p>'.$comments[$j]['Comment']['content'].'</p>
                             </li>';
@@ -238,14 +236,7 @@
                             </a>
                             <div class="media-body">';
 
-                              /*echo $this->Form->create('BoostCake', array(
-                                'inputDefaults' => array(
-                                  'wrapInput' => false),
-                                  array(
-                                  'action' => 'addComment',
-                                  'id' => 'saveForm'
-                                  )
-                              )); */
+                           
                               echo $this->Form->create('Comment',array('action'=>'add','id'=>'saveForm'));
                               $user = $_SESSION["Auth"]["User"]["username"];
                                 echo $this->Form->input('text', array(
@@ -279,10 +270,7 @@
                             echo $this->Form->submit('Publicar', array(
                             'div' => 'form-group',
                             'class' => 'btn btn-primary pull-right publish',
-                            //'type' => 'submit',
-                            //'value' => 'Submit',
-                            //'action' => '/posts/index',
-                            //'method' => 'post'
+                  
                             ));
 
                             echo $this->Form->end();
@@ -292,7 +280,6 @@
                     </div><!-- panel-footer -->
                   </div><!-- panel -->';
 
-                  //var_dump($this->request->data);
                   
                 echo '</div><!-- col-sm-6 -->
                 ';
@@ -362,11 +349,7 @@
                                               echo $this->Form->create('Like');
                                               echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
                                               echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
-                                             /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
-                                                  'type' => 'button',
-                                                  'class' => 'btn btn-warning fa fa-heart',
-                                                  'escape' => false
-                                              ));*/
+                                             
                                               echo $this->Form->submit('♡');
                                               echo $this->Form->end();
                                               echo '</div>';
@@ -391,7 +374,7 @@
                                     <a class="pull-left" href="#">';
                                     for($k=0; $k<count($user_comment); $k++){
                                         if($comments[$j]['Comment']['user']===$user_comment[$k]['User']['username']){
-                                            //echo $user_comment[$k]['User']['picture'];
+                                            
                                             echo $this->Html->image('/uploads/'.$_SESSION['Auth']['User']['picture'], array('class'=>'media-object thumbnail', 'alt' => 'No image'));
                                         }
                                     } 
@@ -711,11 +694,7 @@
                                   echo $this->Form->create('Like');
                                   echo $this->Form->input('post_id', array('type' => 'hidden','value' => $friend_posts[$i]['Post']['id']));
                                   echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
-                                 /* echo $this->Form->button('<i class="fa fa-heart"></i> Send', array(
-                                      'type' => 'button',
-                                      'class' => 'btn btn-warning fa fa-heart',
-                                      'escape' => false
-                                  ));*/
+                                
                                   echo $this->Form->submit('♡');
                                   echo $this->Form->end();
                                   echo '</div>';
@@ -818,82 +797,20 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <strong>Atenção!</strong> Não adicionaste ainda qualquer amigo, não fizeste nenhum post... <a href="" class="alert-link">Não cliques aqui </a> para o fazer.
+                  <strong>Atenção!</strong> Não adicionaste ainda qualquer amigo, <a href="/users/index" class="alert-link">clica aqui </a> para o fazer.
                 </div>';
               }
-?>
-        
-        
-      </div><!-- row -->
 
-<?php
-    
-    echo $this->Html->script('jquery-1.10.2.min');
-    ?>
-    <!--
-    <?php
-    echo $this->Html->script('jquery.ajaxDelete');  
-    echo $this->Html->script('jquery.ajaxInsert');
-?>
-<script type="text/javascript">
-    $(function() {
-        $('.delete_comment').ajaxDelete({url: 'Posts/deleteComment'});
-    });
-</script>
+      echo '</div><!-- row -->';
+      
+  }
+    else{
+          echo 
+                '<div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <strong>Atenção!</strong> Não te encontras autenticado. Clica aqui para te <a href="/users/signup" class="alert-link">registares</a> ou para fazeres <a href="/users/login" class="alert-link">login</a>!
+                </div>';
+              
+    }
 
-<script type="text/javascript">  
-function submitAndsaveData() {     
-  $.ajax({
-      url: '/Posts/addComment',
-      async: true,
-      cache: false,
-      data: $('#BoostCakeIndexForm').serialize(),
-      type: 'post',     
-      success: function (data) {
-        data=data.replace(/\\s+/g,"");
-        if(data == "true"){
-        //alert("success");
-          $('.qc-errmsg').empty();
-          $('#formregister').hide();  
-          $('#frmRegister').hide(); 
-          $('div#successfulpost').fadeIn();     
-        }
-        else {
-             //alert(data+" failed");
-          $('#frmRegister').show(function(){          
-          $('.qc-errmsg').html(data);
-          $('.qc-errmsg').fadeIn(500);
-          });
-        }
-      },
-      error : function(XMLHttpRequest, textStatus, errorThrown) {
-        alert(textStatus);
-      }
-  });
-  return false;
-}
-</script>
-
-<script type="text/javascript"> 
-  $(document).ready(function () { $
-    ('#saveForm').submit(function(){ 
-      var url_base = document.location.pathname + 'Post/addComment';
-      var formData = $(this).serialize(); 
-      var formUrl = url_base; 
-      $.ajax({ 
-        type: 'POST', 
-        url: formUrl, 
-        data: formData, 
-        success: function(data,textStatus,xhr){ 
-          alert(data); 
-        }, 
-        error: function(xhr,textStatus,error){ 
-          alert(textStatus+' '+formUrl); 
-          alert(error);
-        } 
-      }); 
-      return false; 
-    }); 
-  }); 
-</script>
--->
+ ?>

@@ -18,13 +18,6 @@
 
 	public $uses = array('User','Friend','Item','Wishlist', 'Activity');
 
-	public function beforeFilter() {
-		parent::beforeFilter();
-	    // Allow any user to login, logout and signup
-		$this->Auth->allow('login','signup', 'logout');
-
-	}
-
 	public function login() {
 		$this->layout = false;
 		if ($this->request->is('post')) {
@@ -53,8 +46,13 @@
 		$this->set('user', $user);
 
 		$this->layout = false;
+
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
+				$this->Session->setFlash(__('Bem vindo novamente.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-success'
+			));
 				return $this->redirect($this->Auth->loginRedirect);
 			}
 			$this->Session->setFlash(__('A sua password está incorreta.'), 'alert', array(
@@ -64,6 +62,7 @@
 		}
 	}
 
+
 	/**
 	 * add method
 	 *
@@ -71,46 +70,50 @@
 	 */
 	public function signup() {
 		$this->layout = false;
-
-		$this->Session->setFlash(__('Mensagem de sucesso!'), 'alert', array(
-			'plugin' => 'BoostCake',
-			'class' => 'alert-success'
-		));
-
 		if ($this->request->is('post')) {
+			if ($this->request->data['User']['password'] == $this->request->data['User']['password_confirm'])
+			{
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
+					//Login automatically
+					//if($this->Auth->login($this->request->data['User'])){
 
-			//$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$id = $this->User->id;
-				        $this->request->data['User'] = array_merge(
-				            $this->request->data['User'],
-				            array('id' => $id)
-				            );
-				$this->Auth->login($this->request->data['User']);
-        		return $this->redirect('/posts');
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+					   $this->Session->setFlash(__('Utilizador criado com sucesso!'), 'alert', array(
+					   	'plugin' => 'BoostCake',
+					   	'class' => 'alert-success'
+					   ));
+					    //return $this->redirect($this->Auth->redirect());
+
+					//} else {
+					    $this->Session->setFlash(__('Por favor efectue o login.'), 'alert', array(
+					    					'plugin' => 'BoostCake',
+					    					'class' => 'alert-success'
+					    				));
+					    return $this->redirect(array('action' => 'login'));
+					//}
+
+				} else {
+					$this->Session->setFlash(__('O utilizador não pôde ser criado. Por favor tente novamente.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+					));
+
+					return $this->redirect(array('action' => 'signup'));
+				}
 			}
-		}
+			else{
+				$this->Session->setFlash(__('O utilizador não pôde ser criado. A confirmação da password está errada.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-danger'
+				));
+
+				return $this->redirect(array('action' => 'signup'));
+			}
+		} 
 	}
 
-	/**
-	 * add method
-	 *
-	 * @return void
-	 */
-	public function add() {
-		$this->layout = false;
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		}
-	}
+	
+	
 
 	/**
 	 * addFriend method
@@ -176,7 +179,7 @@
 				$this->request->data['Activity']['type']='add';
 				//$this->request->data['Activity']['activity_id']=$this->request->data['Friend']['id'];
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
-				$this->request->data['Activity']['friend_username']=$this->data['Friend']['user2'];
+				$this->request->data['Activity']['friend_username']=$this->request->data['Friend']['user2'];
 				$this->request->data['Activity']['checked']='0';
 
 				if($this->Activity->save($this->request->data)) {
@@ -271,7 +274,7 @@
 				if(!empty($this->request->data['User']['picture']))
 					{
 						$file = $this->request->data['User']['picture'];
-						$new_file = $this->data['User']['username'];
+						$new_file = $this->request->data['User']['username'];
 								               debug( $file );
 
 								               $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
@@ -296,7 +299,7 @@
 													'class' => 'alert-danger'
 													));
 
-													//return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+													//return $this->redirect(array('action' => 'edit/'.$this->request->data['User']['id']));
 								                   }
 
 
@@ -310,7 +313,7 @@
 													'class' => 'alert-danger'
 													));
 
-													//return $this->redirect(array('action' => 'edit/'.$this->data['User']['id']));
+													//return $this->redirect(array('action' => 'edit/'.$this->request->data['User']['id']));
 								               }
 								       }
 								       */

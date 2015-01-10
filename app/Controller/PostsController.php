@@ -10,6 +10,8 @@ class PostsController extends AppController {
 
 	public $uses = array('Post', 'Friend', 'User', 'Comment','Like');
 
+	
+
 	public function index(){
 			//procura os posts em que o utilizador em sessão fez 'Like'
 			$likes = $this->Like->find('all', array(
@@ -87,15 +89,18 @@ class PostsController extends AppController {
 		$friends = $this->Friend->find('all', array(
 			'conditions' => 
 				array(
-					'Friend.accepted' => 1
+					'Friend.accepted' => 1,
+					'Friend.user1' => $this->Auth->user('username')
 					),
 				array(
-					"AND" => array(array('Friend.user1' => $this->Auth->user('username')), "OR" => array('Friend.user2' => $this->Auth->user('username')))
+					"OR" => array(
+					'Friend.accepted' => 1,
+					'Friend.user1' => $this->Auth->user('username')
 					)
-					 	
+					)	
 			)
 		);
-		
+		//debug($friends);
 		//adiciona username de amigos a uma lista simples
 		if(isset($friends)){
 			$this->set('friends', $friends);	
@@ -240,21 +245,22 @@ class PostsController extends AppController {
 			$this->set('all_posts', $all_posts);
 		//debug($all_posts);*/
 
+		debug($this->request->data);
 		
 		if ($this->request->is('post')) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('A introdução do seu comment foi feita com sucesso.'), 'alert', array(
+				$this->Session->setFlash(__('O seu comentário foi introduzido com sucesso.'), 'alert', array(
 					'plugin' => 'BoostCake',
 					'class' => 'alert-success'
 					));
-				return $this->redirect(array('action' => '/'));
+				return $this->redirect(array('action' => '/view/'.$this->request->data['Comment']['post']));
 			} else {
-				$this->Session->setFlash(__('A introdução do seu comment falhou.'), 'alert', array(
+				$this->Session->setFlash(__('A introdução do seu comentário falhou. Tente novamente'), 'alert', array(
 				'plugin' => 'BoostCake',
 				'class' => 'alert-danger'
 				));
-				debug($this->Comment->invalidFields());
+				//debug($this->Comment->invalidFields());
 				return false;
 			}
 		}
@@ -293,62 +299,6 @@ class PostsController extends AppController {
 			}
 		}
 
-		/**
-		 * addComment method
-		 *
-		 * @throws NotFoundException
-		 * @param string $id
-		 * @return void
-		 */
-			public function addComment($id = null) {
-
-				$this->autoRender=false; 
-				if($this->RequestHandler->isAjax()){ 
-					Configure::write('debug', 0); 
-				} 
-				if(!empty($this->data)){ 
-					if($this->Comment->save($this->data)){ 
-						echo 'Record has been added'; 
-					}
-					else{ 
-						echo 'Error while adding record'; 
-					} 
-				}
-
-			}
-
-
-	/**
-	 * deleteComment method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-		/*public function deleteComment($id = null) {
-
-			if($this->RequestHandler->isAjax()){
-				$id=$this->request->data['id'];
-				if($this->Comment->delete($id)){
-					echo json_encode(array(
-						'return' => array(
-							'msg' => __('Comentário removido.')
-							)
-						)
-					);
-				}
-				else{
-					echo json_encode(array(
-						'return' => array(
-							'msg' => __('Comentário não removido.')
-							)
-						)
-					);
-					exit();
-				}
-			}
-
-		}*/
 
 		public function deleteComment($id = null) {
 				$this->Comment->id = $id;
@@ -374,6 +324,32 @@ class PostsController extends AppController {
 
 				}
 			}
+
+			public function deleteCommentInPost($id = null) {
+					$this->Comment->id = $id;
+					if (!$this->Comment->exists()) {
+						throw new NotFoundException(__('Invalid comment'));
+					}
+					$this->request->allowMethod('post', 'delete');
+					if ($this->Comment->delete()) {
+
+						$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+						return $this->redirect(array('action' => '/myposts'));
+
+					} else {
+
+							$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
+							
+							return $this->redirect(array('action' => '/myposts'));
+
+					}
+				}
 
 		/**
 		 * deleteComment method

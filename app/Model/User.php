@@ -5,81 +5,19 @@
     class User extends AppModel {
 
         public $validate = array(
-            'username' => array(
-                'nonEmpty' => array(
-                    'rule' => array('notEmpty'),
-                    'message' => 'Tem de introduzir um nome de utilizador.',
-                    'allowEmpty' => false
-                    ),
-                'between' => array(
-                    'rule' => array('between', 5, 15),
-                    'required' => true,
-                    'message' => 'O nome de utilizador deve conter entre 5 e 15 carateres.'
-                    ),
-                'unique' => array(
-                    'rule'    => array('isUniqueUsername'),
-                    'message' => 'Este username já se encontra atribuído. Por favor escolha outro.'
-                    ),
-                'alphaNumericDashUnderscore' => array(
-                    'rule'    => array('alphaNumericDashUnderscore'),
-                    'message' => 'O nome de utilizador deve conter apenas letras(a..z), números(0..9) e sublinhados(_).'
-                    ),
-                ),
-            'password' => array(
-                'required' => array(
-                    'rule' => array('notEmpty'),
-                    'message' => 'Tem de introduzir uma password.'
-                    ),
-                'min_length' => array(
-                    'rule' => array('minLength', '6'), 
-                    'message' => 'A password deve ter um mínimo de 6 carateres.'
+                'username' => array(
+                    'required' => array(
+                        'rule' => array('notEmpty'),
+                        'message' => 'A username is required'
                     )
                 ),
-
-            'password_confirm' => array(
-                'required' => array(
-                    'rule' => array('notEmpty'),
-                    'message' => 'Por favor confirme a password'
-                    ),
-                'equaltofield' => array(
-                    'rule' => array('equaltofield','password'),
-                    'message' => 'As passwords tem que ser iguais.',
-                    'on' => 'create',
+                'password' => array(
+                    'required' => array(
+                        'rule' => array('notEmpty'),
+                        'message' => 'A password is required'
                     )
-                ),
-
-            'email' => array(
-                'required' => array(
-                    'rule' => array('email', true),   
-                    'message' => 'Por favor introduza um endereço de email válido.'   
-                    ),
-                //comentado porque não permite que seja submetido um formulário com um email igual ao já existente (p.ex. ao editar os dados de utilizador)
-                 'unique' => array(
-                    'rule'    => array('isUniqueEmail'),
-                    'message' => 'Este endereço de email já se encontra em utilização.',
-                    ),
-            'between' => array(
-                'rule' => array('between', 6, 60),
-                'message' => 'O nome de utilizador deve ter entre 6 e 60 carateres.'
                 )
-            ),      
-
-            'password_update' => array(
-                'min_length' => array(
-                    'rule' => array('minLength', '6'),  
-                    'message' => 'A password deve ter um mínimo de 6 carateres.',
-                    'allowEmpty' => true,
-                    'required' => false
-                    )
-                ),
-            'password_confirm_update' => array(
-               'equaltofield' => array(
-                'rule' => array('equaltofield','password_update'),
-                'message' => 'As passwords tem que ser iguais.',
-                'required' => false,
-                )
-               )
-    );
+            );
 
             /**
          * Before isUniqueUsername
@@ -102,7 +40,7 @@
                     );
 
                 if(!empty($username)){
-                    if($this->data[$this->alias]['id'] == $username['User']['id']){
+                    if($this->request->data[$this->alias]['id'] == $username['User']['id']){
                         return true;
                     }else{
                         return false;
@@ -132,7 +70,7 @@
                 );
 
             if(!empty($email)){
-                if($this->data[$this->alias]['id'] == $email['User']['id']){
+                if($this->request->data[$this->alias]['id'] == $email['User']['id']){
                     return true;
                 }else{
                     return false;
@@ -159,7 +97,7 @@
                 $fname = $key;
                 break;
             }
-            return $this->data[$this->name][$otherfield] === $this->data[$this->name][$fname];
+            return $this->request->data[$this->name][$otherfield] === $this->request->data[$this->name][$fname];
         }
 
         /**
@@ -167,15 +105,14 @@
          * @param array $options
          * @return boolean
          */
-        public function beforeSave($options = array()) {
-            if (!empty($this->data[$this->alias]['pwd'])) {
-                $passwordHasher = new BlowfishPasswordHasher();
-                $this->data[$this->alias]['password'] = $passwordHasher->hash(
-                    $this->data[$this->alias]['pwd']
-                    );
-            }
+        
 
-            return true;
-        }
+        public function beforeSave($options = array()) {
+                if (!$this->id) {
+                    $passwordHasher = new BlowfishPasswordHasher();
+                    $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password']);
+                }
+                return true;
+            }
 
 }

@@ -1,3 +1,19 @@
+       <link href="css/style.default.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">   
+      <div class="pageheader">
+        <h2><i class="fa fa-gift"></i>Post <span><?php echo h($post['Post']['title']); ?></span></h2>
+        <div class="breadcrumb-wrapper">
+          <span class="label">You are here:</span>
+          <ol class="breadcrumb">
+            <li><a href="/">Deliciaego</a></li>
+            <li><a href="/posts">Posts</a></li>
+            <li class="active"><?php  echo h($post['Post']['title']); ?> </li>
+          </ol>
+        </div>
+      </div>
+
+    <?php echo $this->Session->flash();
+    ?>
     <div class="contentpanel">
       
       <div class="row blog-content">
@@ -91,12 +107,14 @@
                       echo '" alt="" />
                         </a>
                         <div class="media-body">
-                          <a href="#" class="btn btn-primary btn-xs pull-right reply">Reply</a>
                           <h4>';
                           echo $user_comment[$k]['User']['first_name'].' '.$user_comment[$k]['User']['last_name'];
                           echo '</h4>
-                          <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>
-                          <p>'.$comments[$i]['Comment']['content'].'</p>   
+                          <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>';
+                          echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                          echo $this->Form->postLink('×', array('action' => 'deleteCommentInPost', $comments[$i]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                          echo '</div>';
+                          echo '<p>'.$comments[$i]['Comment']['content'].'</p>   
                         </div>'; 
             }
           }
@@ -152,10 +170,7 @@
       'method' => 'post'
       )); ?>
       
-      <?php echo $this->Session->flash();
-      //echo '<br/>';
-      //var_dump($this->request->data);
-      ?>
+     
       </div><!-- col-sm-8 -->
       
       <div class="col-sm-3">

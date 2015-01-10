@@ -16,7 +16,9 @@ class ItemsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Item','Wishlist');
+	public $uses = array('Item','Wishlist','Comment','Company');
+
+
 
 /**
  * index method
@@ -66,14 +68,84 @@ class ItemsController extends AppController {
 		if (!$this->Item->exists($id)) {
 			throw new NotFoundException(__('Invalid item'));
 		}
+		//procura item a ser mostrado na view
 		$options = array('conditions' => array('Item.' . $this->Item->primaryKey => $id));
-		$this->set('item', $this->Item->find('first', $options));
-
-		//find user
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
+		$item = $this->Item->find('first', $options);
+		$this->set('item', $item);
 		
+		//procura utilizador associado ao item
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$user = $this->User->find('first', $options);
+		$this->set('user', $user);
+
+		//procura empresa associada a produto
+		$options = array('conditions' => array('Company.user' => $user['User']['username']));
+		$company = $this->Company->find('first', $options);
+		if(isset($company))
+			$this->set('company', $company);
+
+		//procurar todos os comentários relacionados com este item
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+			'Comment.product' => $item['Item']['id']),
+			'order' => 'Comment.datemade'
+		));
+		if(isset($comments))
+			$this->set('comments', $comments);
+		
+		//procurar informação dos utilizadores responsaveis pelos comentários
+		for($i=0; $i<count($comments); $i++){
+			$user_comment = $this->User->find('all', array(
+				'conditions' => array('User.username' => $comments[$i]['Comment']['user'])
+			));
+		}
+		if(isset($user_comment))
+			$this->set('user_comment', $user_comment);
+		
+		if ($this->request->is('post')) {
+			$this->Comment->create();
+			if ($this->Comment->save($this->request->data)) {
+				$this->Session->setFlash(__('O seu comentário foi introduzisdo com sucesso.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+				return $this->redirect(array('action' => '/view/'.$this->request->data['Comment']['product']));
+			} else {
+				$this->Session->setFlash(__('A introdução do seu comentário falhou. Tente novamente'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+				debug($this->Comment->invalidFields());
+				return false;
+			}
+		}
+
 	}
+
+	public function deleteComment($id = null) {
+			$this->Comment->id = $id;
+			if (!$this->Comment->exists()) {
+				throw new NotFoundException(__('Invalid comment'));
+			}
+			$this->request->allowMethod('post', 'delete');
+			if ($this->Comment->delete()) {
+
+				$this->Session->setFlash(__('O seu comentário foi removido.'), 'alert', array(
+			'plugin' => 'BoostCake',
+			'class' => 'alert-success'
+			));
+				return $this->redirect(array('action' => '/index'));
+
+			} else {
+
+					$this->Session->setFlash(__('O seu comentário não pôde ser removido.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+					return $this->redirect(array('action' => '/index'));
+
+			}
+		}
 
 /**
  * add method
@@ -90,7 +162,10 @@ class ItemsController extends AppController {
 				));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The item could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('O item não pôde ser guardado. Tente novamente.'), 'alert', array(
+								'plugin' => 'BoostCake',
+								'class' => 'alert-danger'
+								));
 			}
 		}
 	}

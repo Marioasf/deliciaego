@@ -18,6 +18,9 @@
   <![endif]-->
 </head>
 
+
+      <?php echo $this->Session->flash();?>
+
 <body class="signin">
 
   <!-- Preloader -->
@@ -415,6 +418,10 @@
   'class' => 'btn btn-success btn-block'
  ));
 ?>
+<?php
+  echo $this->Form->end();
+?>
+
 </form>
 </div><!-- col-sm-6 -->
 

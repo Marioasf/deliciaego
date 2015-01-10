@@ -226,10 +226,9 @@
                  }     
                }
                 else{
-                echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <strong>Atenção!</strong> Não adicionaste ainda qualquer amigo, <a href="/users" class="alert-link">clica aqui </a> para o fazer.
+                  O teu amigo não adicionou ainda qualquer amigo. Espera, tu não és amigo do teu amigo?
                 </div>';
               }
 
@@ -263,7 +262,7 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <strong>Atenção!</strong> Não adicionaste ainda qualquer produto à tua lista de desejos, <a href="/items" class="alert-link">clica aqui </a> para o fazer.
+                  O teu amigo não adicionou ainda qualquer produto à sua lista de desejos.
                 </div>';
               }
                      ?>
@@ -298,7 +297,7 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <strong>Atenção!</strong> Não adicionaste ainda qualquer produto, <a href="/items/add" class="alert-link">clica aqui </a> para o fazer.
+                  O teu amigo não adicionou ainda qualquer produto.
                 </div>';
               }
                     ?>

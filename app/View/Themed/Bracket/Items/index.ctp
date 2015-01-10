@@ -8,7 +8,12 @@
         </ol>
       </div>
       <br/>
-    <a href="items/add" class="btn btn-primary">Adicione os seus produtos!</a>
+
+    <?php if ($this->Session->read('Auth.User')) 
+    {
+      echo '<a href="items/add" class="btn btn-primary">Adicione os seus produtos!</a>';
+    }
+    ?>
     </div>
 
     <div class="contentpanel">
@@ -35,6 +40,8 @@
                               <li>Jan 03, 2014</li>
                               <li><a href="#">2 Comments</a></li>
                                 <li>';
+
+                                if ($this->Session->read('Auth.User')) {
                                 //se utilizador tiver lista de desejos
                                 if(isset($wishlist))
                                 {
@@ -76,6 +83,7 @@
 
                                         echo '</div>';
                                 }
+                              }
 
                           echo '</li>
                              </ul>

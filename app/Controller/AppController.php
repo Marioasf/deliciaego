@@ -68,17 +68,32 @@
                         'plugin' => 'BoostCake',
                         'class' => 'alert-error'
                     )
-                ),
+                )
             )
         );
 
     // only allow the login controllers only
     public function beforeFilter() {
-    
 
-        $this->Auth->allow('login','logout');
-        //$this->Auth->allow('signup');
+        $this->Auth->allow('login','signup', 'logout');
+
+        $this->Auth->allow(array('controller' => 'posts' , 'action' => 'index'));
+
+        $this->Auth->allow(array('controller' => 'items' , 'action' => 'index', 'view'));
+
+
+        $this->Auth->allow(array('controller' => 'companies' , 'action' => 'index', 'view'));
+
+        //procurar id de utilizador em sessão
+        //$this->request->data = $this->User->find('all', array('conditions' => array('User.username' => $this->request->data['User']['username'])));
+        //debug();
+        $user_id=$this->User->find('first', array(
+            'fields' => array('User.id'),
+            'conditions' => array('User.username' => $this->Auth->User('username'))));
         
+        $this->set('user_id',$user_id);
+
+        //debug($this->request->data);
         /*Carregamento dos pedidos de amizade e utilizadores a eles associados*/
 
          //carrega notificações dos pedidos de amizade ainda não vistas pelo utilizador em sessão
@@ -91,7 +106,7 @@
          $friend_requests = $this->Friend->find('all', array(
         'conditions' => array('Friend.user2' => $this->Auth->user('username'),
         'Friend.accepted' => 0)));
-
+         
          //info a apresentar dos utilizadores que fizeram pedido de amizade
          for($i=0;$i<count($friend_requests);$i++)
          {
@@ -102,11 +117,11 @@
 
         /*Carregamento das actividades e informação dos utilizadores associados */
 
-          //carrega todas as notificações do utilizador em sessão excepto adicionar amigos
+        //carrega todas as notificações do utilizador em sessão excepto adicionar amigos
          $activities = $this->Activity->find('all', array(
         'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
         'Activity.checked' => 0, 'Activity.type !=' => 'add')));
-         //debug($activities);
+         
         //info a apresentar dos utilizadores responsáveis pelas actividades
          for($i=0;$i<count($activities);$i++)
          {
@@ -114,9 +129,8 @@
             'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
             'conditions' => array('User.username' => $activities[$i]['Activity']['úsername'])));
         }
-        //debug($activity_user);
+        
         /*Carregamento das mensagens recebidas*/
-
         $chat_received = $this->Chat->find('all', array(
         'conditions' => array('Chat.user2' => $this->Auth->user('username'),
         'Chat.checked' => 0)));
@@ -167,68 +181,7 @@
         if(isset($chat_user))
             $this->set('chat_user',$chat_user);
 
-        //carrega as notificações de mensagens
-        //uma conversação => mensagens trocadas por utilizador em sessão e determinado user 
-        //a fazer
     }
 
-    public function checkActivities(){
-        $this->Activity->saveMany($this->request->data);
-        $this->Session->setFlash(__('As atividades foram gravadas.'), 'alert', array(
-        'plugin' => 'BoostCake',
-        'class' => 'alert-success'
-        ));
-    }
-
-    /**
-     * Changes the activity status to checked
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-        public function edit($id = null)
-        {
-            $this->Activity->id = $id;
-            if (!$this->Activity->exists())
-            {
-                $this->Session->setFlash('Invalid user', 'error');
-                $this->redirect(array('action' => 'index'));
-            }
-
-            $checked= $this->Activity->read('checked');
-            $checked=1;
-
-            $this->Activity->saveField('checked', $checked);
-            $this->Session->setFlash(__('Actividade registada.'), 'alert', array(
-                'plugin' => 'BoostCake',
-                'class' => 'alert-success'
-                ));
-            $this->redirect(array('action' => 'index'));
-        }
-
-        /**
-     * Changes the Friend status to accepted
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-        public function acceptFriend($id = null) {
-            if (!$this->Friend->exists($id)) {
-                throw new NotFoundException(__('Invalid friend'));
-            }
-            if ($this->request->is(array('post', 'put'))) {
-                if ($this->Friend->save($this->request->data)) {
-                    $this->Session->setFlash(__('The friend has been saved.'));
-                    return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
-                }
-            } else {
-                $options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
-                $this->request->data = $this->Friend->find('first', $options);
-            }
-        }
      
 }
