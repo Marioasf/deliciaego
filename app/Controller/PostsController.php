@@ -112,7 +112,6 @@ class PostsController extends AppController {
 					$friend_list[$i]=$friends[$i]['Friend']['user1'];
 			}
 		}
-
 		//procura por todos os posts dos amigos e ordena por ordem crescente de data
 		if(isset($friend_list)){
 			$friend_posts=$this->Post->find('all', array(

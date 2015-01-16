@@ -1,6 +1,8 @@
  <?php
 if ($this->Session->read('Auth.User')) {
  //var_dump($friend_list);
+ 
+    var_dump($friend_list);
 
 echo '<div id="preloader">
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
