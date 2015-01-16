@@ -17,7 +17,7 @@
           )); ?>
           <div class="panel-heading">
 
-            <h4 class="panel-title">Dados de Conta</h4>
+            <h4 class="panel-title">Dados de Produto</h4>
             <p>Utilize esta página para adicionar os seus produtos.</p>
           </div>
           <div class="form-group">

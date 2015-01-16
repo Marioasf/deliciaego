@@ -82,13 +82,11 @@
     								</ul>';
                     echo $this->Form->create('Friend');
                     echo $this->Form->input('id', array('value' => $friends[$i]['Friend']['id'], 'type' => 'hidden'));
-                     $dt = date("Y-m-d h:i:s");
-                     echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
-                     echo $this->Form->input('accepted',array('value' => '1', 'type' => 'hidden'));
-                               //echo '<div class="pull-left"><i class="fa fa-user"></i>';
-                         //echo '<div class="pull-right">';
-                         echo $this->Form->submit('Aceitar pedido de amizade', array(
-                           'id' => $friend_info[$i][0]['User']['username'],
+                    $dt = date("Y-m-d h:i:s");
+                    echo $this->Form->input('datemade',array('value' => $dt, 'type' => 'hidden'));
+                    echo $this->Form->input('accepted',array('value' => '1', 'type' => 'hidden'));
+                    echo $this->Form->submit('Aceitar pedido de amizade', array(
+                       'id' => $friend_info[$i][0]['User']['username'],
                        'class' => 'btn btn-sm btn-success mr5',
                        'onclick' => 'accept_index(this.id)'
                      ));

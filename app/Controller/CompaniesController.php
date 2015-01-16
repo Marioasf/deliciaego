@@ -16,7 +16,7 @@ class CompaniesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Company','Follower', 'Friend');
+	public $uses = array('Company','Follower', 'Friend','Item');
 
 	
 
@@ -59,10 +59,13 @@ class CompaniesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Follower->create();
 			if ($this->Follower->save($this->request->data)) {
-				$this->Session->setFlash(__('The follower has been saved.'));
+					$this->Session->setFlash(__('Está a seguir a empresa.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-success'
+				));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The follower could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Não está a seguir a empresa, tente novamente.'));
 			}
 		}
 	}
@@ -92,15 +95,23 @@ class CompaniesController extends AppController {
 		$friends = $this->Friend->find('all', array(
 		'conditions' => array('Friend.user1' => $this->Auth->user('username'), 'Friend.user2' => $followers[0]['Follower']['user'])
 		));
-		if(isset($friends))
+		if(isset($friends)){
 			$this->set('friends', $friends);
 
-		for($i=0; $i<count($friends); $i++){
-			if($friend_info[$i][0]['User']['username'] === $company[0]['Company']['user'])
-				$friend_info[$i] = $this->User->find('all', array(
-				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
-				));
+			for($i=0; $i<count($friends); $i++){
+				if($friend_info[$i][0]['User']['username'] === $company[0]['Company']['user'])
+					$friend_info[$i] = $this->User->find('all', array(
+					'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+					));
+			}
 		}
+
+
+		 $items = $this->Item->find('all', array(
+		 'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price', 'Item.id'),
+		  'conditions' => array('Item.user' => $company[0]['Company']['user'])
+		  ));
+		 $this->set('items', $items);
 
 		if(isset($friend_info))
 			$this->set('friend_info',$friend_info);
@@ -115,11 +126,6 @@ class CompaniesController extends AppController {
  * @return void
  */
 	public function add() {
-		$user_company = $this->Company->find('all', array(
-			'conditions' => array('Company.user' => $_SESSION["Auth"]["User"]["username"])
-		));
-		if(isset($user_company))
-			$this->set('user_company', $user_company);
 
 		if ($this->request->is('post')) {
 			$this->Company->create();

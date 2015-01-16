@@ -176,13 +176,13 @@
       <div class="col-sm-3">
         <div class="blog-sidebar">
           
-          <h5 class="subtitle">Text Widget</h5>
+          <!--<h5 class="subtitle">Text Widget</h5>
           <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam</p>
           
           <div class="mb30"></div>
           
           <h5 class="subtitle">Categories</h5>
-          <ul class="sidebar-list">
+          <ul class="sidebar-list">-->
           <?php
             if(isset($all_posts) && !empty($all_posts))
             {
@@ -198,14 +198,14 @@
           
           <div class="mb30"></div>
           
-          <h5 class="subtitle">Archives</h5>
+          <!--<h5 class="subtitle">Archives</h5>
           <ul class="sidebar-list">
             <li><a href="#"><i class="fa fa-angle-right"></i> January 2014</a></li>
             <li><a href="#"><i class="fa fa-angle-right"></i> December 2013</a></li>
             <li><a href="#"><i class="fa fa-angle-right"></i> November 2013</a></li>
             <li><a href="#"><i class="fa fa-angle-right"></i> October 2013</a></li>
             <li><a href="#"><i class="fa fa-angle-right"></i> September 2013</a></li>
-          </ul>
+          </ul>-->
           
         </div><!-- blog-sidebar -->
         

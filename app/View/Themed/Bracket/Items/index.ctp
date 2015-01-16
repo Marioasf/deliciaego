@@ -52,7 +52,7 @@
                                           $found_wish=TRUE;
                                           echo '<div class="tooltips" data-toggle="tooltip" title="Remover da sua lista de desejos">';
                         
-                                          echo $this->Form->postLink('♥', array('action' => 'delete', $wishlist[$j]['Wishlist']['id']), array('confirm' => 'De certeza que deseja remover este item?'));
+                                          echo $this->Form->postLink('♥', array('action' => 'deleteWish', $wishlist[$j]['Wishlist']['id']), array('confirm' => 'De certeza que deseja remover este item?'));
 
                                           echo '</div>';
                                         }
@@ -88,9 +88,9 @@
                           echo '</li>
                              </ul>
                              <div class="blog-summary">
-                              <p>'.$items[$i]['Item']['description'].'</p>
-                              <button class="btn btn-sm btn-white">Read More</button>
-                            </div>
+                              <p>'.$items[$i]['Item']['description'].'</p>';
+                              //<button class="btn btn-sm btn-white">Read More</button>
+                            echo '</div>
                           </div>
                         </div><!-- blog-item -->
                       </div><!-- col-xs-6 -->';

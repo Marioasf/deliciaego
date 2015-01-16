@@ -56,7 +56,7 @@
   	<div class="people-list">
   		<div class="row">
   			<?php 
-        if($friend_info_user1)
+        if(isset($friend_info_user1))
         {
           for($i=0; $i<count($friend_info_user1); $i++)
           {
@@ -88,7 +88,7 @@
             } 
           }
           
-          if($friend_info_user2)
+          if(isset($friend_info_user2))
         {
           for($i=0; $i<count($friend_info_user2); $i++)
           {
@@ -121,7 +121,11 @@
           }
           else
           {
-            echo 'Não tens amigos ainda.';
+            echo 
+                           '<div class="alert alert-info">
+                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                             <strong>Atenção!</strong> Não tens amigos ainda. Clica aqui para começares a <a href="/users/index" class="alert-link">adicionar</a>!
+                           </div>';
           }
           ?>
   			</div><!-- row -->

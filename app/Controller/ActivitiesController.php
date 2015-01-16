@@ -24,6 +24,24 @@ class ActivitiesController extends AppController {
 	public function index() {
 		$this->Activity->recursive = 0;
 		$this->set('activities', $this->Paginator->paginate());
+
+		/*Carregamento das actividades e informação dos utilizadores associados */
+
+		//carrega todas as notificações do utilizador em sessão excepto adicionar amigos
+		 $activities = $this->Activity->find('all', array(
+		'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
+		'Activity.checked' => 0, 'Activity.type !=' => 'add')));
+		 
+		//info a apresentar dos utilizadores responsáveis pelas actividades
+		 for($i=0;$i<count($activities);$i++)
+		 {
+		    $activity_user[$i] = $this->User->find('all', array(
+		    'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
+		    'conditions' => array('User.username' => $activities[$i]['Activity']['úsername'])));
+		}
+		$this->set('activities',$activities);
+		if(isset($activity_user))
+		    $this->set('activity_user',$activity_user);
 	}
 
 /**

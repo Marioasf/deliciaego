@@ -25,7 +25,7 @@
 		<td><?php echo h($activity['Activity']['checked']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $activity['Activity']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $activity['Activity']['id'])); ?>
+			<?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $activity['Activity']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $activity['Activity']['id']), array(), __('Are you sure you want to delete # %s?', $activity['Activity']['id'])); ?>
 		</td>
 	</tr>

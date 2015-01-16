@@ -39,7 +39,7 @@
           ?>
           <div class="signin-info">
             <div class="logopanel">
-              <h1><span>[</span> bracket <span>]</span></h1>
+              <h1><span>[</span> Deliciaego <span>]</span></h1>
             </div><!-- logopanel -->
             
             <div class="mb20"></div>

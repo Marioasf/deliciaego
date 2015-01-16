@@ -81,8 +81,9 @@
 
         $this->Auth->allow(array('controller' => 'items' , 'action' => 'index', 'view'));
 
-
         $this->Auth->allow(array('controller' => 'companies' , 'action' => 'index', 'view'));
+
+        //$this->Auth->allow(array('controller' => 'users' , 'action' => 'confirm_account'));
 
         //procurar id de utilizador em sessão
         //$this->request->data = $this->User->find('all', array('conditions' => array('User.username' => $this->request->data['User']['username'])));

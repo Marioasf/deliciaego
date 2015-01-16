@@ -1,5 +1,6 @@
 	<?php
 	App::uses('AppController', 'Controller');
+	App::uses('CakeEmail', 'Network/Email');
 	/**
 	 * Users Controller
 	 *
@@ -17,6 +18,41 @@
 	public $components = array('Paginator', 'Session');
 
 	public $uses = array('User','Friend','Item','Wishlist', 'Activity');
+
+
+	public function confirm_account($user=null,$activated=null){
+		
+		$conditions = array(
+		    'User.username' => $user
+		);
+		if ($this->User->hasAny($conditions)){
+		    //do something
+			if ($this->request->is(array('post', 'put'))) {
+				$this->request->data['User']['activated']=$activated;
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('A sua conta encontra-se validada. Por favor efetue o login.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+					//return $this->redirect(array('action' => 'login'));
+				} else {
+					$this->Session->setFlash(__('Ocorreu um erro e a sua conta não foi validada. Por favor contacte o administrador da página.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-danger'
+					));
+				}
+			} else {
+				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+				$this->request->data = $this->User->find('first', $options);
+			}
+		}
+		else {
+					$this->Session->setFlash(__('Este utilizador não se encontra registado. Por favor tente registar-se novamente.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-danger'
+					));
+				}
+	}
 
 	public function login() {
 		$this->layout = false;
@@ -70,6 +106,7 @@
 	 */
 	public function signup() {
 		$this->layout = false;
+		$verificationEmailAddress = 'localhost/users/confirm_account';
 		if ($this->request->is('post')) {
 			if ($this->request->data['User']['password'] == $this->request->data['User']['password_confirm'])
 			{
@@ -78,18 +115,26 @@
 					//Login automatically
 					//if($this->Auth->login($this->request->data['User'])){
 
-					   $this->Session->setFlash(__('Utilizador criado com sucesso!'), 'alert', array(
+					   $this->Session->setFlash(__('Utilizador criado com sucesso! Por favor verifique a sua caixa de email.'), 'alert', array(
 					   	'plugin' => 'BoostCake',
 					   	'class' => 'alert-success'
 					   ));
 					    //return $this->redirect($this->Auth->redirect());
 
 					//} else {
-					    $this->Session->setFlash(__('Por favor efectue o login.'), 'alert', array(
+					    /*$this->Session->setFlash(__('Por favor efectue o login.'), 'alert', array(
 					    					'plugin' => 'BoostCake',
 					    					'class' => 'alert-success'
 					    				));
-					    return $this->redirect(array('action' => 'login'));
+					    return $this->redirect(array('action' => 'login'));*/
+					    $user_email=$this->request->data['User']['email'];
+					    $email = new CakeEmail();
+					    $email->config('gmail');
+					    $email->from(array('deliciaego@gmail.com' => 'Deliciego'));
+					    $email->to($user_email);
+					    $email->subject('Validação da sua conta');
+					    $email->send('Para confirmar a sua conta por favor clique na URL '. $verificationEmailAddress . 
+					    	'?username='.$this->request->data['User']['username'].'&activated=1');
 					//}
 
 				} else {

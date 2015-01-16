@@ -27,17 +27,23 @@ public function index() {
 	$this->set('users', $users);
 	
 	/*Lista de amigos*/
+	
+
 	$friends = $this->Friend->find('all', array(
-		'conditions' => 
-			array(
-				'Friend.accepted' => 1
-				),
-			array(
-				"AND" => array(array('Friend.user1' => $this->Auth->user('username')), "OR" => array('Friend.user2' => $this->Auth->user('username')))
-				)
-				 	
-		)
+	        'conditions' => array('OR' =>
+	                array(
+	                        'Friend.accepted' => 1,
+	                        'Friend.user1' => $this->Auth->user('username')
+	                        ),
+	                array(
+	                        'Friend.accepted' => 1,
+	                        'Friend.user2' => $this->Auth->user('username')
+	                        )
+	                                )
+	        )
 	);
+
+
 
 
 	if(isset($friends))

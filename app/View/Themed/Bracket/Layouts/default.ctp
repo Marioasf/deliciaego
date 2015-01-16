@@ -281,12 +281,12 @@
                 <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                   <li><a href="/users/view/'.  $_SESSION['Auth']['User']['id'] .'"><i class="glyphicon glyphicon-user"></i> O meu perfil</a></li>
                   <li><a href="/users/edit/'.  $_SESSION['Auth']['User']['id']  .'"><i class="glyphicon glyphicon-cog"></i> Definições de conta</a></li>';
-                  if($_SESSION['Auth']['User']['company']!= NULL){
+                  /*if($_SESSION['Auth']['User']['company']!= NULL){
                     echo '<li><a href="/companies/edit"><i class="glyphicon glyphicon-folder-open"></i> Edite aqui os dados da sua empresa!</a></li>';
-                  }
-                  else{
+                  }*/
+                  //else{
                     echo '<li><a href="/companies/add"><i class="glyphicon glyphicon-folder-open"></i> Está associado a uma empresa?</a></li>';
-                  }
+                  //}
                   echo '<li><a href="/pages/help"><i class="glyphicon glyphicon-question-sign"></i> Ajuda</a></li>
                   <li><a href="/users/lock"><i class="glyphicon glyphicon-lock"></i> Bloquear</a></li>
                   <li><a href="/users/logout"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>

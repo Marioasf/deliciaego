@@ -59,7 +59,7 @@ class PostsController extends AppController {
 						'plugin' => 'BoostCake',
 						'class' => 'alert-danger'
 						));
-						debug($this->Comment->invalidFields());
+						//debug($this->Comment->invalidFields());
 						return false;
 					}
 				}
@@ -87,19 +87,18 @@ class PostsController extends AppController {
 		$this->set('posts', $this->Paginator->paginate());
 
 		$friends = $this->Friend->find('all', array(
-			'conditions' => 
-				array(
-					'Friend.accepted' => 1,
-					'Friend.user1' => $this->Auth->user('username')
-					),
-				array(
-					"OR" => array(
-					'Friend.accepted' => 1,
-					'Friend.user1' => $this->Auth->user('username')
+					'conditions' => array('OR' =>
+						array(
+							'Friend.accepted' => 1,
+							'Friend.user1' => $this->Auth->user('username')
+							),
+						array(
+							'Friend.accepted' => 1,
+							'Friend.user2' => $this->Auth->user('username')
+							)
+								)
 					)
-					)	
-			)
-		);
+				);
 		//debug($friends);
 		//adiciona username de amigos a uma lista simples
 		if(isset($friends)){
@@ -244,8 +243,6 @@ class PostsController extends AppController {
 		if(isset($all_posts))
 			$this->set('all_posts', $all_posts);
 		//debug($all_posts);*/
-
-		debug($this->request->data);
 		
 		if ($this->request->is('post')) {
 			$this->Comment->create();

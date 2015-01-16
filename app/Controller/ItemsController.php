@@ -201,7 +201,7 @@ class ItemsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function deleteWish($id = null) {
 		$this->Wishlist->id = $id;
 		if (!$this->Wishlist->exists()) {
 			throw new NotFoundException(__('Invalid item'));

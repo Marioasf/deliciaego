@@ -45,15 +45,15 @@
           
           <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified nav-profile">
-          <li class="active"><a href="#activities" data-toggle="tab"><strong>Actividades</strong></a></li>
-          <li><a href="#followers" data-toggle="tab"><strong>Amigos</strong></a></li>
+          <!--<li class="active"><a href="#activities" data-toggle="tab"><strong>Actividades</strong></a></li>-->
+          <li class="active"><a href="#followers" data-toggle="tab"><strong>Amigos</strong></a></li>
           <li><a href="#wishlist" data-toggle="tab"><strong>Lista de desejos</strong></a></li>
           <li><a href="#myproducts" data-toggle="tab"><strong>Produtos de <?php echo h($user['User']['first_name']) ?></strong></a></li>
         </ul>
         
         <!-- Tab panes -->
         <div class="tab-content">
-          <div class="tab-pane active" id="activities">
+          <!--<div class="tab-pane active" id="activities">
             <div class="activity-list">
               <?php var_dump($activities); ?>
               <div class="media act-media">
@@ -64,7 +64,7 @@
                   <strong>Ray Sin</strong> started following <strong>Eileen Sideways</strong>. <br />
                   <small class="text-muted">Yesterday at 3:30pm</small>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -82,10 +82,10 @@
                       <h4 class="media-title"><a href="#">Ut Enim Ad Minim Veniam</a></h4>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... <a href="#">Read more</a></p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                   
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -95,7 +95,7 @@
                   <strong>Chris Anthemum</strong> started following <strong>Eileen Sideways</strong>. <br />
                   <small class="text-muted">2 days ago at 8:30am</small>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -111,7 +111,7 @@
                     <li><a href="images/photos/media3.png" data-rel="prettyPhoto"><img src="images/photos/media3.png" class="img-responsive" alt="" /></a></li>
                   </ul>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -121,7 +121,7 @@
                   <strong>Frank Furter</strong> started following <strong>Eileen Sideways</strong>. <br />
                   <small class="text-muted">6 days ago at 8:15am</small>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -133,7 +133,7 @@
                   <h4 class="media-title"><a href="#">Consectetur Adipisicing Elit</a></h4>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... <a href="#">Read more</a></p>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -151,9 +151,9 @@
                       <h4 class="media-title"><a href="#">Ut Enim Ad Minim Veniam</a></h4>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... <a href="#">Read more</a></p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -165,7 +165,7 @@
                   <div class="mb20"></div>
                   <a href="images/photos/media6.png" data-rel="prettyPhoto" class="img-single"><img src="images/photos/media6.png" class="img-responsive" alt="" /></a>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -175,7 +175,7 @@
                   <strong>Weno Carasbong</strong> started following <strong>Eileen Sideways</strong>. <br />
                   <small class="text-muted">December 15 at 3:30pm</small>
                 </div>
-              </div><!-- media -->
+              </div>
               
               <div class="media act-media">
                 <a class="pull-left" href="#">
@@ -193,16 +193,16 @@
                       <h4 class="media-title"><a href="#">Ut Enim Ad Minim Veniam</a></h4>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... <a href="#">Read more</a></p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                   
                 </div>
-              </div><!-- media -->
+              </div>
               
-            </div><!-- activity-list -->
+            </div>
             
             <button class="btn btn-white btn-block">Show More</button>
-          </div>
-          <div class="tab-pane" id="followers">
+          </div>-->
+          <div class="tab-pane active" id="followers">
             <div class="follower-list">
             
              <?php 
@@ -240,9 +240,9 @@
           <div class="tab-pane" id="wishlist">
           <br />
             <div class="row">
-                     <?php
-                     if(isset($wishlist)){
-                        for($i=0; $i<count($wishlist); $i++){
+                     <?php 
+                     if(isset($wishlist) && count($wishlist)>0){
+                        for($i=0; $i<count($wishlist[0]); $i++){
                          echo '<div class="col-sm-6">
                          <div class="media">
                            <a class="pull-left" href="#">
@@ -262,7 +262,7 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  O teu amigo não adicionou ainda qualquer produto à sua lista de desejos.
+                  Ainda não foi adicionado ainda qualquer produto à lista de desejos.
                 </div>';
               }
                      ?>

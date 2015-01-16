@@ -43,7 +43,7 @@
 
             <div class="mb20"></div>
 
-            <h5><strong>Bootstrap 3 Admin Template!</strong></h5>
+            <!--<h5><strong>Bootstrap 3 Admin Template!</strong></h5>
             <p>Bracket is a theme that is perfect if you want to create your own content management, monitoring or any other system for your project.</p>
             <p>Below are some of the benefits you can have when purchasing this template.</p>
             <div class="mb20"></div>
@@ -66,7 +66,7 @@
               <p>When a user load a page, a script checks each image on the page to see if there's a high-res version of that image. If a high-res exists, the script will swap that image in place.</p>
             </div>
 
-            <h4 class="mb20">and much more...</h4>
+            <h4 class="mb20">and much more...</h4>-->
 
           </div><!-- signup-info -->
 
