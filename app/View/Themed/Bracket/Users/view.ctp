@@ -15,29 +15,29 @@
       
       <div class="row">
         <div class="col-sm-3">
-          <img src=<?php echo '"'.h($user['User']['picture']).'"';?> class="thumbnail img-responsive" alt="" />
+          <img src=<?php if(!empty($user['User']['picture'])) echo '"'.h($user['User']['picture']).'"';?> class="thumbnail img-responsive" alt="" />
           
           <div class="mb30"></div>
-          
-          <h5 class="subtitle">Sobre</h5>
-
-          <p class="mb30"><?php echo h($user['User']['about']);?>&nbsp;<a href="#">Mostrar mais</a></p>
-          
-          <h5 class="subtitle">Ligações</h5>
-          <ul class="profile-social-list">
-            <li><i class="fa fa-twitter"></i> <a href="#"><?php echo h($user['User']['twitter']);?>&nbsp;</a></li>
-            <li><i class="fa fa-facebook"></i> <a href="#"><?php echo h($user['User']['facebook']);?>&nbsp;</a></li>
-            <li><i class="fa fa-google-plus"></i> <a href="#"><?php echo h($user['User']['google']);?>&nbsp;</a></li>
-          </ul>
-          
+          <?php if(!empty($user['User']['about']))
+          echo '<h5 class="subtitle">Sobre</h5>
+                <p class="mb30">'.h($user['User']['about']).'&nbsp;</p>';
+           /*Se utilizador tiver pelo menos um dos campos (twitter, facebook ou google) mostrar*/
+           if(!empty(h($user['User']['twitter'])) || !empty(h($user['User']['facebook'])) || !empty(h($user['User']['google'])))
+              echo '<h5 class="subtitle">Ligações</h5>
+              <ul class="profile-social-list">';
+                if(!empty(h($user['User']['twitter']))) echo '<li><i class="fa fa-twitter"></i> <a href="#">'.h($user['User']['twitter']).'&nbsp;</a></li>';
+                if(!empty(h($user['User']['facebook'])))echo '<li><i class="fa fa-facebook"></i> <a href="#">'.h($user['User']['facebook']).'&nbsp;</a></li>';
+                if(!empty(h($user['User']['google'])))echo '<li><i class="fa fa-google-plus"></i> <a href="#">'.h($user['User']['google']).'&nbsp;</a></li>';
+              echo '</ul>';
+          ?>
           <div class="mb30"></div>          
         </div><!-- col-sm-3 -->
         <div class="col-sm-9">
           
           <div class="profile-header">
             <h2 class="profile-name"><?php echo h($user['User']['first_name']); echo " "; echo h($user['User']['last_name']);?>&nbsp;</h2>
-            <div class="profile-location"><i class="fa fa-map-marker"></i><?php echo h($user['User']['country']); ?>&nbsp;</div>
-            <div class="profile-position"><i class="fa fa-briefcase"></i><?php echo h($user['User']['company']); ?>&nbsp;</</div>
+            <?php if(!empty($user['User']['country'])) echo '<div class="profile-location"><i class="fa fa-map-marker"></i>'.h($user['User']['country']).'&nbsp;</div>';
+            if(!empty($user['User']['company'])) echo '<div class="profile-position"><i class="fa fa-briefcase"></i>'.h($user['User']['company']).'&nbsp;</div>';?>
 
             <div class="mb20"></div>
 
@@ -206,12 +206,12 @@
             <div class="follower-list">
             
              <?php 
-             if(isset($friends)){
-               for($i=0; $i<count($friends); $i++){
+             if(isset($friend_info) && count($friend_info)>0){
+               for($i=0; $i<count($friend_info); $i++){
                    echo ('<div class="media">
-                    <a class="pull-left" href="#">
-                      <img class="media-object" src="holder.js/100x125.html" alt="" />
-                    </a>
+                    <div class="media"><a href="users/view/'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
+                        <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
+                      </a>
                     <div class="media-body">
                       <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
                       <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
@@ -222,13 +222,15 @@
                       <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
                       <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
                     </div>
+                    </div>
                   </div><!-- media -->');
                  }     
                }
                 else{
+                echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  O teu amigo não adicionou ainda qualquer amigo. Espera, tu não és amigo do teu amigo?
+                  Não foi adicionado ainda qualquer amigo.
                 </div>';
               }
 
@@ -262,7 +264,7 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  Ainda não foi adicionado ainda qualquer produto à lista de desejos.
+                  Não foi adicionado ainda qualquer produto à lista de desejos.
                 </div>';
               }
                      ?>
@@ -274,9 +276,8 @@
               <br />
 
               <div class="row">
-               
-                                <?php
-                    if(isset($items)){
+              <?php
+                    if(isset($items) && count($items)>0){
                      for($i=0; $i<count($items); $i++){
                       echo '<div class="col-sm-6">
                       <div class="media">
@@ -297,7 +298,7 @@
                 echo 
                 '<div class="alert alert-info">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  O teu amigo não adicionou ainda qualquer produto.
+                  Não foi adicionado ainda qualquer produto por parte do utilizador.
                 </div>';
               }
                     ?>

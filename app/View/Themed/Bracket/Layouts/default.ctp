@@ -9,16 +9,14 @@
 
   <title>Deliciaego, o seu portal de ofertas</title>
 
-  <!--<link href="css/style.default.css" rel="stylesheet">
-  <link href="css/jquery.datatables.css" rel="stylesheet">--> 
+  <!--<link href="css/style.default.css" rel="stylesheet">-->
   <?php echo $this->Html->css('style.default');?>
-  <?php echo $this->Html->css('jquery.datatables');?>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  '. echo $this->Html->js('html5shiv.js');  
-  '. echo $this->Html->js('respond.min.js');  
-  <![endif]-->
+  <!--[if lt IE 9]>-->
+  <?php //echo $this->Html->js('html5shiv.js');?>
+  <?php //echo $this->Html->js('respond.min.js');?>
+  <!--[endif]-->
 </head>
 
 <body>
@@ -35,18 +33,18 @@
         <!-- This is only visible to small devices -->
         <div class="visible-xs hidden-sm hidden-md hidden-lg">   
           <div class="media userlogged">';
-            if(isset($$_SESSION['Auth']['User']['picture'])){
-              echo '<img alt="Convidado" src="'.  $_SESSION['Auth']['User']['picture']. '" class="media-object">';
+            if(isset($_SESSION['Auth']['User']['picture'])){
+              echo '<img  src="'.  $_SESSION['Auth']['User']['picture']. '" class="media-object">';
             }
             echo '<div class="media-body">
-              <h4>'.  $_SESSION['Auth']['User']['first_name']." ".$_SESSION['Auth']['User']['last_name']. '&nbsp;</h4>
-              <span>"Life is so..."</span>
-            </div>
+              <h4>'.  $_SESSION['Auth']['User']['first_name']." ".$_SESSION['Auth']['User']['last_name']. '&nbsp;</h4>';
+               echo '<span>"'.$_SESSION['Auth']['User']['about'].'"</span>';
+            echo '</div>
           </div>
           
           <h5 class="sidebartitle actitle">Conta</h5>
           <ul class="nav nav-pills nav-stacked nav-bracket mb30">
-            <li><a href="/users/view/'. $_SESSION['Auth']['User']['id']. '"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
+            <li><a href="/users//view/'.  $_SESSION['Auth']['User']['id']  .'"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
             <li><a href="/users/edit/'.  $_SESSION['Auth']['User']['id']. '"><i class="fa fa-cog"></i> <span>Definições de conta</span></a></li>
             <li><a href="/companies/add"><i class="fa fa-folder-open"></i> <span>Está associado a uma empresa?</span></a></li>
             <li><a href="/pages/help"><i class="fa fa-question-circle"></i> <span>Ajuda</span></a></li>
@@ -72,7 +70,9 @@
     </div><!-- leftpanel -->
     <div class="mainpanel">
 
-      <div class="headerbar">';  
+      <div class="headerbar">'; 
+
+
 
       echo $this->Session->flash(); 
 
@@ -104,10 +104,10 @@
                             echo 'Tem 1 pedido de amizade novo';
                       else if(count($friend_requests)>1)
                             echo 'Tem '.count($friend_requests).' pedidos de amizade novos';
+                      else
+                        echo 'Não tem pedidos de amizade novos';
                   }
-                  else
-
-                    echo 'Não tem pedidos de amizade novos';
+                  
                     
                   echo '</h5>
                   <ul class="dropdown-list user-list">
@@ -121,7 +121,7 @@
                         <li class="novo">
                           <div class="thumb"><a href=""><img src="';
                           echo $request_user[$i][0]['User']['picture'];
-                          echo '" alt="Convidado" /></a></div>
+                          echo '"  /></a></div>
                           <div class="desc">
                             <h5><a href="">';
 
@@ -136,7 +136,7 @@
                       }
                     }
 
-                    echo '<li class="novo"><a href="/friends/accept_index/">Ver todos os pedidos</a></li>';
+                    echo '<li class="novo"><a href="/friends/accept/">Ver todos os pedidos</a></li>';
                      
                   echo '</ul>
                 </div>
@@ -162,9 +162,10 @@
                         echo 'Tens 1 mensagem nova';
                       else if(count($chat_received)+count($chat_sent)>1)
                         echo 'Tens '.count($chat_received)+count($chat_sent).' mensagens novas';
+
+                      else
+                          echo 'Não tens mensagens novas';
                     }
-                  else
-                    echo 'Não tens mensagens novas';
                    echo'</h5>
                   <ul class="dropdown-list gen-list">
 
@@ -177,7 +178,7 @@
                       echo '
                         <li class="novo">
                           <a href="">
-                            <span class="thumb"><img src="'. $chat_session_user[$i][0]['User']['picture'] .'" alt="Convidado" /></span>
+                            <span class="thumb"><img src="'. $chat_session_user[$i][0]['User']['picture'] .'"  /></span>
                             <span class="desc">
                               <span class="name">'.$chat_session_user[$i][0]['User']['first_name']. ' '.$chat_session_user[$i][0]['User']['last_name'].'<span class="badge badge-success">novo</span></span>
                               <span class="msg">'. $chat_received[$i]['Chat']['text'] .'</span>
@@ -194,7 +195,7 @@
                       echo '
                         <li class="novo">
                           <a href="">
-                            <span class="thumb"><img src="'. $chat_user[$i][0]['User']['picture'] .'" alt="Convidado" /></span>
+                            <span class="thumb"><img src="'. $chat_user[$i][0]['User']['picture'] .'"  /></span>
                             <span class="desc">
                               <span class="name">'.$chat_user[$i][0]['User']['first_name']. ' '.$chat_user[$i][0]['User']['last_name'].'<span class="badge badge-success">novo</span></span>
                               <span class="msg">'. $chat_sent[$i]['Chat']['text'] .'</span>
@@ -233,9 +234,10 @@
                       echo 'Tens 1 notificação nova';
                     else if(count($activities)>1)
                       echo 'Tens '.count($activities).' notificações novas';
+                    else
+                      echo 'Não tens notificações novas';
                   }
-                  else
-                    echo 'Não tens notificações novas';
+                  
                    echo '</h5>
                   <ul class="dropdown-list gen-list">
                   <!-- Listagem das actividades -->
@@ -248,7 +250,7 @@
                         echo '<li class="novo">';
                           if($activities[$i]['Activity']['type']=='comment' || 'like' || 'post'){ echo '<a href="/posts/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
                           else{ echo '<a href="/items/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
-                            echo '<span class="thumb"><img src="'.$activity_user[0][$i]['User']['picture'].'" alt="Convidado" /></span>
+                            echo '<span class="thumb"><img src="'.$activity_user[0][$i]['User']['picture'].'"  /></span>
                             <span class="desc">
                               <span class="name">'.$activity_user[0][$i]['User']['first_name']." ".$activity_user[0][$i]['User']['last_name']."";
                               if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
@@ -272,14 +274,14 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
                   if(isset($_SESSION['Auth']['User']['picture'])){
-                    echo '<img src="'. $_SESSION['Auth']['User']['picture'] .'" alt="Convidado" />';
+                    echo '<img src="'. $_SESSION['Auth']['User']['picture'] .'"  />';
                   }
                   echo $_SESSION['Auth']['User']['first_name']." ".$_SESSION['Auth']['User']['last_name']  .'&nbsp';
                   
                   echo '<span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                  <li><a href="/users/view/'.  $_SESSION['Auth']['User']['id'] .'"><i class="glyphicon glyphicon-user"></i> O meu perfil</a></li>
+                  <li><a href="/users/view/'.  $_SESSION['Auth']['User']['id']  .'"><i class="glyphicon glyphicon-user"></i> O meu perfil</a></li>
                   <li><a href="/users/edit/'.  $_SESSION['Auth']['User']['id']  .'"><i class="glyphicon glyphicon-cog"></i> Definições de conta</a></li>';
                   /*if($_SESSION['Auth']['User']['company']!= NULL){
                     echo '<li><a href="/companies/edit"><i class="glyphicon glyphicon-folder-open"></i> Edite aqui os dados da sua empresa!</a></li>';
@@ -296,9 +298,21 @@
           </ul>
         </div><!-- header-right -->
         
-      </div><!-- headerbar -->
+      </div><!-- headerbar -->';
+
+        /*echo '<div class="pageheader">
+        <h2><i class="fa fa-clock-o"></i> Timeline <span>Subtitle goes here...</span></h2>
+        <div class="breadcrumb-wrapper">
+          <span class="label">You are here:</span>
+          <ol class="breadcrumb">
+            <li><a href="index.html">Bracket</a></li>
+            <li><a href="index.html">Pages</a></li>
+            <li class="active">Timeline</li>
+          </ol>
+        </div>
+      </div>';*/
       
-      <div class="contentpanel">
+      echo '<div class="contentpanel">
        <!-- Page content -->';
         echo $content_for_layout;  
      echo '</div><!-- contentpanel -->
@@ -308,8 +322,6 @@
 </section>';
 
 echo $this->Html->script('jquery-1.10.2.min');  
-
-echo $this->Html->script('jquery.datatables');  
 
 echo $this->Html->script('jquery-migrate-1.2.1.min');  
 echo $this->Html->script('bootstrap.min');  
@@ -324,7 +336,6 @@ echo $this->Html->script('flot/flot.resize.min');
 echo $this->Html->script('morris.min');  
 echo $this->Html->script('raphael-2.1.0.min');  
 
-echo $this->Html->script('jquery.datatables.min');  
 echo $this->Html->script('chosen.jquery.min');  
 
 echo $this->Html->script('custom');  
@@ -350,7 +361,7 @@ else
             <!-- This is only visible to small devices -->
             <div class="visible-xs hidden-sm hidden-md hidden-lg">   
               <div class="media userlogged">
-                <img alt="Convidado" src="http://upload.wikimedia.org/wikipedia/commons/6/60/User.svg" class="media-object">
+                <img  src="http://upload.wikimedia.org/wikipedia/commons/6/60/User.svg" class="media-object">
                 <div class="media-body">
                   <h4>Convidado&nbsp;</h4>
                   <span>"Life is so..."</span>
@@ -377,9 +388,7 @@ else
         </div><!-- leftpanel -->
         <div class="mainpanel">
 
-          <div class="headerbar">
-
-          ';  
+          <div class="headerbar">';
           echo $this->Session->flash(); 
           echo '
             <a class="menutoggle"><i class="fa fa-bars"></i></a>
@@ -389,7 +398,7 @@ else
                 <li>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                      <img src="http://upload.wikimedia.org/wikipedia/commons/6/60/User.svg" alt="Convidado" />';
+                      <img src="http://upload.wikimedia.org/wikipedia/commons/6/60/User.svg"  />';
                       echo 'Convidado';
                       echo '<span class="caret"></span>
                     </button>
@@ -417,8 +426,6 @@ else
 
     echo $this->Html->script('jquery-1.10.2.min');  
 
-    echo $this->Html->script('jquery.datatables');  
-
     echo $this->Html->script('jquery-migrate-1.2.1.min');  
     echo $this->Html->script('bootstrap.min');  
     echo $this->Html->script('modernizr.min');  
@@ -432,7 +439,6 @@ else
     echo $this->Html->script('morris.min');  
     echo $this->Html->script('raphael-2.1.0.min');  
 
-    echo $this->Html->script('jquery.datatables.min');  
     echo $this->Html->script('chosen.jquery.min');  
 
     echo $this->Html->script('custom');  

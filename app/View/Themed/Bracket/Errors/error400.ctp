@@ -30,8 +30,8 @@
   
   <div class="notfoundpanel">
     <h1>404!</h1>
-    <h3>A página que procuravas não foi encontrada!</h3>
-    <h4>A página que procuravas poderá ter sido removida, ter o seu nome alterado, ou encontra-se indisponível. <!--<br />Talvez tenhas mais sorte numa pesquisa:</h4>
+    <h3>A página que procura não foi encontrada!</h3>
+    <h4>A página que procura poderá ter sido removida, ter o seu nome alterado, ou encontra-se indisponível. <!--<br />Talvez tenhas mais sorte numa pesquisa:</h4>
     <form action="http://themepixels.com/demo/webpage/bracket/search-results.html">
         <input type="text" class="form-control" placeholder="Procura a página" /> <button class="btn btn-success">Procura</button>
     </form>

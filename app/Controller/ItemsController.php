@@ -18,6 +18,10 @@ class ItemsController extends AppController {
 
 	public $uses = array('Item','Wishlist','Comment','Company');
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    $this->Auth->allow('view', 'index');
+	}
 
 
 /**
@@ -71,13 +75,15 @@ class ItemsController extends AppController {
 		//procura item a ser mostrado na view
 		$options = array('conditions' => array('Item.' . $this->Item->primaryKey => $id));
 		$item = $this->Item->find('first', $options);
-		$this->set('item', $item);
+		if(isset($item))
+			$this->set('item', $item);
 		
 		//procura utilizador associado ao item
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$options = array('conditions' => array('User.username' => $item['Item']['user']));
 		$user = $this->User->find('first', $options);
-		$this->set('user', $user);
-
+		if(isset($user))
+			$this->set('user', $user);
+		
 		//procura empresa associada a produto
 		$options = array('conditions' => array('Company.user' => $user['User']['username']));
 		$company = $this->Company->find('first', $options);
@@ -93,29 +99,53 @@ class ItemsController extends AppController {
 		if(isset($comments))
 			$this->set('comments', $comments);
 		
+		
 		//procurar informação dos utilizadores responsaveis pelos comentários
 		for($i=0; $i<count($comments); $i++){
-			$user_comment = $this->User->find('all', array(
-				'conditions' => array('User.username' => $comments[$i]['Comment']['user'])
+			$user_comment[$i] = $this->User->find('all', array(
+				'conditions' => array('User.username' => $comments[$i]['Comment']['user']),
+				'fields' => 'picture,first_name,last_name'
 			));
 		}
+		
 		if(isset($user_comment))
 			$this->set('user_comment', $user_comment);
 		
 		if ($this->request->is('post')) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('O seu comentário foi introduzisdo com sucesso.'), 'alert', array(
+				$this->Session->setFlash(__('O seu comentário foi introduzido com sucesso.'), 'alert', array(
 					'plugin' => 'BoostCake',
 					'class' => 'alert-success'
 					));
+				$friend_username = $this->Item->find('first',array(
+					'conditions' => array('Item.id' => $this->request->data['Comment']['product']),
+					'fields' => array('Item.user')
+					));
+
+				/*Guarda actividade na bd*/
+				$this->Activity->create();
+				$this->request->data['Activity']['activity_id']=$this->Comment->id;
+				$this->request->data['Activity']['type']='item_comment';
+				$this->request->data['Activity']['username']=$this->Auth->user('username');
+				$this->request->data['Activity']['friend_username']=$friend_username['Item']['user'];		
+				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
+				$this->request->data['Activity']['checked']=0;
+
+				if($this->Activity->save($this->request->data)) {
+					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+				}
+
 				return $this->redirect(array('action' => '/view/'.$this->request->data['Comment']['product']));
 			} else {
 				$this->Session->setFlash(__('A introdução do seu comentário falhou. Tente novamente'), 'alert', array(
 				'plugin' => 'BoostCake',
 				'class' => 'alert-danger'
 				));
-				debug($this->Comment->invalidFields());
+				//debug($this->Comment->invalidFields());
 				return false;
 			}
 		}
@@ -160,6 +190,21 @@ class ItemsController extends AppController {
 				'plugin' => 'BoostCake',
 				'class' => 'alert-sucess'
 				));
+
+				/*Guarda actividade na bd*/
+				$this->Activity->create();
+				$this->request->data['Activity']['activity_id']=$this->Item->id;
+				$this->request->data['Activity']['type']='item';
+				$this->request->data['Activity']['username']=$this->Auth->user('username');
+				$this->request->data['Activity']['friend_username']=$this->request->data['Item']['user'];
+				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
+				$this->request->data['Activity']['checked']='0';
+				if($this->Activity->save($this->request->data)) {
+					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+				}
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('O item não pôde ser guardado. Tente novamente.'), 'alert', array(

@@ -23,12 +23,12 @@
             <h3 class="blogsingle-title"><?php  echo h($item['Item']['name']); ?></h3>
             
             <ul class="blog-meta">
-              <li>By: <a href="#"><?php echo h($item['Item']['user']); ?></a></li>
-              <li>Jan 02, 2014</li>
-              <li><a href="#"><?php echo count($comments); echo " "; echo "Comments"; ?></a></li>
+              <li>Por: <a href="#"><?php echo h($item['Item']['name']); echo " ";?></a></li>
+              <li><?php echo h($item['Item']['datemade']); ?></li>
+              <li><a href="#"><?php if(count($comments)>0)echo count($comments); echo " "; echo "Comentários"; ?></a></li>
               <li>Preço <?php echo h($item['Item']['price']); ?>€</li>
             </ul>
-            
+
             <br />
             <div class="blog-img"><?php echo '<img style="width: 225px; height: 250px; "src="'.h($item['Item']['picture']).'" class="img-responsive" alt="" />'; ?></div>
             <div class="mb20"></div>
@@ -42,50 +42,46 @@
              <?php echo '<img style="width: 50px; height: 50px; class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />'; ?>
             </a>
             <div class="media-body event-body">
-              <h4 class="subtitle">About The Author</h4>
+              <h4 class="subtitle">Sobre este utilizador</h4>
               <?php echo $user['User']['about']; ?>
             </div>
           </div><!-- media -->
         </div><!-- authorpanel -->
-        
+        <?php if ($this->Session->read('Auth.User')) {
+        echo '<div class="mb30"></div>
+        <h5 class="subtitle">';
+        if(count($comments)>0)echo count($comments); echo " "; echo "Comentários";
+        echo '</h5>
         <div class="mb30"></div>
-        <h5 class="subtitle"><?php echo count($comments); echo ' Comments' ?></h5>
-        <div class="mb30"></div>
         
-        <ul class="media-list comment-list">
-          
-          <li class="media">
-          <?php
+        <ul class="media-list comment-list">';
           for($i=0; $i<count($comments); $i++){
-            echo '
-                <img class="media-object thumbnail" src="';
-                  for($k=0; $k<count($user_comment); $k++){
-                    if($comments[$i]['Comment']['user']===$user_comment[$k]['User']['username']){
-                      echo $user_comment[$k]['User']['picture'];
-                      echo '" alt="" />
-                        </a>
-                        <div class="media-body">
-                          <h4>';
-                          echo $user_comment[$k]['User']['first_name'].' '.$user_comment[$k]['User']['last_name'];
-                          echo '</h4>
-                          <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>';
-                          echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
-                          echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$i]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
-                          echo '</div>';
-                          echo' <p>'.$comments[$i]['Comment']['content'].'</p>   
-                        </div>'; 
+            echo '<li class="media">
+                    <a class="pull-left" href="#">
+                      <img class="media-object thumbnail" src="';
+                          echo $user_comment[$i]['0']['User']['picture'];
+                          echo '" alt="" />
+                          </a>
+                            <div class="media-body">
+                              <h4>';
+                              echo $user_comment[$i]['0']['User']['first_name'].' '.$user_comment[$i]['0']['User']['last_name'];
+                              echo '</h4>
+                              <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>';
+                              if($comments[$i]['Comment']['user']==$_SESSION["Auth"]["User"]["username"]){
+                                echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                echo $this->Form->postLink('×', array('action' => 'deleteComment', $comments[$i]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                echo '</div>';
+                              }
+                              echo' <p>'.$comments[$i]['Comment']['content'].'</p>   
+                            </div>'; 
+                          
+                          echo '</li><!-- media -->';
             }
-          }
-          }
-          ?>
-          </li><!-- media -->
-        </ul>
+          
         
-        <div class="mb30"></div>
-
+        echo '</ul>
         
-        <?php if ($this->Session->read('Auth.User')) 
-        {
+        <div class="mb30"></div>';
 
           echo '<h5 class="subtitle mb5">Deixe um comentário</h5>
           <div class="mb20"></div>';

@@ -4,6 +4,7 @@ App::uses('AppModel', 'Model');
  * Post Model
  *
  */
+
 class Post extends AppModel {
 
 /**
@@ -11,6 +12,14 @@ class Post extends AppModel {
  *
  * @var array
  */
+
+	public $hasMany = array(
+	       'Like' => array(
+	           'className' => 'Like',
+	           'foreignKey' => 'post_id'
+	       )
+	   );
+
 	public $validate = array(
 		'user' => array(
 			'notEmpty' => array(
@@ -43,4 +52,30 @@ class Post extends AppModel {
 			),
 		),
 	);
+
+	function findUsernameByPostId($post_id){
+		$friend_username = $this->find('first', array(
+		'conditions' => array('Post.id' => $post_id),
+		'fields' => array('Post.user')
+		));
+		return $friend_username;
+	}
+
+	function countAllLikes($username){
+		//procura os posts em que o utilizador em sessão fez 'Like'
+		$likes = $this->Like->find('all', array(
+			'conditions' => array('Like.username' => $username)
+			));
+
+		return $likes;
+	}
+
+	function findIfPostLiked($username, $post_id){
+		//procura se o utilizador em sessão fez 'Like' no post
+		$likes = $this->Like->find('first', array(
+			'conditions' => array('Like.username' => $username, 'Like.post_id' => $post_id)
+			));
+
+		return $likes;
+	}
 }

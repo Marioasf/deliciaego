@@ -15,7 +15,7 @@ class FriendsController extends AppController {
  */
 
 public $components = array('Paginator', 'Session');
-public $uses = array('User','Friend');
+public $uses = array('User','Friend','Activity');
 
 /**
  * index method
@@ -27,24 +27,17 @@ public function index() {
 	$this->set('users', $users);
 	
 	/*Lista de amigos*/
-	
+	$conditions = array(
+					'Friend.accepted' => 1,
+					'OR' => array(
+		                        'Friend.user1' => $this->Auth->user('username'),
+		                        'Friend.user2' => $this->Auth->user('username')
+		                        )
+		        );
 
 	$friends = $this->Friend->find('all', array(
-	        'conditions' => array('OR' =>
-	                array(
-	                        'Friend.accepted' => 1,
-	                        'Friend.user1' => $this->Auth->user('username')
-	                        ),
-	                array(
-	                        'Friend.accepted' => 1,
-	                        'Friend.user2' => $this->Auth->user('username')
-	                        )
-	                                )
-	        )
-	);
-
-
-
+	        'conditions' => $conditions
+	));
 
 	if(isset($friends))
 		$this->set('friends', $friends);
@@ -71,7 +64,7 @@ public function index() {
 		$this->set('friend_info_user2', $friend_info_user2);
 }
 
-public function accept_index() {
+public function accept() {
 	$users = $this->paginate('User',array('User.username !=' => $this->Auth->user('username')));
 	$this->set('users', $users);
 	
@@ -84,10 +77,10 @@ public function accept_index() {
 		$this->set('friends', $friends);
 	//debug($friends);
 	/*Friends user info*/
-	for($i=0; $i<count($friends); $i++){
-		$friend_info[$i] = $this->User->find('all', array(
-			'conditions' => array('User.username' => $friends[$i]["Friend"]["user1"])
-	));
+		for($i=0; $i<count($friends); $i++){
+			$friend_info[$i] = $this->User->find('all', array(
+				'conditions' => array('User.username' => $friends[$i]["Friend"]["user1"])
+		));
 	}
 
 	if(isset($friend_info))
@@ -102,7 +95,24 @@ public function accept_index() {
 			'plugin' => 'BoostCake',
 			'class' => 'alert-success'
 			));
-				return $this->redirect(array('action' => 'index'));
+				$friend_username=$this->Friend->findById($this->request->data['Friend']['id']);
+
+				/*Guarda actividade na bd*/
+				$this->Activity->create();
+				$this->request->data['Activity']['activity_id']=$this->request->data['Friend']['id'];
+				$this->request->data['Activity']['type']='add';
+				$this->request->data['Activity']['username']=$this->Auth->user('username');
+				$this->request->data['Activity']['friend_username']=$friend_username['Friend']['user1'];
+				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
+				$this->request->data['Activity']['checked']='0';
+
+				if($this->Activity->save($this->request->data)) {
+					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
+					'plugin' => 'BoostCake',
+					'class' => 'alert-success'
+					));
+				}
+				//return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Amigo não adicionado.'), 'alert', array(
 			'plugin' => 'BoostCake',
@@ -111,21 +121,6 @@ public function accept_index() {
 			}
 		}
 	
-}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-public function view($id = null) {
-	if (!$this->Friend->exists($id)) {
-		throw new NotFoundException(__('Invalid friend'));
-	}
-	$options = array('conditions' => array('Friend.' . $this->Friend->primaryKey => $id));
-	$this->set('friend', $this->Friend->find('first', $options));
 }
 
 /**

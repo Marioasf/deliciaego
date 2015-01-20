@@ -357,7 +357,7 @@
 		</div> <!-- col-md-6 -->
 		</div> <!-- form-group-->
 				<div class="col-md-offset-3">
-					<?php echo $this->Form->end('Guardar', array(
+					<?php echo $this->Form->submit('Guardar', array(
 						'div' => false,
 						'class' => 'btn btn-primary'
 					)); ?>

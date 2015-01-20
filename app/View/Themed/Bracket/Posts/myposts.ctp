@@ -42,9 +42,11 @@
               <h4 class="blog-title"><a href="/posts/view/'.$posts[$i]['Post']['id'].'">'.$posts[$i]['Post']['title'].'</a></h4>
               <ul class="blog-meta">
                 <li>By: <a href="/profile">'.$posts[$i]['Post']['user'].'</a></li>
-                <li>Jan 03, 2014</li>
-                <li><a href="#">2 Comments</a></li>
-              </ul>';
+                <li>'.$posts[$i]['Post']['datemade'].'</li>';
+                //echo '<li><a href="#">';
+                //if(count($comments>0))echo count($comments);
+                //echo 'Comments</a></li>';
+              echo '</ul>';
               if($posts[$i]['Post']['content'] != "") {
               echo '<div class="blog-summary">
                 <p>'.$posts[$i]['Post']['content'].'</p>';
@@ -67,25 +69,22 @@
   </div><!-- mainpanel -->
 
 <script>
-  jQuery(window).load(function(){
-  
+  jQuery(window).load(function() {
     var container = document.querySelector('#bloglist');
-    var msnry = new Masonry( container, {
+    var msnry = new Masonry(container, {
       // options
       columnWidth: '.col-xs-6',
       itemSelector: '.col-xs-6'
     });
-    
     // check on load
-    if(jQuery(window).width() <= 480 )
+    if (jQuery(window).width() <= 480)
         msnry.destroy();
 
     // check on resize
-    jQuery(window).resize(function(){
-        if(jQuery(this).width() <= 480 )
+    jQuery(window).resize(function() {
+        if (jQuery(this).width() <= 480)
             msnry.destroy();
     });
 
   });
-  
 </script>

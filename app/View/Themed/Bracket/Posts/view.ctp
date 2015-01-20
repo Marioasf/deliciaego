@@ -24,9 +24,9 @@
             <h3 class="blogsingle-title"> <?php echo h($post['Post']['title']); ?></h3>
             
             <ul class="blog-meta">
-              <li>Por: <a href="#"><?php echo $user[0]['User']['first_name']; echo " "; echo $user[0]['User']['last_name']; ?></a></li>
+              <li>Por: <a href="#"><?php echo $user['User']['first_name']; echo " "; echo $user['User']['last_name']; ?></a></li>
               <li><?php echo h($post['Post']['datemade']); ?></li>
-              <li><a href="#"><?php echo count($comments); echo " "; echo "Comments"; ?></a></li>
+              <li><a href="#"><?php if(count($comments)>0)echo count($comments); echo " "; echo "Comentários"; ?></a></li>
             </ul>
            
             <br />
@@ -35,6 +35,7 @@
            {
            echo '<div class="blog-img"><img src="'.h($post['Post']['picture']).'" class="img-responsive" alt="" /></div>'; 
             }
+            
            ?>
             <div class="mb20"></div>
             
@@ -72,6 +73,55 @@
                 {
                   echo h($post['Post']['content']);
                 } 
+                echo '<div class="timeline-btns">
+                    <div class="pull-left">';
+
+                        if(isset($likes))
+                        {
+                          $liked=FALSE;
+                          //percorrer lista de likes
+                          for($j=0;$j<$likes_count;$j++){
+                            if($likes['Like']['post_id']==$current_post['Post']['id'] && !$liked){//caso o utilizador tenha feito like num post
+                                  $liked=TRUE;
+                                  echo '<div class="tooltips" data-toggle="tooltip" title="Não gostar">';    
+                                  echo $this->Form->postLink('♥', array('action' => 'deleteLike', $likes['Like']['id']));
+                                  echo '</div>';
+                            }
+                        }
+                          //se utilizador não fez like
+                          if(!$liked){
+                                  echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                                  echo $this->Form->create('Like');
+                                  echo $this->Form->input('post_id', array('type' => 'hidden','value' => $current_post['Post']['id']));
+                                  echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                                  echo $this->Form->submit('♡');
+                                  echo $this->Form->end();
+                                  echo '</div>';
+
+                             }
+                         $liked=TRUE;
+                          
+                      }
+                      //se utilizador não fez like
+                      else{
+                              echo '<div class="tooltips" data-toggle="tooltip" title="Gostar">';
+                              echo $this->Form->create('Like');
+                              echo $this->Form->input('post_id', array('type' => 'hidden','value' => $current_post['Post']['id']));
+                              echo $this->Form->input('username', array('type' => 'hidden','value' => $_SESSION['Auth']['User']['username']));
+                            
+                              echo $this->Form->submit('♡');
+                              echo $this->Form->end();
+                              echo '</div>';
+                         }
+
+                    echo '</div>
+                    <div class="pull-right">
+                        <small class="text-muted">';
+                        if($likes_count > 1) echo $likes_count.' pessoas gostam disto';
+                        else if($likes_count == 1) echo '1 pessoa gosta disto';
+                        echo '</small>
+                    </div>';
+
               ?>
             </p>
           
@@ -81,46 +131,47 @@
         <div class="authorpanel">
           <div class="media">
             <a class="pull-left" href="#">
-              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user[0]['User']['picture'].'" alt="" />';?>
+              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />';?>
             </a>
             <div class="media-body event-body">
               <h4 class="subtitle">Sobre o autor</h4>
-              <p><?php echo $user[0]['User']['about']; ?></p>
+              <p><?php echo $user['User']['about']; ?></p>
             </div>
           </div><!-- media -->
         </div><!-- authorpanel -->
         
         <div class="mb30"></div>
-        <h5 class="subtitle"><?php echo count($comments); echo ' Comments' ?></h5>
+        <h5 class="subtitle"><?php if(count($comments)>1)echo count($comments). " Comentários";
+        else if(count($comments)==1) echo count($comments). " Comentário";?>
+        </h5>
         <div class="mb30"></div>
         
         <ul class="media-list comment-list">
           
-          <li class="media">
           <?php
           for($i=0; $i<count($comments); $i++){
-            echo '
-                <img class="media-object thumbnail" src="';
-                  for($k=0; $k<count($user_comment); $k++){
-                    if($comments[$i]['Comment']['user']===$user_comment[$k]['User']['username']){
-                      echo $user_comment[$k]['User']['picture'];
-                      echo '" alt="" />
-                        </a>
-                        <div class="media-body">
-                          <h4>';
-                          echo $user_comment[$k]['User']['first_name'].' '.$user_comment[$k]['User']['last_name'];
-                          echo '</h4>
-                          <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>';
-                          echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
-                          echo $this->Form->postLink('×', array('action' => 'deleteCommentInPost', $comments[$i]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
-                          echo '</div>';
-                          echo '<p>'.$comments[$i]['Comment']['content'].'</p>   
-                        </div>'; 
-            }
-          }
+            echo '<li class="media">
+                    <a class="pull-left" href="#">
+                      <img class="media-object thumbnail" src="';
+                          echo $user_comment[$i]['0']['User']['picture'];
+                          echo '" alt="" />
+                            </a>
+                            <div class="media-body">
+                              <h4>';
+                              echo $user_comment[$i]['0']['User']['first_name'].' '.$user_comment[$i]['0']['User']['last_name'];
+                              echo '</h4>
+                              <small class="text-muted">'.$comments[$i]['Comment']['datemade'].'</small>';
+                               if($comments[$i]['Comment']['user']==$_SESSION["Auth"]["User"]["username"]){
+                                  echo '<div class="tooltips pull-right" data-toggle="tooltip" title="Remover comentário">';
+                                  echo $this->Form->postLink('×', array('action' => 'deleteCommentInPost', $comments[$i]['Comment']['id']), array('confirm' => 'De certeza que deseja remover este comentário?'), array('class' => 'panel-close text-right pull-right'));
+                                }
+                                  echo '</div>';
+                                  echo '<p>'.$comments[$i]['Comment']['content'].'</p>   
+                                </div>'; 
+
+                            echo '</li><!-- media -->';
           }
           ?>
-          </li><!-- media -->
         </ul>
         
         <div class="mb30"></div>

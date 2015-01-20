@@ -23,7 +23,6 @@
  */
 
 // Setup a 'default' cache configuration for use in the application.
-Cache::config('default', array('engine' => 'File'));
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
@@ -71,7 +70,7 @@ Cache::config('default', array('engine' => 'File'));
  */
 
 CakePlugin::load('BoostCake');
-//CakePlugin::load('Uploader');
+CakePlugin::load('AclExtras');
 
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:

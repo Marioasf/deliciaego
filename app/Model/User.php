@@ -4,6 +4,34 @@
 
     class User extends AppModel {
 
+        /*Definição de AclBehaviour que liga os modelos User e Group às entradas das tabelas Acl*/
+        public $belongsTo = array(
+            'Group' => array(
+                    'className' => 'Group',
+                    'foreignKey' => 'group_id',
+                    'conditions' => '',
+                    'fields' => '',
+                    'order' => ''
+            )
+        );
+        
+        public $actsAs = array('Acl' => array('type' => 'requester'));
+
+        public function parentNode() {
+            if (!$this->id && empty($this->data)) {
+                return null;
+            }
+            if (isset($this->data['User']['group_id'])) {
+                $groupId = $this->data['User']['group_id'];
+            } else {
+                $groupId = $this->field('group_id');
+            }
+            if (!$groupId) {
+                return null;
+            }
+            return array('Group' => array('id' => $groupId));
+        }
+
         public $validate = array(
                 'username' => array(
                     'required' => array(
@@ -18,6 +46,71 @@
                     )
                 )
             );
+
+        function getSessionUserData(){
+            $user = $this->Session->read("Auth.User");
+            $this->id = $user['id'];
+            return $this->read();
+        }
+
+        function sendVerificationEmail($username, $user_email){
+            $confirmAccount_url='localhost/users/confirm_account';
+            $email = new CakeEmail();
+            $email->config('gmail');
+            $email->from(array('deliciaego@gmail.com' => 'Deliciego'));
+            $email->to($user_email);
+            $email->subject('Validação da sua conta');
+            $email->send('Para confirmar a sua conta por favor clique na URL '. $confirmAccount_url . '/'.$username.'/1');
+        }
+
+        function userExists($username){
+            $conditions = array(
+                'User.username' => $username
+            );
+            return $this->hasAny($conditions);
+        }
+
+        /**/
+        function findUserDataById($id){
+             $user_data = $this->find('first', array(
+            'conditions' => array('User.id' => $id)
+            ));
+             return $user_data;
+        }
+
+        /**/
+        function findIdByUsername($username){
+             $id = $this->find('first', array(
+            'fields' => array('User.id'),
+            'conditions' => array('User.username' => $username)
+            ));
+             return $id;
+        }
+
+        /**/
+        function findUsernameById($id){
+             $username = $this->find('first', array(
+            'fields' => array('User.username'),
+            'conditions' => array('User.id' => $id)
+            ));
+             return $username;
+        }
+
+        /**/
+        function findActivatedByUsername($username){
+            $this->find('first', array(
+            'fields' => array('User.activated'),
+            'conditions' => array('User.name' => $username)
+            ));
+        }
+
+        function findLockPageInfo(){
+        return $this->find('first', array(
+                'fields' => array('User.username', 'User.first_name', 'User.last_name', 'User.email'),
+                'conditions' => array('User.username' => AuthComponent::user('username'))
+                ));
+        }
+
 
             /**
          * Before isUniqueUsername
@@ -107,12 +200,24 @@
          */
         
 
-        public function beforeSave($options = array()) {
+        /*public function beforeSave($options = array()) {
                 if (!$this->id) {
                     $passwordHasher = new BlowfishPasswordHasher();
                     $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password']);
                 }
                 return true;
+        }*/
+
+        public function beforeSave($options = array()) {
+            if (isset($this->data[$this->alias]['password'])) {
+                $passwordHasher = new BlowfishPasswordHasher();
+               
+                $this->data[$this->alias]['password'] = $passwordHasher->hash(
+                    $this->data[$this->alias]['password']
+                );
             }
+            return true;
+        }
+
 
 }

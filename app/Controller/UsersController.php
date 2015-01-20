@@ -15,55 +15,152 @@
 	 *
 	 * @var array
 	 */
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator', 'Session', 'Auth');
 
-	public $uses = array('User','Friend','Item','Wishlist', 'Activity');
+	public $uses = array('User','Friend','Item','Wishlist', 'Activity','Group');
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    //$this->Auth->allow('initDB'); // We can remove this line after we're finished
+	    $this->Auth->allow('login', 'signup', 'confirm_account');
+	}
 
-	public function confirm_account($user=null,$activated=null){
-		
-		$conditions = array(
-		    'User.username' => $user
-		);
-		if ($this->User->hasAny($conditions)){
-		    //do something
-			if ($this->request->is(array('post', 'put'))) {
-				$this->request->data['User']['activated']=$activated;
+	/*Popula as tabelas acos e aros_acos na BD com as ACLs*/
+	public function initDB() {
+	    $group = $this->User->Group;
+
+	    // Allow admins to everything
+	    $group->id = 1;
+	    $this->Acl->allow($group, 'controllers');
+
+	    // allow users to posts and widgets
+	    $group->id = 2;
+	    $this->Acl->deny($group, 'controllers');
+
+	    $this->Acl->allow($group, 'controllers/Activities/index');   
+	    $this->Acl->allow($group, 'controllers/Activities/view');
+	    $this->Acl->allow($group, 'controllers/Activities/edit');
+
+	    $this->Acl->allow($group, 'controllers/Chats/index');   
+	    $this->Acl->allow($group, 'controllers/Chats/view');
+	    $this->Acl->allow($group, 'controllers/Chats/edit');
+
+	    $this->Acl->allow($group, 'controllers/Companies/add');   
+	    //$this->Acl->allow($group, 'controllers/Companies/edit');
+
+	    $this->Acl->allow($group, 'controllers/Friends/index');   
+	    $this->Acl->allow($group, 'controllers/Friends/accept');
+	    //$this->Acl->allow($group, 'controllers/Friends/edit');
+
+	    $this->Acl->allow($group, 'controllers/Items/add');
+	    //$this->Acl->allow($group, 'controllers/Items/edit'); 
+
+	    $this->Acl->allow($group, 'controllers/Posts/add');
+	    $this->Acl->allow($group, 'controllers/Posts/view');
+	    $this->Acl->allow($group, 'controllers/Posts/myposts');
+
+	    $this->Acl->allow($group, 'controllers/Users/index');
+	    $this->Acl->allow($group, 'controllers/Users/view');
+	    $this->Acl->allow($group, 'controllers/Users/profile');
+	    $this->Acl->allow($group, 'controllers/Users/edit');
+	    $this->Acl->allow($group, 'controllers/Users/logout');
+
+	    echo "ACLs criadas";
+	    exit;
+	}
+
+	/**
+	 * add method
+	 *
+	 * @return void
+	 */
+		public function add() {
+			if ($this->request->is('post')) {
+				$this->User->create();
 				if ($this->User->save($this->request->data)) {
-					$this->Session->setFlash(__('A sua conta encontra-se validada. Por favor efetue o login.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
-					//return $this->redirect(array('action' => 'login'));
+					$this->Session->setFlash(__('The user has been saved.'));
+					return $this->redirect(array('action' => 'index'));
 				} else {
-					$this->Session->setFlash(__('Ocorreu um erro e a sua conta não foi validada. Por favor contacte o administrador da página.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-danger'
-					));
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 				}
-			} else {
-				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-				$this->request->data = $this->User->find('first', $options);
 			}
+			$groups = $this->User->Group->find('list');
+			$this->set(compact('groups'));
 		}
-		else {
+
+	public function confirm_account($username=null,$activated=null){
+		
+		if(isset($username) && isset($activated)){
+				if($this->User->userExists($username)){
+					$this->User->id=$this->User->findIdByUsername($username);
+					
+					if ($this->User->saveField('activated',1)) {
+						
+						$this->User->saveField('ip', $this->request->clientIp());
+						$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
+						$this->Session->setFlash(__('A sua conta encontra-se validada. Por favor efetue o login.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-success'
+						));
+						
+						//Auto-login
+						if($this->Auth->login($this->User->findUserDataById($this->User->id)['User'])){
+							$this->Session->setFlash(__('Bem vindo. Para editar os dados da sua conta por favor clique no seu nome no topo superior e de seguida em definições de conta.\n'), 'alert', array(
+													'plugin' => 'BoostCake',
+													'class' => 'alert-success'
+													));
+							return $this->redirect(array('controller' => 'posts'));
+						}
+						else{
+
+							return $this->redirect(array('action' => 'login'));
+						}
+					} else {
+						$this->Session->setFlash(__('Ocorreu um erro e a sua conta não foi validada. Por favor contacte o administrador da página.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
+					}
+				}
+				else{
 					$this->Session->setFlash(__('Este utilizador não se encontra registado. Por favor tente registar-se novamente.'), 'alert', array(
 					'plugin' => 'BoostCake',
 					'class' => 'alert-danger'
 					));
 				}
+		}
+		else {
+				$this->Session->setFlash(__('Ocorreu um erro na sua URL e a sua conta não foi validada. Por favor contacte o administrador da página.'), 'alert', array(
+				'plugin' => 'BoostCake',
+				'class' => 'alert-danger'
+				));
+			}
 	}
 
 	public function login() {
+		/*if ($this->Session->read('Auth.User')) {
+		        $this->Session->setFlash('You are logged in!');
+		        return $this->redirect('/');
+		}*/
+
 		$this->layout = false;
 		if ($this->request->is('post')) {
-			if ($this->Auth->login()) {
-				return $this->redirect($this->Auth->loginRedirect);
-			}
-			$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
-			'plugin' => 'BoostCake',
-			'class' => 'alert-danger'
-			));
+			$this->User->id=$this->User->findIdByUsername($this->request->data['User']['username']);
+				if($this->User->id != NULL){
+					$this->User->saveField('ip', $this->request->clientIp());
+					$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
+						if ($this->Auth->login()) {
+							return $this->redirect($this->Auth->loginRedirect);
+						}
+						$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
+				}
+				$this->Session->setFlash(__('Ocorreu um erro ao fazer o login. Por favor tente novamente.'), 'alert', array(
+						'plugin' => 'BoostCake',
+						'class' => 'alert-danger'
+						));
 		}
 	}
 
@@ -75,10 +172,8 @@
 	
 
 	public function lock() {
-		$user = $this->User->find('all', array(
-				'fields' => array('User.username', 'User.first_name', 'User.last_name', 'User.email'),
-				'conditions' => array('User.username' => $this->Auth->user('username'))
-				));
+
+		$user=$this->User->findLockPageInfo();
 		$this->set('user', $user);
 
 		$this->layout = false;
@@ -106,39 +201,37 @@
 	 */
 	public function signup() {
 		$this->layout = false;
-		$verificationEmailAddress = 'localhost/users/confirm_account';
 		if ($this->request->is('post')) {
 			if ($this->request->data['User']['password'] == $this->request->data['User']['password_confirm'])
 			{
 				$this->User->create();
-				if ($this->User->save($this->request->data)) {
-					//Login automatically
-					//if($this->Auth->login($this->request->data['User'])){
 
-					   $this->Session->setFlash(__('Utilizador criado com sucesso! Por favor verifique a sua caixa de email.'), 'alert', array(
+				$this->request->data['User']['signup']=date('Y-m-d H:i:s');
+				$this->request->data['User']['lastlogin']=date('Y-m-d H:i:s');
+				$this->request->data['User']['ip']=$this->request->clientIp();
+
+				if ($this->User->save($this->request->data)) {
+
+					   $this->Session->setFlash(__('Utilizador criado com sucesso! Por favor verifique a sua caixa de email para confirmar a sua conta.'), 'alert', array(
 					   	'plugin' => 'BoostCake',
 					   	'class' => 'alert-success'
 					   ));
-					    //return $this->redirect($this->Auth->redirect());
+					   $this->User->sendVerificationEmail($this->request->data['User']['username'], $this->request->data['User']['email']);
+					   return $this->redirect(array('action' => 'login'));
 
-					//} else {
-					    /*$this->Session->setFlash(__('Por favor efectue o login.'), 'alert', array(
+					} else {
+					    $this->Session->setFlash(__('Ocorreu um erro ao criar o utilizador. Por favor tente novamente.'), 'alert', array(
 					    					'plugin' => 'BoostCake',
 					    					'class' => 'alert-success'
-					    				));
-					    return $this->redirect(array('action' => 'login'));*/
-					    $user_email=$this->request->data['User']['email'];
-					    $email = new CakeEmail();
-					    $email->config('gmail');
-					    $email->from(array('deliciaego@gmail.com' => 'Deliciego'));
-					    $email->to($user_email);
-					    $email->subject('Validação da sua conta');
-					    $email->send('Para confirmar a sua conta por favor clique na URL '. $verificationEmailAddress . 
-					    	'?username='.$this->request->data['User']['username'].'&activated=1');
-					//}
+					 ));
 
-				} else {
-					$this->Session->setFlash(__('O utilizador não pôde ser criado. Por favor tente novamente.'), 'alert', array(
+
+						return $this->redirect(array('action' => 'signup'));
+					}
+
+				} 
+				else{
+					$this->Session->setFlash(__('O utilizador não pôde ser criado. A confirmação da password está errada.'), 'alert', array(
 						'plugin' => 'BoostCake',
 						'class' => 'alert-danger'
 					));
@@ -146,15 +239,6 @@
 					return $this->redirect(array('action' => 'signup'));
 				}
 			}
-			else{
-				$this->Session->setFlash(__('O utilizador não pôde ser criado. A confirmação da password está errada.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-danger'
-				));
-
-				return $this->redirect(array('action' => 'signup'));
-			}
-		} 
 	}
 
 	
@@ -187,52 +271,108 @@
 	public function index() {
 
 		$this->paginate = array(
-		      'conditions' => array('User.username !=' => $this->Auth->user('username')),
-		      'limit' => 4
-		  );
-		  $users = $this->paginate('User');
-		  $this->set(compact('users'));
+		'conditions' => array('User.username !=' => $this->Auth->user('username')),
+		'limit' => 20);
+		$users = $this->paginate('User');
+		$this->set(compact('users'));
+		/*************************************************************************/
+		/*Lista de amigos aceites*/
+		$accepted_friends = $this->Friend->find('all', array(
+		        'conditions' => array('Friend.accepted' => 1,
+						'OR' => array('Friend.user1' => $this->Auth->user('username'),
+			                        'Friend.user2' => $this->Auth->user('username')
+			                        ))));
 		
+		/*Lista de utilizadores amigos aceites do utilizador em sessão*/
 
-		$friends = $this->Friend->find('all', array(
-			'fields' => array('Friend.user2', 'Friend.accepted'),
-			'conditions' => array('Friend.user1' => $this->Auth->user('username'))
-			));
+		/*Copia os nomes de amigos p/ um array simples*/
+		$accepted_friends_username=array();
+		if(isset($accepted_friends))
+			for($i=0;$i<count($accepted_friends);$i++){
+				if($accepted_friends[$i]['Friend']['user1']==$this->Auth->user('username'))
+					$accepted_friends_username[$i]=$accepted_friends[$i]['Friend']['user2'];
+				else if($accepted_friends[$i]['Friend']['user2']==$this->Auth->user('username'))
+					$accepted_friends_username[$i]=$accepted_friends[$i]['Friend']['user1'];
+			}
 
+		/*Pesquisa informação dos utilizadores*/
+		if(isset($accepted_friends_username))
+			for($i=0;$i<count($accepted_friends_username);$i++){
+				$accepted_friends_info[$i] = $this->User->find('first', array(
+					'conditions' => array('User.username' => $accepted_friends_username[$i]
+					)));
+			}
 
-		$this->set('friends', $friends);
-			for($i=0; $i<count($friends); $i++){
-			$friend_info[$i] = $this->User->find('all', array(
-				'fields' => array('User.username'),
-				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
-				));
-		}
-		if(isset($friend_info))
-			$this->set('friend_info',$friend_info);
+		if(isset($accepted_friends_info)) $this->set('accepted_friends_info',$accepted_friends_info);
+		//debug($accepted_friends_info);
+		/***************************************************************************/
+		/*Lista de amigos não aceites*/
+		$not_accepted_friends = $this->Friend->find('all', array(
+			'conditions' => array('Friend.accepted' => 0,
+							'OR' => array('Friend.user1' => $this->Auth->user('username'),
+					                      'Friend.user2' => $this->Auth->user('username')
+				))));
 
-		$this->set('user_in_session',$this->Auth->user('username'));
+		/*Copia os nomes de utilizador p/ um array simples*/
+		$not_accepted_friends_username=array();
+		if(isset($not_accepted_friends))
+			for($i=0;$i<count($not_accepted_friends);$i++){
+				if($not_accepted_friends[$i]['Friend']['user1']==$this->Auth->user('username'))
+					$not_accepted_friends_username[$i]=$not_accepted_friends[$i]['Friend']['user2'];
+				else if($not_accepted_friends[$i]['Friend']['user2']==$this->Auth->user('username'))
+					$not_accepted_friends_username[$i]=$not_accepted_friends[$i]['Friend']['user1'];
+			}
+		//debug($not_accepted_friends_username);
+		/*Pesquisa informação dos utilizadores*/
+		if(isset($not_accepted_friends_username))
+			for($i=0;$i<count($not_accepted_friends_username);$i++){
+				$not_accepted_friends_info[$i] = $this->User->find('first', array(
+					'conditions' => array('User.username' => $not_accepted_friends_username[$i]
+						)));
+			}
+		if(isset($not_accepted_friends_info)) $this->set('not_accepted_friends_info',$not_accepted_friends_info);
+
+		/******************************************************************************/
+		/*Lista de utilizadores não amigos*/
+
+		/*Lista de utilizadores amigos*/
+		$friends=array_merge($accepted_friends_username,$not_accepted_friends_username);
+
+		/*Adicionar utilizador em sessão à lista*/
+		if(isset($friends))array_push($friends,$this->Auth->user('username'));
+
+		/*Pesquisa informação dos utilizadores*/
+		$user_info = $this->User->find('all', array(
+			'conditions' => array('User.username !=' => $friends
+			)));
+		
+		//debug($user_info);
+
+		if(isset($user_info)) $this->set('user_info',$user_info);
+		/*******************************************************************************/
 		
 		if ($this->request->is('post')) {
 			$this->Friend->create();
+			$this->request->data['Friend']['datemade']=date('Y-m-d H:i:s');
 			if ($this->Friend->save($this->request->data)) {
 				$this->Session->setFlash(__('O seu pedido de amizade foi enviado.'), 'alert', array(
 				'plugin' => 'BoostCake',
-				'class' => 'alert-succes'
+				'class' => 'alert-success'
 				));
 				$this->Activity->create();
-
-				$this->request->data['Activity']['type']='add';
-				//$this->request->data['Activity']['activity_id']=$this->request->data['Friend']['id'];
+				
+				$this->request->data['Activity']['activity_id']=$this->Friend->id;
+				$this->request->data['Activity']['type']='request';
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
 				$this->request->data['Activity']['friend_username']=$this->request->data['Friend']['user2'];
+				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
 				$this->request->data['Activity']['checked']='0';
 
 				if($this->Activity->save($this->request->data)) {
 					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
 					'plugin' => 'BoostCake',
-					'class' => 'alert-succes'
+					'class' => 'alert-success'
 					));
-					return $this->redirect(array('action' => 'index'));
 				}
 			} else {
 				$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
@@ -252,23 +392,39 @@
 				throw new NotFoundException(__('Invalid user'));
 			}
 
+			//username do utilizador da view requisitada
+			$username= $this->User->findUsernameById($id);
+			//debug($username);
+			//debug($username['User']['username']);
+			/*Procura lista de amigos do utilizador em sessão (apenas pode aceder ao perfil de amigos)*/
+			$friends_username = $this->Friend->findUserFriends($this->Auth->user('username'));
+			//debug($friends_username);
+			/*Retorna verdadeiro se utilizador for encontrado na lista de amigos*/
+			$is_friend=$this->Friend->isFriend($friends_username, $username['User']['username']);
+			//debug($is_friend);
+			if($username['User']['username'] == $this->Auth->user('username'))
+				$is_friend=TRUE;
+			//se não redirecciona p/ página 404
+			if(!$is_friend) throw new ForbiddenException();
+
+			/**************************************************/
+			//procura os nomes de utilizador dos amigos do utilizador requisitado
+			$friends_username = $this->Friend->findUserFriends($username['User']['username']);
+
+			if(isset($friends_username)) $this->set('friends_username', $friends_username);
+			//debug($friends_username);
 			//find user
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->set('user', $this->User->find('first', $options));
+
 			$current_user = $this->User->find('all', array(
 			'conditions' => array('User.id' => $id)
 			));
 
-			//find user friends
-			$friends = $this->Friend->find('all', array(
-			'conditions' => array('Friend.user1' => $current_user[0]['User']['username'])
-			));
-			$this->set('friends', $friends);
-
 			//find friend user info
-			for($i=0; $i<count($friends); $i++){
+			for($i=0; $i<count($friends_username); $i++){
 				$friend_info[$i] = $this->User->find('all', array(
-				'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
+				'conditions' => array('User.username' => $friends_username[$i])
 				));
 			}
 			if(isset($friend_info))
@@ -286,7 +442,7 @@
 				'fields' => array('Wishlist.product_id'),
 				'conditions' => array('Wishlist.user' => $current_user[0]['User']['username'])
 			));
-			$this->set('wishlist_items', $wishlist_items);
+			//$this->set('wishlist_items', $wishlist_items);
 
 			//find session user wishlist products by id's
 			for($i=0; $i<count($wishlist_items); $i++){
@@ -300,6 +456,7 @@
 
 		}
 
+		
 	/**
 	 * edit method
 	 *
@@ -308,60 +465,17 @@
 	 * @return void
 	 */
 		public function edit($id = null) {
-			 error_reporting(E_ALL);
-			$folderToSaveFiles = WWW_ROOT . 'img/uploads/' ;
+
+			//username do utilizador da view requisitada
+			$username= $this->User->findUsernameById($id);
+			
+			//se o utilizador não for o que está em sessão redirecciona p/ página 404
+			if($username['User']['username'] != $this->Auth->user('username')) throw new ForbiddenException();
+			 
 			if (!$this->User->exists($id)) {
 				throw new NotFoundException(__('Invalid user'));
 			}
 			if ($this->request->is(array('post', 'put'))) {
-				//se o utilizador tiver feito upload de imagem
-				/* A opção de fazer upload de imagens encontra-se desabilitada
-				if(!empty($this->request->data['User']['picture']))
-					{
-						$file = $this->request->data['User']['picture'];
-						$new_file = $this->request->data['User']['username'];
-								               debug( $file );
-
-								               $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-								               $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
-								               debug( $ext);
-								               //only process if the extension is valid
-								               debug(in_array($ext, $arr_ext));
-								               if(in_array($ext, $arr_ext))
-								               {
-								               	debug($file);
-								               	debug($folderToSaveFiles . $new_file);
-								                   if(move_uploaded_file($file['name'], $folderToSaveFiles . $new_file))
-								                   {
-								                   //atualiza nome do ficheiro a mandar para bd
-								                   $this->request->data['User']['picture'] = $new_file;
-								                   
-								                   }
-								                   else{
-								                   	$this->request->data['User']['picture'] = 'user.png';
-								                   		$this->Session->setFlash(__('Falha no upload da imagem.'), 'alert', array(
-													'plugin' => 'BoostCake',
-													'class' => 'alert-danger'
-													));
-
-													//return $this->redirect(array('action' => 'edit/'.$this->request->data['User']['id']));
-								                   }
-
-
-								               }
-								               else
-								               {
-
-								                   	$this->request->data['User']['picture'] = 'user.png';
-								               		$this->Session->setFlash(__('Formato de imagem inválido.'), 'alert', array(
-													'plugin' => 'BoostCake',
-													'class' => 'alert-danger'
-													));
-
-													//return $this->redirect(array('action' => 'edit/'.$this->request->data['User']['id']));
-								               }
-								       }
-								       */
 
 				if ($this->User->save($this->request->data)) {
 					$this->Session->setFlash(__('As alterações ao seu perfil foram guardadas.'), 'alert', array(
@@ -370,7 +484,7 @@
 													));
 					return $this->redirect(array('action' => 'index'));
 				} else {
-					$this->Session->setFlash(__('As alterações ao seu perfil não foram alteradas.'), 'alert', array(
+					$this->Session->setFlash(__('As alterações ao seu perfil não foram guardadas.'), 'alert', array(
 													'plugin' => 'BoostCake',
 													'class' => 'alert-danger'
 													));
@@ -380,28 +494,4 @@
 				$this->request->data = $this->User->find('first', $options);
 			}
 		}
-
-
-
-		   
-	/**
-	 * delete method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}
 	}

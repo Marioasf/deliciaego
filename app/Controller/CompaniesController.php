@@ -18,7 +18,10 @@ class CompaniesController extends AppController {
 
 	public $uses = array('Company','Follower', 'Friend','Item');
 
-	
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    $this->Auth->allow('index', 'view');
+	}
 
 /**
  * index method

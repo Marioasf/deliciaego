@@ -37,7 +37,7 @@
         public $uses = array('Activity','User','Friend','Chat');
 
         public $helpers = array(
-            'Session',
+            //'Session',
             'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
             'Form' => array('className' => 'BoostCake.BoostCakeForm'),
             'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
@@ -45,9 +45,13 @@
  
 
         public $components = array(
+            'Acl',
             'Session',
             'RequestHandler',
             'Auth' => array(
+                'authorize' => array(
+                    'Actions' => array('actionPath' => 'controllers')
+                ),
                 'loginRedirect' => array(
                     'controller' => 'posts',
                     'action' => 'index'
@@ -74,34 +78,30 @@
 
     // only allow the login controllers only
     public function beforeFilter() {
-
-        $this->Auth->allow('login','signup', 'logout');
+        /*$this->Auth->allow();
+        
+        $this->Auth->allow('login','signup', 'logout', 'confirm_account');
 
         $this->Auth->allow(array('controller' => 'posts' , 'action' => 'index'));
 
         $this->Auth->allow(array('controller' => 'items' , 'action' => 'index', 'view'));
 
-        $this->Auth->allow(array('controller' => 'companies' , 'action' => 'index', 'view'));
+        $this->Auth->allow(array('controller' => 'companies' , 'action' => 'index', 'view'));*/
+        //$this->Auth->allow('display');
+        //$this->Auth->deny('*');
+        //$this->Auth->allow('display');
+        $this->Auth->allow(array('controller' => 'users', 'action' => 'login', 'signup', 'confirm_account'));
+        /*Configuração do AuthComponent para usar Actions authorization*/
+        $this->Auth->authorize = 'Actions';
+        $this->Auth->actionPath = 'Controllers/';
 
-        //$this->Auth->allow(array('controller' => 'users' , 'action' => 'confirm_account'));
 
-        //procurar id de utilizador em sessão
-        //$this->request->data = $this->User->find('all', array('conditions' => array('User.username' => $this->request->data['User']['username'])));
-        //debug();
         $user_id=$this->User->find('first', array(
             'fields' => array('User.id'),
             'conditions' => array('User.username' => $this->Auth->User('username'))));
         
         $this->set('user_id',$user_id);
 
-        //debug($this->request->data);
-        /*Carregamento dos pedidos de amizade e utilizadores a eles associados*/
-
-         //carrega notificações dos pedidos de amizade ainda não vistas pelo utilizador em sessão
-         /*$requests_activities = $this->Activity->find('all', array(
-        'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),
-        'Activity.type' => 'add',           
-        'Activity.checked' => 0)));*/
 
          //carrega todas notificações dos pedidos de amizade relativos ao utilizador em sessão
          $friend_requests = $this->Friend->find('all', array(
@@ -128,7 +128,7 @@
          {
             $activity_user[$i] = $this->User->find('all', array(
             'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
-            'conditions' => array('User.username' => $activities[$i]['Activity']['úsername'])));
+            'conditions' => array('User.username' => $activities[$i]['Activity']['username'])));
         }
         
         /*Carregamento das mensagens recebidas*/
@@ -160,7 +160,6 @@
         /*Passagem das variáveis para o layout*/
 
         $this->set('friend_requests',$friend_requests);
-        //$this->set('requests_activities',$requests_activities);
 
         $this->set('activities',$activities);
 

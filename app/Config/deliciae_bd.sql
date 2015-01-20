@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 08-Jan-2015 às 06:48
+-- Data de Criação: 20-Jan-2015 às 17:39
 -- Versão do servidor: 5.5.40-0ubuntu0.14.04.1
 -- versão do PHP: 5.5.9-1ubuntu4.5
 
@@ -17,8 +17,121 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de Dados: `deliciae_bd`
+-- Base de Dados: `deliciaego_bd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `acos`
+--
+
+CREATE TABLE IF NOT EXISTS `acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_acos_lft_rght` (`lft`,`rght`),
+  KEY `idx_acos_alias` (`alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=352 ;
+
+--
+-- Extraindo dados da tabela `acos`
+--
+
+INSERT INTO `acos` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES
+(264, NULL, NULL, NULL, 'controllers', 1, 176),
+(265, 264, NULL, NULL, 'Activities', 2, 23),
+(266, 265, NULL, NULL, 'index', 3, 4),
+(267, 265, NULL, NULL, 'view', 5, 6),
+(268, 265, NULL, NULL, 'add', 7, 8),
+(269, 265, NULL, NULL, 'edit', 9, 10),
+(270, 265, NULL, NULL, 'delete', 11, 12),
+(271, 265, NULL, NULL, 'admin_index', 13, 14),
+(272, 265, NULL, NULL, 'admin_view', 15, 16),
+(273, 265, NULL, NULL, 'admin_add', 17, 18),
+(274, 265, NULL, NULL, 'admin_edit', 19, 20),
+(275, 265, NULL, NULL, 'admin_delete', 21, 22),
+(276, 264, NULL, NULL, 'Chats', 24, 43),
+(277, 276, NULL, NULL, 'index', 25, 26),
+(278, 276, NULL, NULL, 'view', 27, 28),
+(279, 276, NULL, NULL, 'add', 29, 30),
+(280, 276, NULL, NULL, 'delete', 31, 32),
+(281, 276, NULL, NULL, 'admin_index', 33, 34),
+(282, 276, NULL, NULL, 'admin_view', 35, 36),
+(283, 276, NULL, NULL, 'admin_add', 37, 38),
+(284, 276, NULL, NULL, 'admin_edit', 39, 40),
+(285, 276, NULL, NULL, 'admin_delete', 41, 42),
+(286, 264, NULL, NULL, 'Comments', 44, 65),
+(287, 286, NULL, NULL, 'index', 45, 46),
+(288, 286, NULL, NULL, 'view', 47, 48),
+(289, 286, NULL, NULL, 'add', 49, 50),
+(290, 286, NULL, NULL, 'edit', 51, 52),
+(291, 286, NULL, NULL, 'delete', 53, 54),
+(292, 286, NULL, NULL, 'admin_index', 55, 56),
+(293, 286, NULL, NULL, 'admin_view', 57, 58),
+(294, 286, NULL, NULL, 'admin_add', 59, 60),
+(295, 286, NULL, NULL, 'admin_edit', 61, 62),
+(296, 286, NULL, NULL, 'admin_delete', 63, 64),
+(297, 264, NULL, NULL, 'Companies', 66, 77),
+(298, 297, NULL, NULL, 'index', 67, 68),
+(299, 297, NULL, NULL, 'view', 69, 70),
+(300, 297, NULL, NULL, 'add', 71, 72),
+(301, 297, NULL, NULL, 'edit', 73, 74),
+(302, 297, NULL, NULL, 'delete', 75, 76),
+(303, 264, NULL, NULL, 'Followers', 78, 79),
+(304, 264, NULL, NULL, 'Friends', 80, 89),
+(305, 304, NULL, NULL, 'index', 81, 82),
+(306, 304, NULL, NULL, 'accept', 83, 84),
+(307, 304, NULL, NULL, 'delete', 85, 86),
+(308, 304, NULL, NULL, 'acceptFriend', 87, 88),
+(309, 264, NULL, NULL, 'Groups', 90, 101),
+(310, 309, NULL, NULL, 'index', 91, 92),
+(311, 309, NULL, NULL, 'view', 93, 94),
+(312, 309, NULL, NULL, 'add', 95, 96),
+(313, 309, NULL, NULL, 'edit', 97, 98),
+(314, 309, NULL, NULL, 'delete', 99, 100),
+(315, 264, NULL, NULL, 'Items', 102, 115),
+(316, 315, NULL, NULL, 'index', 103, 104),
+(317, 315, NULL, NULL, 'view', 105, 106),
+(318, 315, NULL, NULL, 'deleteComment', 107, 108),
+(319, 315, NULL, NULL, 'add', 109, 110),
+(320, 315, NULL, NULL, 'edit', 111, 112),
+(321, 315, NULL, NULL, 'deleteWish', 113, 114),
+(322, 264, NULL, NULL, 'Pages', 116, 119),
+(323, 322, NULL, NULL, 'display', 117, 118),
+(324, 264, NULL, NULL, 'Posts', 120, 137),
+(325, 324, NULL, NULL, 'index', 121, 122),
+(326, 324, NULL, NULL, 'myposts', 123, 124),
+(327, 324, NULL, NULL, 'view', 125, 126),
+(328, 324, NULL, NULL, 'delete', 127, 128),
+(329, 324, NULL, NULL, 'deleteComment', 129, 130),
+(330, 324, NULL, NULL, 'deleteCommentInPost', 131, 132),
+(331, 324, NULL, NULL, 'deleteLike', 133, 134),
+(332, 324, NULL, NULL, 'add', 135, 136),
+(333, 264, NULL, NULL, 'Users', 138, 163),
+(334, 333, NULL, NULL, 'initDB', 139, 140),
+(335, 333, NULL, NULL, 'add', 141, 142),
+(336, 333, NULL, NULL, 'confirm_account', 143, 144),
+(337, 333, NULL, NULL, 'login', 145, 146),
+(338, 333, NULL, NULL, 'logout', 147, 148),
+(339, 333, NULL, NULL, 'lock', 149, 150),
+(340, 333, NULL, NULL, 'signup', 151, 152),
+(341, 333, NULL, NULL, 'addFriend', 153, 154),
+(342, 333, NULL, NULL, 'index', 155, 156),
+(343, 333, NULL, NULL, 'view', 157, 158),
+(344, 333, NULL, NULL, 'profile', 159, 160),
+(345, 333, NULL, NULL, 'edit', 161, 162),
+(346, 264, NULL, NULL, 'AclExtras', 164, 165),
+(347, 264, NULL, NULL, 'BoostCake', 166, 175),
+(348, 347, NULL, NULL, 'BoostCake', 167, 174),
+(349, 348, NULL, NULL, 'index', 168, 169),
+(350, 348, NULL, NULL, 'bootstrap2', 170, 171),
+(351, 348, NULL, NULL, 'bootstrap3', 172, 173);
 
 -- --------------------------------------------------------
 
@@ -29,23 +142,146 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) NOT NULL DEFAULT '0',
-  `type` enum('post','item','comment','like','add') NOT NULL,
+  `type` enum('post','item','comment','like','add','request','item_comment') NOT NULL,
   `username` varchar(255) NOT NULL,
   `friend_username` varchar(255) NOT NULL,
   `datemade` datetime NOT NULL,
-  `checked` bit(1) NOT NULL DEFAULT b'0',
+  `checked` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=64 ;
 
 --
 -- Extraindo dados da tabela `activities`
 --
 
 INSERT INTO `activities` (`id`, `activity_id`, `type`, `username`, `friend_username`, `datemade`, `checked`) VALUES
-(1, 0, 'add', 'jpeter', 'mario', '2014-12-01 00:00:00', b'1'),
-(7, 0, 'add', 'mario', 'jpeter', '0000-00-00 00:00:00', b'0'),
-(9, 0, 'add', 'trafulha', 'mario', '2014-12-01 00:00:00', b'0'),
-(10, 0, 'add', 'mario', 'jpeter', '0000-00-00 00:00:00', b'1');
+(1, 0, 'add', 'lfrancisco', 'mario', '0000-00-00 00:00:00', 0),
+(2, 0, 'add', 'mario', 'jmane', '0000-00-00 00:00:00', 0),
+(3, 0, 'add', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(17, 2, 'comment', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(18, 2, 'comment', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(19, 12, 'like', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(20, 13, 'like', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(21, 14, 'like', 'mario', 'lfrancisco', '0000-00-00 00:00:00', 0),
+(23, 12, 'request', 'mario', 'jmane', '2015-01-17 07:31:17', 0),
+(24, 13, 'request', 'mario', 'jmane', '2015-01-17 07:31:20', 0),
+(25, 14, 'request', 'jmane', 'mario', '2015-01-17 07:36:44', 0),
+(26, 14, 'add', 'mario', 'jmane', '2015-01-17 07:53:21', 0),
+(27, 5, 'item', 'mario', 'mario', '2015-01-17 08:03:01', 0),
+(28, 6, 'item', 'asilva', 'asilva', '2015-01-17 08:08:34', 0),
+(29, 52, 'item_comment', 'mario', 'asilva', '2015-01-17 08:31:31', 0),
+(30, 53, 'item_comment', 'asilva', 'asilva', '2015-01-17 08:44:41', 0),
+(31, 9, 'add', 'asilva', 'mario', '2015-01-17 08:58:45', 0),
+(32, 1, 'like', 'mario', 'mario', '2015-01-17 17:42:52', 0),
+(33, 1, 'like', 'mario', 'mario', '2015-01-17 17:43:12', 0),
+(34, 1, 'like', 'mario', 'mario', '2015-01-17 17:46:47', 0),
+(35, 1, 'like', 'mario', 'mario', '2015-01-17 17:47:04', 0),
+(36, 1, 'like', 'mario', 'mario', '2015-01-17 17:53:36', 0),
+(37, 1, 'like', 'mario', 'mario', '2015-01-17 17:57:19', 0),
+(38, 1, 'like', 'mario', 'mario', '2015-01-17 17:59:31', 0),
+(39, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 18:09:52', 0),
+(40, 1, 'like', 'mario', 'mario', '2015-01-17 18:38:35', 0),
+(41, 1, 'like', 'mario', 'mario', '2015-01-17 18:38:45', 0),
+(42, 1, 'like', 'mario', 'mario', '2015-01-17 18:39:17', 0),
+(43, 1, 'like', 'mario', 'mario', '2015-01-17 18:41:22', 0),
+(44, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 18:58:29', 0),
+(45, 1, 'like', 'mario', 'mario', '2015-01-17 19:01:09', 0),
+(46, 1, 'like', 'mario', 'mario', '2015-01-17 19:02:29', 0),
+(47, 1, 'like', 'mario', 'mario', '2015-01-17 19:04:01', 0),
+(48, 1, 'like', 'mario', 'mario', '2015-01-17 19:07:29', 0),
+(49, 1, 'like', 'mario', 'mario', '2015-01-17 19:07:58', 0),
+(50, 1, 'like', 'mario', 'mario', '2015-01-17 19:09:02', 0),
+(51, 1, 'like', 'mario', 'mario', '2015-01-17 19:09:30', 0),
+(52, 1, 'like', 'mario', 'mario', '2015-01-17 19:10:12', 0),
+(53, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 19:13:12', 0),
+(54, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 19:14:16', 0),
+(55, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 19:17:09', 0),
+(56, 2, 'like', 'mario', 'lfrancisco', '2015-01-17 19:18:20', 0),
+(57, 40, 'like', 'mario', 'lfrancisco', '2015-01-18 00:24:19', 0),
+(58, 41, 'like', 'mario', 'lfrancisco', '2015-01-18 00:25:18', 0),
+(59, 42, 'like', 'mario', 'lfrancisco', '2015-01-18 00:52:36', 0),
+(60, 2, 'comment', 'mario', 'lfrancisco', '2015-01-20 03:21:54', 0),
+(61, 43, 'like', 'mario', 'lfrancisco', '2015-01-20 06:53:59', 0),
+(62, 44, 'like', 'mario', 'lfrancisco', '2015-01-20 06:54:13', 0),
+(63, 45, 'like', 'mario', 'lfrancisco', '2015-01-20 06:54:20', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `aros`
+--
+
+CREATE TABLE IF NOT EXISTS `aros` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_aros_lft_rght` (`lft`,`rght`),
+  KEY `idx_aros_alias` (`alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Extraindo dados da tabela `aros`
+--
+
+INSERT INTO `aros` (`id`, `parent_id`, `model`, `foreign_key`, `alias`, `lft`, `rght`) VALUES
+(1, NULL, 'Group', 1, NULL, 1, 6),
+(2, NULL, 'Group', 2, NULL, 7, 12),
+(3, 1, 'User', 11, NULL, 2, 3),
+(4, 1, 'User', 12, NULL, 4, 5),
+(5, 2, 'User', 13, NULL, 8, 9),
+(6, 2, 'User', 14, NULL, 10, 11),
+(7, NULL, 'User', 19, NULL, 13, 14),
+(8, NULL, 'User', 20, NULL, 15, 16),
+(9, NULL, 'User', 21, NULL, 17, 18);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `aros_acos`
+--
+
+CREATE TABLE IF NOT EXISTS `aros_acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `aro_id` int(10) NOT NULL,
+  `aco_id` int(10) NOT NULL,
+  `_create` varchar(2) NOT NULL DEFAULT '0',
+  `_read` varchar(2) NOT NULL DEFAULT '0',
+  `_update` varchar(2) NOT NULL DEFAULT '0',
+  `_delete` varchar(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ARO_ACO_KEY` (`aro_id`,`aco_id`),
+  KEY `idx_aco_id` (`aco_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+
+--
+-- Extraindo dados da tabela `aros_acos`
+--
+
+INSERT INTO `aros_acos` (`id`, `aro_id`, `aco_id`, `_create`, `_read`, `_update`, `_delete`) VALUES
+(8, 1, 264, '1', '1', '1', '1'),
+(9, 2, 264, '-1', '-1', '-1', '-1'),
+(10, 2, 266, '1', '1', '1', '1'),
+(11, 2, 267, '1', '1', '1', '1'),
+(12, 2, 269, '1', '1', '1', '1'),
+(13, 2, 277, '1', '1', '1', '1'),
+(14, 2, 278, '1', '1', '1', '1'),
+(15, 2, 300, '1', '1', '1', '1'),
+(16, 2, 305, '1', '1', '1', '1'),
+(17, 2, 306, '1', '1', '1', '1'),
+(18, 2, 319, '1', '1', '1', '1'),
+(19, 2, 332, '1', '1', '1', '1'),
+(20, 2, 327, '1', '1', '1', '1'),
+(21, 2, 326, '1', '1', '1', '1'),
+(22, 2, 342, '1', '1', '1', '1'),
+(23, 2, 343, '1', '1', '1', '1'),
+(24, 2, 344, '1', '1', '1', '1'),
+(25, 2, 345, '1', '1', '1', '1'),
+(26, 2, 338, '1', '1', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -75,15 +311,7 @@ CREATE TABLE IF NOT EXISTS `chat` (
   `datemade` datetime NOT NULL,
   `checked` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Extraindo dados da tabela `chat`
---
-
-INSERT INTO `chat` (`id`, `user1`, `user2`, `text`, `datemade`, `checked`) VALUES
-(1, 'SidSepulveda', 'mario', 'Hey, tudo bem?', '2015-01-01 00:00:00', b'0'),
-(2, 'SidSepulveda', 'mario', 'Que tens feito?', '2015-01-01 00:00:00', b'0');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -99,19 +327,17 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `datemade` datetime NOT NULL,
   `content` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
 
 --
 -- Extraindo dados da tabela `comments`
 --
 
 INSERT INTO `comments` (`id`, `post`, `product`, `user`, `datemade`, `content`) VALUES
-(1, 1, 0, 'mario', '2014-12-08 18:15:00', 'This is a great language!'),
-(11, 12, 0, 'mario', '0000-00-00 00:00:00', 'olá'),
-(20, 1, 0, 'mario', '0000-00-00 00:00:00', 'teste'),
-(21, 3, 0, 'mario', '0000-00-00 00:00:00', 'Que fome! :D~'),
-(39, 1, 0, 'mario', '0000-00-00 00:00:00', 'hello'),
-(64, 4, 0, 'mario', '0000-00-00 00:00:00', 'as');
+(7, 1, 0, 'lfrancisco', '2015-01-16 21:44:56', 'Olá'),
+(9, 3, 0, 'mario', '2015-01-17 01:43:27', 'Tangerinas fazem bem à saúde!'),
+(48, 0, 6, 'mario', '0000-00-00 00:00:00', 'Yummi'),
+(54, 2, 0, 'mario', '2015-01-20 03:21:54', 'Belas férias!');
 
 -- --------------------------------------------------------
 
@@ -137,15 +363,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `google` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Extraindo dados da tabela `companies`
---
-
-INSERT INTO `companies` (`id`, `name`, `address`, `location`, `ifn`, `category`, `user`, `phone`, `email`, `website`, `about`, `picture`, `twitter`, `facebook`, `google`) VALUES
-(1, 'A Grande Empresa', '111 Rua das Empresas,4490-898  Porto', 'Portugal', 1234567890, 'Exportadora de grandes produtos', 'mario', '252818818', 'grande_empresa@gmail.com', '', 'Esta grande empresa foi fundada pelo empreendedor Mário Francisco!', 'http://gobigusa.com/yahoo_site_admin/assets/images/GB-logo-HiRes_WEB.13804938.jpg', '', '', ''),
-(2, 'Sid', '111 Rua das Empresas,4490-898  Porto', 'Portugal', 1234567890, 'Exportadora de grandes produtos', 'SidSepulveda', '252818818', 'grande_empresa@gmail.com', '', 'Esta grande empresa foi fundada pelo empreendedor Mário Francisco!', 'http://gobigusa.com/yahoo_site_admin/assets/images/GB-logo-HiRes_WEB.13804938.jpg', '', '', '');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -159,16 +377,7 @@ CREATE TABLE IF NOT EXISTS `followers` (
   `company` varchar(255) NOT NULL,
   `datemade` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Extraindo dados da tabela `followers`
---
-
-INSERT INTO `followers` (`id`, `user`, `company`, `datemade`) VALUES
-(1, 'mario', 'A Grande Empresa', '2014-12-01 04:42:44'),
-(2, 'mario', 'BLABLABLA', '2014-12-02 05:18:37'),
-(3, 'mario', 'Sid', '2015-01-08 03:02:06');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -186,18 +395,38 @@ CREATE TABLE IF NOT EXISTS `friends` (
   UNIQUE KEY `id` (`id`),
   KEY `id_2` (`id`),
   KEY `id_3` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Extraindo dados da tabela `friends`
 --
 
 INSERT INTO `friends` (`id`, `user1`, `user2`, `datemade`, `accepted`) VALUES
-(2, 'mario', 'SidSepulveda', '2014-09-10 00:00:00', 1),
-(3, 'admin', 'mario', '2014-09-23 00:00:00', 1),
-(9, 'mario', 'alexandracontas', '2014-11-19 08:46:53', 0),
-(11, 'jpeter', 'mario', '2014-12-01 00:00:00', 0),
-(12, 'trafulha', 'mario', '2015-01-08 04:08:59', 1);
+(1, 'lfrancisco', 'mario', '2015-01-16 07:41:17', 1),
+(9, 'mario', 'asilva', '2015-01-17 08:58:44', 1),
+(14, 'jmane', 'mario', '2015-01-17 07:53:17', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Extraindo dados da tabela `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `created`, `modified`) VALUES
+(1, 'administrators', '2015-01-19 19:28:01', '2015-01-19 19:28:01'),
+(2, 'users', '2015-01-19 19:28:07', '2015-01-19 19:28:07');
 
 -- --------------------------------------------------------
 
@@ -214,20 +443,18 @@ CREATE TABLE IF NOT EXISTS `items` (
   `price` float NOT NULL,
   `category` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
+  `datemade` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Extraindo dados da tabela `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `description`, `picture`, `user`, `price`, `category`, `alias`) VALUES
-(1, 'Azeite Gallo', 'O melhor azeite de Portugal', 'http://3.bp.blogspot.com/-aV7K62ENM_8/URGle_IuWMI/AAAAAAAADBw/_jyd2eCpVHs/s1600/GRD_2764_Azeite+Gallo+Extra+Virgem+Vidro.jpg', 'admin', 7.5, 'Shopping', 'azeitegallo'),
-(2, 'Super Bock', 'Cerveja gostosa!', 'http://revipackonline.files.wordpress.com/2012/11/image.png', 'mario', 5.75, 'Shopping', 'superbock'),
-(5, 'Viagem às Bahamas', 'Descanso perfeito para qualquer pessoa', 'http://foundtheworld.com/wp-content/uploads/2014/06/bahamas-4.jpg', 'SidSepulveda', 3000, 'Viagens', 'viagemasbahamas'),
-(6, 'Francesinha do Mestre', 'O melhor restaurante de francesinhas da zona de Vila do Conde', 'http://s27.postimg.org/rmt2dxqb7/omestre1_533x400.jpg', 'mario', 10, 'Restaurantes', 'francesinhadomestre');
+INSERT INTO `items` (`id`, `name`, `description`, `picture`, `user`, `price`, `category`, `alias`, `datemade`) VALUES
+(6, 'Banana da Madeira', 'banana', 'http://imagens3.publico.pt/imagens.aspx/800753?tp=UH&db=IMAGENS', 'asilva', 1, 'fruta', 'banana', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -240,15 +467,17 @@ CREATE TABLE IF NOT EXISTS `likes` (
   `post_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Extraindo dados da tabela `likes`
 --
 
 INSERT INTO `likes` (`id`, `post_id`, `username`) VALUES
-(13, 1, 'mario'),
-(15, 4, 'mario');
+(42, 2, 'mario'),
+(43, 5, 'mario'),
+(44, 4, 'mario'),
+(45, 6, 'mario');
 
 -- --------------------------------------------------------
 
@@ -283,38 +512,21 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `tagged` varchar(255) NOT NULL,
   `title` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Extraindo dados da tabela `posts`
 --
 
 INSERT INTO `posts` (`id`, `user`, `datemade`, `content`, `picture`, `video`, `location`, `tagged`, `title`) VALUES
-(1, 'admin', '2014-09-24 00:00:00', 'PHP is a server-side scripting language designed for web development but also used as a general-purpose programming language.', 'http://www.pawprint.net/images/news/1-4fac83467069c.png', '', '', '', 'Linguagem PHP'),
-(2, 'mario', '2014-09-25 00:00:00', '', 'http://local.brookings.k12.sd.us/krscience/zoology/webpage%20projects/sp11webprojects/baboon/olivebaboon2.jpg', '', '', '', NULL),
-(3, 'SidSepulveda', '2014-09-23 00:00:00', '', '', 'http://www.youtube.com/watch?v=NK3-Cy33pKs', '', '', 'A politica da comida'),
-(4, 'admin', '2014-09-25 00:00:00', '', 'http://www.hdwallpapers.in/walls/african_lion_king-wide.jpg', '', '', '', NULL),
-(5, 'mario', '2014-10-28 12:32:07', '\nWhy use CakePHP\nBuild Quickly\n\nUse code generation and scaffolding features to rapidly build prototypes.\nNo Configuration\n\nNo complicated XML or YAML files. Just setup your database and you''re ready to bake.\nFriendly License\n\nCakePHP is license', '', '', '', '', 'cakephp'),
-(6, 'mario', '2014-10-08 13:12:37', '', '', 'https://www.youtube.com/watch?v=3JluqTojuME', '', '', 'Web programming'),
-(7, 'mario', '0000-00-00 00:00:00', 'Hello world!', '', '', '', '', 'OlÃ¡'),
-(8, 'mario', '0000-00-00 00:00:00', 'Este post é um teste', '', '', '', '', 'Teste'),
-(10, 'mario', '0000-00-00 00:00:00', 'jabsfpasfoafjaf', '', '', '', '', 'teste'),
-(11, 'mario', '0000-00-00 00:00:00', 'Olá', '', '', '', '', 'Hello'),
-(12, 'mario', '0000-00-00 00:00:00', 'agagwgwe', '', '', '', '', 'sdasfa'),
-(13, 'mario', '0000-00-00 00:00:00', 'Mané', '', '', '', '', 'ZÃ©'),
-(14, 'mario', '0000-00-00 00:00:00', 'TROLOLOLOLOL', '', '', '', '', 'HAHAHAHAHA'),
-(15, 'mario', '0000-00-00 00:00:00', 'Olá', '', '', '', '', 'OlÃ¡'),
-(16, 'mario', '0000-00-00 00:00:00', 'Olá de teste', '', '', '', '', 'OlÃ¡ a todos'),
-(17, 'mario', '0000-00-00 00:00:00', 'asda asd ', '', '', '', '', 'asdasd asd'),
-(18, 'mario', '0000-00-00 00:00:00', 'aas asd asdas dsdas', '', '', '', '', 'asd'),
-(19, 'mario', '0000-00-00 00:00:00', '11111111111', '', '', '', '', '1111111111'),
-(20, 'mario', '0000-00-00 00:00:00', '1122222', '', '', '', '', '1111111'),
-(21, 'mario', '0000-00-00 00:00:00', 'Teste final', '', '', '', '', 'Teste final'),
-(22, 'mario', '0000-00-00 00:00:00', 'is anybody out there?', '', '', '', '', 'oi'),
-(23, 'mario', '0000-00-00 00:00:00', 'Ok', '', '', '', '', 'Hello?'),
-(24, 'mario', '0000-00-00 00:00:00', 'Post blablabla', '', '', '', '', 'Post1'),
-(25, 'mario', '0000-00-00 00:00:00', 'OlÃ¡', '', '', '', '', 'OlÃ¡'),
-(26, 'mario', '0000-00-00 00:00:00', 'OlÃ¡ mundo', '', '', '', '', 'OlÃ¡');
+(1, 'mario', '0000-00-00 00:00:00', 'Olá pessoal!', 'http://upload.wikimedia.org/wikipedia/en/6/65/Hello_logo_sm.gif', '', '', '', 'Olá'),
+(2, 'lfrancisco', '2015-01-16 20:36:28', 'As melhores férias!', 'http://pacotes-viagens.com/wp-content/uploads/2013/05/ferias-julho.jpg', '', '', '', 'Férias'),
+(3, 'mario', '2015-01-17 01:43:05', 'Olá', 'http://meucantinho.org/medicina/tangerinas-e-gomos-336.jpg', '', '', '', 'Olá'),
+(4, 'lfrancisco', '2015-01-16 20:36:28', 'EVE ONLINE MMO', '', 'https://www.youtube.com/watch?v=5x-0gNCGeGU', '', '', 'Gaming'),
+(5, 'lfrancisco', '2015-01-16 20:36:28', 'Grande jogo', 'http://cdn1.eveonline.com/www/newssystem/media/64025/1/Retribution_Thumbnail.jpg', '', '', '', 'Gaming'),
+(6, 'lfrancisco', '2015-01-16 20:36:28', 'EVE Online is a massively multiplayer online game set 23,000 years in the future. As an elite spaceship pilot, you will explore, build, and dominate across a universe of over 7,000 star systems. Sandbox gameplay and advanced skill-based progression provid', '', '', '', '', 'Gaming'),
+(7, 'lfrancisco', '2015-01-16 20:36:28', 'MMO espacial', 'http://cdn1.eveonline.com/www/newssystem/media/64025/1/Retribution_Thumbnail.jpg', 'https://www.youtube.com/watch?v=5x-0gNCGeGU', '', '', 'Gaming'),
+(9, 'jmane', '2015-01-16 20:36:28', 'Em termos botânicos, o fruto é uma estrutura presente em todas as angiospermas onde as sementes são protegidas enquanto amadurecem.', 'https://www.saibamaismg.com.br/wp-content/uploads/2014/09/2090289868.jpg', 'https://www.youtube.com/watch?v=6I1Ikfk149Y', '', '', 'Fruta');
 
 -- --------------------------------------------------------
 
@@ -345,7 +557,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `userlevel` enum('a','b','c','d') NOT NULL DEFAULT 'a',
+  `group_id` int(11) NOT NULL,
   `about` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `company` varchar(255) DEFAULT NULL,
@@ -358,25 +570,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ip` varchar(255) NOT NULL,
   `signup` datetime NOT NULL,
   `lastlogin` datetime NOT NULL,
-  `notescheck` datetime NOT NULL,
-  `activated` enum('0','1') NOT NULL DEFAULT '0',
+  `activated` smallint(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `country`, `userlevel`, `about`, `title`, `company`, `phone`, `picture`, `website`, `facebook`, `google`, `twitter`, `ip`, `signup`, `lastlogin`, `notescheck`, `activated`) VALUES
-(1, 'admin', 'calpis.nomu@gmail.com', '$2a$10$10tq9DoFq5lHxZcDEZq3Xuxr6SrznnkGXPK.LkMqQgYWHF3empoCm', 'Luís', 'Francisco', 'Portugal', 'd', 'Um gajo 5 estrelas', 'Sr.', 'The amazing company!', '222333444', 'http://images.nationalgeographic.com/wpf/media-live/photos/000/004/cache/amazon-horned-frog_443_600x450.jpg', 'www.deliciaego.com', 'https://www.facebook.com/', 'https://plus.google.com/getstarted?fww=1', 'twitter.com', '192.168.1.2', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '2014-09-14 00:00:00', '1'),
-(2, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$10tq9DoFq5lHxZcDEZq3Xuxr6SrznnkGXPK.LkMqQgYWHF3empoCm', '', 'Francisco', 'Portugal', 'a', 'HI', 'Mr.', 'Nespithe', '123456', 'http://upload.wikimedia.org/wikipedia/commons/6/60/User.svg', 'www.mariowebpage.com', 'www.facebook.com/marioasfrancisco', 'www.google.com/marioasfrancisco', 'www.twitter.com/marioasfrancisco', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(3, 'SidSepulveda', 'jawnfkajwf@gmail.com', '$2a$10$PFTyDTW3Ij/q4tz5VoRAYeqpSxhc2HrbpV4LC1PyKAlGVo9jplqkS', 'Armando', 'Oliveira', 'Portugal', 'a', 'Macacos, gorilas, babuÃ­nos e companhia!', 'Sra.', 'Baboon', '911234356', 'http://irritableblonde.com/wp-content/uploads/2014/03/baboon.jpg', 'www.google.com', 'www.facebook.com/baboon', 'www.google.com/baboongoogle', 'www.twitter.com/baboontwitter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0'),
-(4, 'zemanel', 'zemanel@gmail.com', '$2a$10$3jC66EpraL.zdYcj4Ev3LueFOEQHx71E1WeFqfz4TrRMwnrLQW3Te', 'José', 'Manuel', 'Portugal', 'a', 'Gosto de passear, comer e beber bem!', 'Sr.', 'Tasca do Zé Manel', '911237654', 'http://faltadar.files.wordpress.com/2011/05/tasca_rasca2006_021.jpg', '', 'www.facebook.com/zemanel', 'www.google.com/zemanel', 'www.twitter.com/zemanel', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(5, 'maria_albertina', 'marialbertina@gmail.com', '$2a$10$b6siKn0EB7iVcbc.Tj1v4uPyVefya2HBl9SyP9rAHEBLNbPPYWMQ2', 'Maria', 'Albertina', 'Portugal', 'a', 'Cozinheira profissional', 'Dona', 'Tasca do Zé Manel', '938765678', 'http://tv.i.uol.com.br/televisao/2011/11/25/ana-maria-braga-durante-gravacao-do-tema-de-fim-de-ano-da-globo-271111-1322220956296_200x285.jpg', '', 'www.facebook.com/maria_albertina', 'www.google.com/maria_albertina', 'www.twitter.com/maria_albertina', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(6, 'trafulha', 'trafulha@gmail.com', '$2a$10$yKdjZv96bOofoUxJ6p1PbewziU/WxaojIVaKSXIrMmYCMDrxmwf5O', 'António', 'Madureira', 'Portugal', 'a', 'Investidor de alto risco', 'Sr.', 'Loja do Trafulha', '252765478', 'http://5ones.com/wp-content/uploads/2008/11/greencard-300x299.jpg', '', 'www.facebook.com/trafulha', 'www.google.com/trafulha', 'www.twitter.com/trafulha', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(7, 'alexandracontas', 'alexandracontas@gmail.com', '$2a$10$bUC3EmVHjsdHbPmpyPEPVu1PtaR3qsPsvtwUjcvDDXNTg56FcY7KG', 'Alexandra', 'Ribeiro', 'Portugal', 'a', 'A melhor contabilista de Portugal.', 'Dra.', 'Loja do Trafulha', '967483956', 'http://educationcareerarticles.com/wp-content/uploads/2013/08/accountant.jpg', '', 'www.facebook.com/alexandra', 'www.google.com/alexandra', 'www.twitter.com/alexandra', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(8, 'jpeter', 'jpeter@gmail.com', '$2a$10$gGb7i1MgHhxvrJP237duP.K0/7G/w.Dv.GG439TsIYtKffbJvOrCa', 'John', 'Peter', 'USA', 'a', 'Circus performer', 'Sr.', 'The Amazing Circus', '914235858', 'http://eastbrooklyn.com/wp-content/uploads/2014/08/bald-clown-cap-64403.jpg', '', 'www.facebook.com/jpeter', 'www.google.com/jpeter', 'www.twitter.com/jpeter', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `first_name`, `last_name`, `country`, `group_id`, `about`, `title`, `company`, `phone`, `picture`, `website`, `facebook`, `google`, `twitter`, `ip`, `signup`, `lastlogin`, `activated`) VALUES
+(11, 'lfrancisco', 'calpis.nomu@gmail.com', '$2a$10$gV7OfpbXMttNb8ickFwWzuyaR8UxjsVMladD8mr9HiqoGKvP/6k.6', 'Luís', 'Francisco', 'Portugal', 1, 'Administrator', 'Mr.', '', '', 'http://imgs.abduzeedo.com/files/articles/adorable-zoo-portraits-yago-partal/tumblr_mk21holX7N1s7aky5o2_r1_500.jpg', '', '', '', '', '', '2015-01-19 19:46:00', '2015-01-19 19:46:00', 1),
+(12, 'mario', 'marioasfrancisco@gmail.com', '$2a$10$KbjQapbS3Jy8igTZJ8Ua1.VI2Xa5BgZLLkUgQ4xbFVOuXR6QbU/Gm', 'Mário', 'Francisco', 'Portugal', 1, 'Administrator', 'Mr.', 'Francisco Company', '', 'http://stylesaveus.com/wp-content/uploads/2013/03/style-save-us-bear-in-suit.jpg', '', '', '', '', '127.0.0.1', '2015-01-19 19:46:00', '2015-01-20 07:37:02', 1),
+(13, 'asilva', 'asilva@fakemail.com', '$2a$10$hPKZXQYU58a9y4fDX74TC.ZuU2MYKdyba7xaVo3NhcH/OIFNV.cCy', 'António', 'Silva', 'Portugal', 2, 'Olá sou o António Silva', 'Mr.', '', '', 'https://animalsinsuits.files.wordpress.com/2008/01/proffesordog2.jpg', '', '', '', '', '', '2015-01-19 19:46:00', '2015-01-19 19:46:00', 1),
+(14, 'jmane', 'jmane@fakemail.com', '$2a$10$x/UX4LexPPqPGOW5CkKSWOEDulVMPgj5fBmjv5J/8rX4zWHtHbci.', 'José', 'Manuel', 'Portugal', 2, 'Olá sou o José Manuel', 'Mr.', '', '', 'http://berbicemarket.com/wp-content/uploads/2013/04/wpid-zhrCjYG.jpg', '', '', '', '', '', '2015-01-19 19:46:00', '2015-01-19 19:46:00', 1);
 
 -- --------------------------------------------------------
 
@@ -389,14 +596,7 @@ CREATE TABLE IF NOT EXISTS `wishlists` (
   `product_id` int(11) NOT NULL,
   `user` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Extraindo dados da tabela `wishlists`
---
-
-INSERT INTO `wishlists` (`id`, `product_id`, `user`) VALUES
-(1, 1, 'mario');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
