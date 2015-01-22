@@ -68,5 +68,8 @@ class Activity extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	public function isOwnedBy($activity, $user) {
+	    return $this->field('id', array('id' => $activity, 'user_id' => $user)) !== false;
+	}
 
 }

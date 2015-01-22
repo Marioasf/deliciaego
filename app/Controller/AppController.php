@@ -40,29 +40,32 @@
             //'Session',
             'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
             'Form' => array('className' => 'BoostCake.BoostCakeForm'),
-            'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
+            'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+            'Session'
         );
  
 
         public $components = array(
-            'Acl',
             'Session',
             'RequestHandler',
+
             'Auth' => array(
-                'authorize' => array(
-                    'Actions' => array('actionPath' => 'controllers')
-                ),
                 'loginRedirect' => array(
-                    'controller' => 'posts',
-                    'action' => 'index'
+                                'controller' => 'posts',
+                                'action' => 'index'
                 ),
                 'logoutRedirect' => array(
-                    'controller' => 'users',
-                    'action' => 'login'
+                                'controller' => 'posts',
+                                'action' => 'index'
                 ),
+                //'authorize' => array('Controller'),
                 'authenticate' => array(
                     'Form' => array(
-                        'passwordHasher' => 'Blowfish'
+                        'passwordHasher' => 'Blowfish',
+                        'fields'         => array(
+                                             'username' => 'username',
+                                             'password' => 'password',
+                                            ),
                     )
                 ),//Boostcake plugin
                  'flash' => array(
@@ -76,25 +79,22 @@
             )
         );
 
+
     // only allow the login controllers only
     public function beforeFilter() {
-        /*$this->Auth->allow();
-        
-        $this->Auth->allow('login','signup', 'logout', 'confirm_account');
-
-        $this->Auth->allow(array('controller' => 'posts' , 'action' => 'index'));
-
-        $this->Auth->allow(array('controller' => 'items' , 'action' => 'index', 'view'));
-
-        $this->Auth->allow(array('controller' => 'companies' , 'action' => 'index', 'view'));*/
-        //$this->Auth->allow('display');
-        //$this->Auth->deny('*');
-        //$this->Auth->allow('display');
-        $this->Auth->allow(array('controller' => 'users', 'action' => 'login', 'signup', 'confirm_account'));
-        /*Configuração do AuthComponent para usar Actions authorization*/
-        $this->Auth->authorize = 'Actions';
-        $this->Auth->actionPath = 'Controllers/';
-
+        /*Receita milagrosa para funcionar o login*/
+        $this->Auth->authenticate = array(
+                AuthComponent::ALL => array(
+                    'userModel' => 'User',
+                    'fields' => array(
+                        'username' => 'username',
+                        'password' => 'password'
+                    )
+                ), 'Form'=> array(
+                        'passwordHasher' => 'Blowfish'
+                    )
+            );
+        $this->Auth->allow('index','display');
 
         $user_id=$this->User->find('first', array(
             'fields' => array('User.id'),
@@ -119,18 +119,24 @@
         /*Carregamento das actividades e informação dos utilizadores associados */
 
         //carrega todas as notificações do utilizador em sessão excepto adicionar amigos
-         $activities = $this->Activity->find('all', array(
-        'conditions' => array('Activity.friend_username' => $this->Auth->user('username'),           
-        'Activity.checked' => 0, 'Activity.type !=' => 'add')));
-         
+         $activity_list = $this->Activity->find('all', array(
+        'conditions' => array(
+            'Activity.friend_username' => $this->Auth->user('username'), 'Activity.checked' => 0
+            )
+        ));
+
+       //debug($activity_list);die;
         //info a apresentar dos utilizadores responsáveis pelas actividades
-         for($i=0;$i<count($activities);$i++)
-         {
-            $activity_user[$i] = $this->User->find('all', array(
+         //for($i=0;$i<count($activity_list);$i++)
+         if(!empty($activity_list)) {
+            $activity_list_u = Hash::extract($activity_list, '{n}.Activity.username');
+
+            $activity_user = $this->User->find('all', array(
             'fields' => array('User.username','User.first_name', 'User.last_name', 'User.picture'),
-            'conditions' => array('User.username' => $activities[$i]['Activity']['username'])));
+            'conditions' => array('User.username' => $activity_list_u)));
         }
         
+        //debug($activity_user);die;
         /*Carregamento das mensagens recebidas*/
         $chat_received = $this->Chat->find('all', array(
         'conditions' => array('Chat.user2' => $this->Auth->user('username'),
@@ -161,7 +167,7 @@
 
         $this->set('friend_requests',$friend_requests);
 
-        $this->set('activities',$activities);
+        $this->set('activity_list',$activity_list);
 
         $this->set('chat_received',$chat_received);
 

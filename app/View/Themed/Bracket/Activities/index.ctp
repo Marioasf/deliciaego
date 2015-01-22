@@ -1,32 +1,31 @@
 <div class="activities index">
-	<h2><?php echo __('Activities'); ?></h2>
+	<h2><?php echo __('Lista de notificações'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('type'); ?></th>
-			<th><?php echo $this->Paginator->sort('activity_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('username'); ?></th>
-			<th><?php echo $this->Paginator->sort('friend_username'); ?></th>
-			<th><?php echo $this->Paginator->sort('datemade'); ?></th>
-			<th><?php echo $this->Paginator->sort('checked'); ?></th>
+			<th><?php echo $this->Paginator->sort('Tipo'); ?></th>
+			<th><?php echo $this->Paginator->sort('Utilizador'); ?></th>
+			<th><?php echo $this->Paginator->sort('Data'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($activities as $activity): ?>
 	<tr>
-		<td><?php echo h($activity['Activity']['id']); ?>&nbsp;</td>
 		<td><?php echo h($activity['Activity']['type']); ?>&nbsp;</td>
-		<td><?php echo h($activity['Activity']['activity_id']); ?>&nbsp;</td>
 		<td><?php echo h($activity['Activity']['username']); ?>&nbsp;</td>
-		<td><?php echo h($activity['Activity']['friend_username']); ?>&nbsp;</td>
 		<td><?php echo h($activity['Activity']['datemade']); ?>&nbsp;</td>
-		<td><?php echo h($activity['Activity']['checked']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $activity['Activity']['id'])); ?>
-			<?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $activity['Activity']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $activity['Activity']['id']), array(), __('Are you sure you want to delete # %s?', $activity['Activity']['id'])); ?>
+			<?php echo $this->Html->link(__('Ver detalhes'), array('action' => 'view', $activity['Activity']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Apagar'), array('action' => 'delete', $activity['Activity']['id']), array(), __('De certeza que deseja apagar?')); ?>
+			 <?php 
+			 if($activity['Activity']['checked']==0){
+			 	echo $this->Form->create('Activity');	
+			 	echo $this->Form->input('id', array('value' => $activity['Activity']['id'], 'type' => 'hidden'));
+			 	echo $this->Form->input('checked', array('value' => '1', 'type' => 'hidden'));
+			    echo $this->Form->end(__('Marcar como lida'), array(), __('De certeza que quer marcar esta actividade como lida?'));
+			}
+			 ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -35,20 +34,14 @@
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+	'format' => __('Página {:page} de {:pages}, a mostrar {:current} registos de um total de {:count}, a começar no registo {:start}, e a acabar em {:end}')
 	));
 	?>	</p>
 	<div class="paging">
 	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+		echo $this->Paginator->prev('< ' . __('antes'), array(), null, array('class' => 'prev disabled'));
 		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+		echo $this->Paginator->next(__('depois') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Activity'), array('action' => 'add')); ?></li>
-	</ul>
 </div>

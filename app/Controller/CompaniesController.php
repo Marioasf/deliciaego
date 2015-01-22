@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+use \DragonBe\Vies\Vies;
 /**
  * Companies Controller
  *
@@ -16,7 +17,7 @@ class CompaniesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	public $uses = array('Company','Follower', 'Friend','Item');
+	public $uses = array('Company','Follower', 'Friend','Item','Post');
 
 	public function beforeFilter() {
 	    parent::beforeFilter();
@@ -90,23 +91,37 @@ class CompaniesController extends AppController {
 			'conditions' => array('Company.id' => $id)
 		));
 
-		$followers = $this->Follower->find('all', array(
+		if(!empty($company)) 
+			$followers = $this->Follower->find('all', array(
 		'fields' => array('Follower.user'),
 		'conditions' => array('Follower.company' => $company[0]['Company']['name'])
 		));
+			
+		if(!empty($followers)){
+			//debug($followers);
+			$follower_list = Hash::extract($followers, '{n}.Follower.user');
+			//debug($follower_list);die;
+			$follower_info=$this->User->find('all', array(
+				'conditions' => array(
+					'User.username' => $follower_list
+					)
+				));
+			//debug($follower_info);die;
+		}
+		if(isset($follower_info))
+			$this->set('follower_info',$follower_info);
 
-		$friends = $this->Friend->find('all', array(
-		'conditions' => array('Friend.user1' => $this->Auth->user('username'), 'Friend.user2' => $followers[0]['Follower']['user'])
-		));
-		if(isset($friends)){
-			$this->set('friends', $friends);
+		//debug($company);
 
-			for($i=0; $i<count($friends); $i++){
-				if($friend_info[$i][0]['User']['username'] === $company[0]['Company']['user'])
-					$friend_info[$i] = $this->User->find('all', array(
-					'conditions' => array('User.username' => $friends[$i]["Friend"]["user2"])
-					));
-			}
+		$company_posts=$this->Post->find('all',array(
+			'conditions' => array(
+					'Post.user' => $company[0]['Company']['user']
+				)
+			));
+
+		if(isset($company_posts)){
+			//debug($company_posts);die;
+			$this->set('company_posts',$company_posts);
 		}
 
 
@@ -114,10 +129,11 @@ class CompaniesController extends AppController {
 		 'fields' => array('Item.name', 'Item.description', 'Item.picture', 'Item.user', 'Item.price', 'Item.id'),
 		  'conditions' => array('Item.user' => $company[0]['Company']['user'])
 		  ));
+		 //debug($items);die;
 		 $this->set('items', $items);
 
-		if(isset($friend_info))
-			$this->set('friend_info',$friend_info);
+		/*if(isset($friend_info))
+			$this->set('friend_info',$friend_info);*/
 
 		if(isset($company))
 			$this->set('company', $company);
@@ -131,20 +147,56 @@ class CompaniesController extends AppController {
 	public function add() {
 
 		if ($this->request->is('post')) {
-			$this->Company->create();
-			if ($this->Company->save($this->request->data)) {
-				$this->Session->setFlash(__('A sua empresa foi guardada com sucesso.'), 'alert', array(
+			
+			//debug($this->Company);
+			$conditions = array(
+			    'Company.name =' => $this->request->data['Company']['name'],
+			    'Company.ifn =' => $this->request->data['Company']['ifn']
+			);
+			if (!$this->Company->hasAny($conditions)){
+				
+				//Cria objecto da classe Vies, responsável por verificar o NIF da empresa
+				//$vies = new Vies();
+				$vies = new \DragonBe\Vies\Vies();
+				/*if (false === $vies->getHeartBeat()->isAlive()) {
+					$this->Session->setFlash(__('O serviço de verificação do seu NIF encontra-se indisponível de momento. Por favor tente mais tarde.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+				}*/
+				//se NIF for válido a empresa é guardada
+				if($vies->validateVat('PT',$this->request->data['Company']['ifn'])->isValid()){
+					$this->Company->create();
+					if ($this->Company->save($this->request->data)) {
+						$this->Session->setFlash(__('A sua empresa foi guardada com sucesso.'), 'alert', array(
+								'plugin' => 'BoostCake',
+								'class' => 'alert-success'
+								));
+						return $this->redirect(array('action' => 'index'));
+					}
+					else {
+						$this->Session->setFlash(__('Ocorreu um erro. A sua empresa não pôde ser adicionada.'), 'alert', array(
+								'plugin' => 'BoostCake',
+								'class' => 'alert-danger'
+								));
+					}
+				}
+
+				else {
+					$this->Session->setFlash(__('Ocorreu um erro. O NIF providenciado para a sua empresa não é válido.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+				}
+			}
+			else {
+				$this->Session->setFlash(__('Ocorreu um erro. A empresa que tentou introduzir já se encontra registada.'), 'alert', array(
 						'plugin' => 'BoostCake',
-						'class' => 'alert-success'
-						));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('Ocorreu um erro. A sua empresa não pôde ser adicionada.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-success'
+						'class' => 'alert-danger'
 						));
 			}
 		}
+		
 	}
 
 /**

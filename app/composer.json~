@@ -1,0 +1,9 @@
+{
+	"config": {
+"vendor-dir": "Vendor"
+		},
+	"require": {
+		"slywalker/boost_cake": "*",
+		 "dragonbe/vies": "1.0.2"
+	}
+}

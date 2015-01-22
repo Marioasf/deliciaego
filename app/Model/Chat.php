@@ -77,4 +77,10 @@ class Chat extends AppModel {
 			),
 		),
 	);
+
+	public function isOwnedBy($chat, $user) {
+	    return $this->field('id', array('id' => $chat, 'user_id' => $user)) !== false;
+	}
+
+
 }

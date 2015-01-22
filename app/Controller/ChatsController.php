@@ -16,6 +16,10 @@ class ChatsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+	public function beforeFilter() {
+	  parent::beforeFilter();
+	}
+
 /**
  * index method
  *
@@ -23,7 +27,28 @@ class ChatsController extends AppController {
  */
 	public function index() {
 		$this->Chat->recursive = 0;
-		$this->set('chats', $this->Paginator->paginate());
+		$this->set('chats', $this->Paginator->paginate(
+			'Chat', array(
+				'OR' => array(
+				'Chat.user1' => $this->Auth->user('username'),
+				'Chat.user2' => $this->Auth->user('username')
+				)
+			)
+		));
+		/*Marcar conversa como lida*/
+		
+		if ($this->request->is(array('post', 'put'))) {
+			if (!$this->Chat->exists($this->request->data['Chat']['id'])) {
+				throw new NotFoundException(__('Invalid chat'));
+			}
+			//$this->request->data['Chat']['checked']='1';
+			//debug($this->request->data);die;
+			if ($this->Chat->save($this->request->data)) {
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Ocorreu um erro, tente novamente.'));
+			}
+		} 
 	}
 
 /**
@@ -46,8 +71,10 @@ class ChatsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function add($username=null) {
 		if ($this->request->is('post')) {
+			if(isset($username)) $this->request->data['Chat']['user2']=$username;
+			//debug($this->request->data['Chat']['user2']=$username);die;
 			$this->Chat->create();
 			if ($this->Chat->save($this->request->data)) {
 					$this->Session->setFlash(__('A sua mensagem foi enviada com sucesso.'), 'alert', array(
@@ -102,50 +129,20 @@ class ChatsController extends AppController {
 		$this->set('chats', $this->Paginator->paginate());
 	}
 
+
 /**
- * admin_view method
+ * edit method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function admin_view($id = null) {
-		if (!$this->Chat->exists($id)) {
-			throw new NotFoundException(__('Invalid chat'));
-		}
-		$options = array('conditions' => array('Chat.' . $this->Chat->primaryKey => $id));
-		$this->set('chat', $this->Chat->find('first', $options));
-	}
-
-/**
- * admin_add method
- *
- * @return void
- */
-	public function admin_add() {
-		if ($this->request->is('post')) {
-			$this->Chat->create();
-			if ($this->Chat->save($this->request->data)) {
-				$this->Session->setFlash(__('The chat has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The chat could not be saved. Please, try again.'));
-			}
-		}
-	}
-
-/**
- * admin_edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_edit($id = null) {
+	public function edit($id = null) {
 		if (!$this->Chat->exists($id)) {
 			throw new NotFoundException(__('Invalid chat'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			$this->request->data['Chat']['checked']=1;
 			if ($this->Chat->save($this->request->data)) {
 				$this->Session->setFlash(__('The chat has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -158,24 +155,5 @@ class ChatsController extends AppController {
 		}
 	}
 
-/**
- * admin_delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_delete($id = null) {
-		$this->Chat->id = $id;
-		if (!$this->Chat->exists()) {
-			throw new NotFoundException(__('Invalid chat'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Chat->delete()) {
-			$this->Session->setFlash(__('The chat has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The chat could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}
 }
+

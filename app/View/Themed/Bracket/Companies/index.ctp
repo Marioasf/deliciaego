@@ -13,35 +13,6 @@
           </div>
           
           <div class="contentpanel">
-
-            <ul class="letter-list">
-              <li><a href="#">a</a></li>
-              <li><a href="#">b</a></li>
-              <li><a href="#">c</a></li>
-              <li><a href="#">d</a></li>
-              <li><a href="#">e</a></li>
-              <li><a href="#">f</a></li>
-              <li><a href="#">g</a></li>
-              <li><a href="#">h</a></li>
-              <li><a href="#">i</a></li>
-              <li><a href="#">j</a></li>
-              <li><a href="#">k</a></li>
-              <li><a href="#">l</a></li>
-              <li><a href="#">m</a></li>
-              <li><a href="#">n</a></li>
-              <li><a href="#">o</a></li>
-              <li><a href="#">p</a></li>
-              <li><a href="#">q</a></li>
-              <li><a href="#">r</a></li>
-              <li><a href="#">s</a></li>
-              <li><a href="#">t</a></li>
-              <li><a href="#">u</a></li>
-              <li><a href="#">v</a></li>
-              <li><a href="#">w</a></li>
-              <li><a href="#">x</a></li>
-              <li><a href="#">y</a></li>
-              <li><a href="#">z</a></li>
-            </ul>
             
             <div class="mb30"></div>
             <?php
@@ -64,17 +35,17 @@
                     <div class="people-item">
                       <div class="media">';
 
-                        echo '<a href="companies/view/'.$companies[$i]['Company']['id'].'" class="pull-left">
-                          <img alt="" src="'.$companies[$i]['Company']['picture'].'" class="thumbnail media-object">
-                        </a>
+                        echo '<a href="companies/view/'.$companies[$i]['Company']['id'].'" class="pull-left">';
+                          if(!empty($companies[$i]['Company']['picture'])) echo '<img alt="" src="'.$companies[$i]['Company']['picture'].'" class="thumbnail media-object">';
+                        echo '</a>
                         <div class="media-body">
                           <a href="companies/view/'.$companies[$i]['Company']['id'].'">
                             <h4 class="person-name">'.$companies[$i]['Company']['name'].'</h4>
                           </a>';
                
-                          echo '<div class="text-muted"><i class="fa fa-map-marker"></i> '.$companies[$i]['Company']['address'].'</div>
-                          <div class="text-muted"><i class="fa fa-globe"></i> '.$companies[$i]['Company']['location'].'</a></div>
-                          <ul class="social-list">
+                          if(!empty($companies[$i]['Company']['address'])) echo '<div class="text-muted"><i class="fa fa-map-marker"></i> '.$companies[$i]['Company']['address'].'</div>';
+                          if(!empty($companies[$i]['Company']['location'])) echo '<div class="text-muted"><i class="fa fa-globe"></i> '.$companies[$i]['Company']['location'].'</a></div>';
+                          echo '<ul class="social-list">
                            <li>';
                            if ($this->Session->read('Auth.User')) 
                            {

@@ -140,4 +140,9 @@ class Company extends AppModel {
 			//),
 		),
 	);
+	
+	public function isOwnedBy($company, $user) {
+	    return $this->field('id', array('id' => $company, 'user_id' => $user)) !== false;
+	}
+
 }

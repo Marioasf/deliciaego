@@ -61,7 +61,6 @@
         <div class="tab-content">
           <!--<div class="tab-pane active" id="activities">
             <div class="activity-list">
-              <?php var_dump($activities); ?>
               <div class="media act-media">
                 <a class="pull-left" href="#">
                   <img class="media-object act-thumb" src="images/photos/user1.png" alt="" />
@@ -214,7 +213,8 @@
              <?php 
              if(isset($friend_info) && count($friend_info)>0){
                for($i=0; $i<count($friend_info); $i++){
-                  echo '<div class="media">';
+                  echo '<div class="people-item">
+                  <div class="media">';
                   if(!empty($friend_info[$i][0]['User']['picture'])){
                    echo '<a href="'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
                         <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
@@ -238,7 +238,8 @@
                       echo('/chats/add/').$friend_info[$i][0]['User']['username'];
                       echo'"><button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button></a>
                     </div>
-                  </div><!-- media -->';
+                  </div><!-- media -->
+                  </div>';
                  }     
                }
                 else{

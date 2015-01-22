@@ -17,6 +17,11 @@ class FriendsController extends AppController {
 public $components = array('Paginator', 'Session');
 public $uses = array('User','Friend','Activity');
 
+public function beforeFilter() {
+  parent::beforeFilter();
+}
+
+
 /**
  * index method
  *
@@ -104,7 +109,7 @@ public function accept() {
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
 				$this->request->data['Activity']['friend_username']=$friend_username['Friend']['user1'];
 				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
-				$this->request->data['Activity']['checked']='0';
+				$this->request->data['Activity']['checked']='1';
 
 				if($this->Activity->save($this->request->data)) {
 					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(

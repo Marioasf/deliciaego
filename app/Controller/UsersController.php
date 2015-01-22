@@ -21,72 +21,8 @@
 
 	public function beforeFilter() {
 	    parent::beforeFilter();
-	    //$this->Auth->allow('initDB'); // We can remove this line after we're finished
-	    $this->Auth->allow('login', 'signup', 'confirm_account');
+	    $this->Auth->allow('login', 'signup', 'confirm_account','logout','lock');
 	}
-
-	/*Popula as tabelas acos e aros_acos na BD com as ACLs*/
-	public function initDB() {
-	    $group = $this->User->Group;
-
-	    // Allow admins to everything
-	    $group->id = 1;
-	    $this->Acl->allow($group, 'controllers');
-
-	    // allow users to posts and widgets
-	    $group->id = 2;
-	    $this->Acl->deny($group, 'controllers');
-
-	    $this->Acl->allow($group, 'controllers/Activities/index');   
-	    $this->Acl->allow($group, 'controllers/Activities/view');
-	    $this->Acl->allow($group, 'controllers/Activities/edit');
-
-	    $this->Acl->allow($group, 'controllers/Chats/index');   
-	    $this->Acl->allow($group, 'controllers/Chats/view');
-	    $this->Acl->allow($group, 'controllers/Chats/edit');
-
-	    $this->Acl->allow($group, 'controllers/Companies/add');   
-	    //$this->Acl->allow($group, 'controllers/Companies/edit');
-
-	    $this->Acl->allow($group, 'controllers/Friends/index');   
-	    $this->Acl->allow($group, 'controllers/Friends/accept');
-	    //$this->Acl->allow($group, 'controllers/Friends/edit');
-
-	    $this->Acl->allow($group, 'controllers/Items/add');
-	    //$this->Acl->allow($group, 'controllers/Items/edit'); 
-
-	    $this->Acl->allow($group, 'controllers/Posts/add');
-	    $this->Acl->allow($group, 'controllers/Posts/view');
-	    $this->Acl->allow($group, 'controllers/Posts/myposts');
-
-	    $this->Acl->allow($group, 'controllers/Users/index');
-	    $this->Acl->allow($group, 'controllers/Users/view');
-	    $this->Acl->allow($group, 'controllers/Users/profile');
-	    $this->Acl->allow($group, 'controllers/Users/edit');
-	    $this->Acl->allow($group, 'controllers/Users/logout');
-
-	    echo "ACLs criadas";
-	    exit;
-	}
-
-	/**
-	 * add method
-	 *
-	 * @return void
-	 */
-		public function add() {
-			if ($this->request->is('post')) {
-				$this->User->create();
-				if ($this->User->save($this->request->data)) {
-					$this->Session->setFlash(__('The user has been saved.'));
-					return $this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-				}
-			}
-			$groups = $this->User->Group->find('list');
-			$this->set(compact('groups'));
-		}
 
 	public function confirm_account($username=null,$activated=null){
 		
@@ -137,31 +73,68 @@
 			}
 	}
 
+	public function login3() {
+		debug($this->Auth->login());
+	    if ($this->Auth->login()) {
+	        $this->redirect($this->Auth->redirect());
+	    } else {
+	        $this->Session->setFlash(__('Invalid username or password, try again'));
+	    }
+	}
+
+	public function login2() {
+			/*if ($this->Session->read('Auth.User')) {
+			        $this->Session->setFlash('You are logged in!');
+			        return $this->redirect('/');
+			}*/
+			$this->layout = false;
+			if ($this->request->is('post')) {
+				$this->User->id=$this->User->findIdByUsername($this->request->data['User']['username']);
+					if($this->User->id != NULL){
+						$this->User->saveField('ip', $this->request->clientIp());
+						$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
+							if ($this->Auth->login()) {
+								return $this->redirect($this->Auth->loginRedirect);
+							}
+							$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+					}
+					$this->Session->setFlash(__('Ocorreu um erro ao fazer o login. Por favor tente novamente.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+			}
+		}
+
+
 	public function login() {
-		/*if ($this->Session->read('Auth.User')) {
-		        $this->Session->setFlash('You are logged in!');
-		        return $this->redirect('/');
-		}*/
 
 		$this->layout = false;
-		if ($this->request->is('post')) {
-			$this->User->id=$this->User->findIdByUsername($this->request->data['User']['username']);
-				if($this->User->id != NULL){
-					$this->User->saveField('ip', $this->request->clientIp());
-					$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
-						if ($this->Auth->login()) {
-							return $this->redirect($this->Auth->loginRedirect);
-						}
-						$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-danger'
-						));
-				}
-				$this->Session->setFlash(__('Ocorreu um erro ao fazer o login. Por favor tente novamente.'), 'alert', array(
-						'plugin' => 'BoostCake',
-						'class' => 'alert-danger'
-						));
-		}
+
+		if ($this->Session->read('Auth.User')) {
+		        $this->Session->setFlash(__('Já se encontra autenticado!'), 'alert', array(
+		        						'plugin' => 'BoostCake',
+		        						'class' => 'alert-sucess'
+		        						));
+		        return $this->redirect('/');
+		    }
+							/*$this->User->id=$user['User']['id'];
+							$this->User->saveField('ip', $this->request->clientIp());
+							$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));*/
+							if($this->Auth->login()){
+								
+								return $this->redirect($this->Auth->redirectUrl());
+							}
+
+							else
+							$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
+							'plugin' => 'BoostCake',
+							'class' => 'alert-danger'
+							));
+				
+		
 	}
 
 	public function logout() {
@@ -179,6 +152,8 @@
 		$this->layout = false;
 
 		if ($this->request->is('post')) {
+			$this->request->data['User']['username'] = $user['User']['username'];
+
 			if ($this->Auth->login()) {
 				$this->Session->setFlash(__('Bem vindo novamente.'), 'alert', array(
 			'plugin' => 'BoostCake',
@@ -366,14 +341,8 @@
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
 				$this->request->data['Activity']['friend_username']=$this->request->data['Friend']['user2'];
 				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
-				$this->request->data['Activity']['checked']='0';
+				$this->request->data['Activity']['checked']='1';
 
-				if($this->Activity->save($this->request->data)) {
-					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
-				}
 			} else {
 				$this->Session->setFlash(__('The friend could not be saved. Please, try again.'));
 			}

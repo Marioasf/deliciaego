@@ -18,7 +18,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-//require_once dirname(__DIR__) . '/Vendor/autoload.php';
+require_once dirname(__DIR__) . '/Vendor/autoload.php';
 
 /**
  * CakePHP Debug Level:

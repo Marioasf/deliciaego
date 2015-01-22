@@ -1,36 +1,10 @@
     <?php
+    App::uses('AppModel', 'Model');
     App::uses('AuthComponent', 'Controller/Component');
     App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
     class User extends AppModel {
 
-        /*Definição de AclBehaviour que liga os modelos User e Group às entradas das tabelas Acl*/
-        public $belongsTo = array(
-            'Group' => array(
-                    'className' => 'Group',
-                    'foreignKey' => 'group_id',
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => ''
-            )
-        );
-        
-        public $actsAs = array('Acl' => array('type' => 'requester'));
-
-        public function parentNode() {
-            if (!$this->id && empty($this->data)) {
-                return null;
-            }
-            if (isset($this->data['User']['group_id'])) {
-                $groupId = $this->data['User']['group_id'];
-            } else {
-                $groupId = $this->field('group_id');
-            }
-            if (!$groupId) {
-                return null;
-            }
-            return array('Group' => array('id' => $groupId));
-        }
 
         public $validate = array(
                 'username' => array(
@@ -106,7 +80,7 @@
 
         function findLockPageInfo(){
         return $this->find('first', array(
-                'fields' => array('User.username', 'User.first_name', 'User.last_name', 'User.email'),
+                'fields' => array('User.username', 'User.first_name', 'User.last_name', 'User.email', 'User.picture'),
                 'conditions' => array('User.username' => AuthComponent::user('username'))
                 ));
         }
@@ -201,23 +175,63 @@
         
 
         /*public function beforeSave($options = array()) {
-                if (!$this->id) {
+                    //debug($options);
                     $passwordHasher = new BlowfishPasswordHasher();
                     $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password']);
-                }
                 return true;
         }*/
 
-        public function beforeSave($options = array()) {
+        /*public function beforeSave($options = array()) {
+
             if (isset($this->data[$this->alias]['password'])) {
+
+                if(isset($this->data[$this->alias]['id'])) {
+                    $id = $this->data[$this->alias]['id'];
+                    $user = $this->findById($id);
+                } else {
+                    $id = false;
+                }
+
+                if(!$id || $this->data[$this->alias]['password'] != $user['User']['password']) {
+                    $passwordHasher = new BlowfishPasswordHasher();
+                    $this->data[$this->alias]['password'] = $passwordHasher->hash(
+                        $this->data[$this->alias]['password']
+                    );
+                }
+
+            }
+
+            return true;
+        }*/
+
+        public function beforeSave2($options = array()) {
+            /*if (isset($this->data[$this->alias]['password'])) {
                 $passwordHasher = new BlowfishPasswordHasher();
-               
                 $this->data[$this->alias]['password'] = $passwordHasher->hash(
                     $this->data[$this->alias]['password']
                 );
-            }
+            }*/
             return true;
         }
-
+        /**
+         * Before Save
+         * @param array $options
+         * @return boolean
+         */
+         public function beforeSave($options = array()) {
+            // hash our password
+            $passwordHasher = new BlowfishPasswordHasher();
+            if (isset($this->data[$this->alias]['password'])) {
+                $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password']);
+            }
+             
+            // if we get a new password, hash it
+            if (isset($this->data[$this->alias]['password_update']) && !empty($this->data[$this->alias]['password_update'])) {
+                $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password_update']);
+            }
+         
+            // fallback to our parent
+            return true;
+        }
 
 }

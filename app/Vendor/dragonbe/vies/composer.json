@@ -1,0 +1,35 @@
+{
+    "name": "dragonbe/vies",
+    "type": "tool",
+    "description": "European service to validate VAT numbers",
+    "keywords": ["VIES","VAT","EU"],
+    "homepage": "https://github.com/DragonBe/vies",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michelangelo van Dam",
+            "email": "dragonbe@gmail.com",
+            "homepage": "http://dragonbe.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "ext-soap": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DragonBe\\Vies\\": "src/Vies"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DragonBe\\Tests\\Vies\\": "tests/Vies"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.37",
+        "phpunit/php-invoker": "1.1.3"
+    }
+}

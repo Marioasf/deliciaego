@@ -16,6 +16,28 @@ class CommentsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+	public function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->authorize = 'controller';
+	}
+
+	public function isAuthorized($user) {
+	    // All registered users can add and see comments
+	    if ($this->action === 'add') {
+	        return true;
+	    }
+
+	    // The owner of a comment can edit and delete it
+	    if (in_array($this->action, array('edit', 'delete'))) {
+	        $commentId = (int) $this->request->params['pass'][0];
+	        if ($this->Comment->commentId($postId, $user['id'])) {
+	            return true;
+	        }
+	    }
+
+	    return parent::isAuthorized($user);
+	}
+
 /**
  * index method
  *

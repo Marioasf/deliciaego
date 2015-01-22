@@ -132,12 +132,7 @@ class ItemsController extends AppController {
 				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
 				$this->request->data['Activity']['checked']=0;
 
-				if($this->Activity->save($this->request->data)) {
-					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
-				}
+				
 
 				return $this->redirect(array('action' => '/view/'.$this->request->data['Comment']['product']));
 			} else {
@@ -184,9 +179,10 @@ class ItemsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			$this->request->data['Item']['datemade']=date('Y-m-d H:i:s');
 			$this->Item->create();
 			if ($this->Item->save($this->request->data)) {
-				$this->Session->setFlash(__('O item foi guardado com sucesso.'), 'alert', array(
+				$this->Session->setFlash(__('O produto foi guardado com sucesso.'), 'alert', array(
 				'plugin' => 'BoostCake',
 				'class' => 'alert-sucess'
 				));
@@ -196,15 +192,10 @@ class ItemsController extends AppController {
 				$this->request->data['Activity']['activity_id']=$this->Item->id;
 				$this->request->data['Activity']['type']='item';
 				$this->request->data['Activity']['username']=$this->Auth->user('username');
-				$this->request->data['Activity']['friend_username']=$this->request->data['Item']['user'];
+				//$this->request->data['Activity']['friend_username']=$this->request->data['Item']['user'];
 				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
-				$this->request->data['Activity']['checked']='0';
-				if($this->Activity->save($this->request->data)) {
-					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
-				}
+				$this->request->data['Activity']['checked']='1';
+				
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('O item não pôde ser guardado. Tente novamente.'), 'alert', array(

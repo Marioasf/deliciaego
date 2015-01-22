@@ -8,11 +8,10 @@ class PostsController extends AppController {
 
 	public $components = array('Paginator', 'Session','RequestHandler');
 
-	public $uses = array('Post', 'Friend', 'User', 'Comment','Like');
+	public $uses = array('Post', 'Friend', 'User', 'Comment','Like','Company','Follower');
 
 	public function beforeFilter() {
 	    parent::beforeFilter();
-	    $this->Auth->allow('initDB'); // We can remove this line after we're finished
 	    $this->Auth->allow('index');
 	}
 
@@ -59,7 +58,7 @@ class PostsController extends AppController {
 						'class' => 'alert-success'
 						));
 							$friend_username = $this->Post->findUsernameByPostId($this->request->data['Comment']['post']);
-							//debug($friend_username);
+							
 							/*Guarda actividade na bd*/
 							$this->Activity->create();
 							$this->request->data['Activity']['activity_id']=$this->request->data['Comment']['post'];
@@ -81,7 +80,6 @@ class PostsController extends AppController {
 						'plugin' => 'BoostCake',
 						'class' => 'alert-danger'
 						));
-						//debug($this->Comment->invalidFields());
 						return false;
 					}
 				}
@@ -124,6 +122,29 @@ class PostsController extends AppController {
 		
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->Paginator->paginate());
+		//Procura nomes de empresas que utilizador segue
+		$following_company=$this->Follower->find('all', array(
+			    'conditions' => array(
+			        "Follower.user" => $this->Auth->user('username')
+			    ),
+			    'fields' => 'Follower.company',
+			     'order' => array('Follower.datemade' => 'DESC')
+			));
+		if(!empty($following_company)) 
+			$following_c = Hash::extract($following_company, '{n}.Follower.company');
+		
+		//Procura nomes de utilizador associados a empresas que utilizador segue
+		if(!empty($following_c)){
+			$following_company_user=$this->Company->find('all', array(
+			    'conditions' => array(
+			        "Company.name" => $following_c
+			    ),
+			    'fields' => 'Company.user'
+			));
+		}
+		if(!empty($following_company_user)) 
+			$following_c_u = Hash::extract($following_company_user, '{n}.Company.user');
+		
 
 		/*Lista de amigos*/
 		$conditions = array(
@@ -137,7 +158,7 @@ class PostsController extends AppController {
 		$friends = $this->Friend->find('all', array(
 		        'conditions' => $conditions
 		));
-		//debug($friends);
+
 		//adiciona username de amigos a uma lista simples
 		if(isset($friends)){
 			$this->set('friends', $friends);	
@@ -151,9 +172,21 @@ class PostsController extends AppController {
 			}
 		}
 
-		//debug($friend_list);
+
+
+		//debug($following_c_u);
+		//se o utilizador seguir alguma empresa, é adicionado o utilizador da empresa à lista de amigos
+		if(!empty($following_c_u) && !empty($friend_list))
+			for($i=0;$i<count($following_c_u);$i++)
+				array_push($friend_list, $following_c_u[$i]);
+		
+		else if(!empty($following_c_u) && empty($friend_list))
+			for($i=0;$i<count($following_c_u);$i++)
+				$friend_list=$following_c_u[$i];
+		//debug($friend_list);die;
+		
 		//procura por todos os posts dos amigos e ordena por ordem crescente de data
-		if(isset($friend_list)){
+		if(!empty($friend_list)){
 			$friend_posts=$this->Post->find('all', array(
 			    'conditions' => array(
 			        "Post.user" => $friend_list
@@ -163,19 +196,19 @@ class PostsController extends AppController {
 
 			if(isset($friend_posts)) $this->set('friend_posts', $friend_posts); 
 
-			//debug($friend_posts);
+			
 		}
 		//procura por todos os comentários nos posts dos amigos e ordena por ordem crescente de data
 		if(isset($friend_posts)){
 
 			$friend_posts_id = Hash::extract($friend_posts, '{n}.Post.id');
-			//debug($friend_posts_id);
+			
 			$comments=$this->Comment->find('all', array(
 				'conditions' => array(
 						'Comment.post' => $friend_posts_id),
 				'order' => array('Comment.datemade')
 			));
-			//debug($comments);
+			
 			//$friend_plist = Hash::extract($friend_posts, '{s}.Post.user');
 			
 			for($i=0; $i<count($friend_posts); $i++)
@@ -185,8 +218,8 @@ class PostsController extends AppController {
 			}
 			if(isset($comments)) $this->set('comments', $comments);
 			if(isset($friend_plist)) $this->set('friend_plist', $friend_plist);
-			//debug($comments);
-			//debug($friend_plist);
+			
+			
 		}
 
 		//procura pela informação de utilizador relativa a todos os amigos
@@ -196,10 +229,9 @@ class PostsController extends AppController {
 				));
 			
 			if(isset($friend_info))$this->set('friend_info', $friend_info);
-			//debug($friend_info);
+		
 		}
-		//debug($friend_posts);
-		//debug($friend_info);
+		
 		//procura por todos os amigos que tem posts
 		if(isset($friend_posts) && isset($friend_info)){
 			for($i=0; $i<count($friend_posts); $i++){
@@ -212,14 +244,14 @@ class PostsController extends AppController {
 			//$user_friend = !array_diff($friend_posts, $friend_info);
 
 			if(isset($user_friend)) $this->set('user_friend', $user_friend);
-			//debug($user_friend);
+			
 		}
-		//debug($comments);
+		
 		//procura a informação dos users que fizeram comments 
 		if(isset($comments)){
 			
 			$comments_list = Hash::extract($comments, '{n}.Comment.user');
-			//debug($comments_list);
+			
 			$user_comment=$this->User->find('all', array(
 					'conditions' => array('User.username' => $comments_list),
 						'fields' => 'User.username, User.picture, User.last_name, User.first_name'
@@ -228,8 +260,7 @@ class PostsController extends AppController {
 
 			if(isset($user_comment))$this->set('user_comment', $user_comment);
 		}
-		//debug($comments);
-		//debug($user_comment);
+	
 
 
 		//conta os likes de cada post
@@ -263,15 +294,45 @@ class PostsController extends AppController {
 				throw new NotFoundException(__('Invalid post'));
 		}
 
+		//Procura nomes de empresas que utilizador segue
+		$following_company=$this->Follower->find('all', array(
+			    'conditions' => array(
+			        "Follower.user" => $this->Auth->user('username')
+			    ),
+			    'fields' => 'Follower.company',
+			     'order' => array('Follower.datemade' => 'DESC')
+			));
+		if(!empty($following_company)) 
+			$following_c = Hash::extract($following_company, '{n}.Follower.company');
+		
+		//Procura nomes de utilizador associados a empresas que utilizador segue
+		if(!empty($following_c)){
+			$following_company_user=$this->Company->find('all', array(
+			    'conditions' => array(
+			        "Company.name" => $following_c
+			    ),
+			    'fields' => 'Company.user'
+			));
+		}
+		if(!empty($following_company_user)) 
+			$following_c_u = Hash::extract($following_company_user, '{n}.Company.user');
+
 		//username do utilizador da view requisitada
 		$username= $this->Post->findUsernameByPostId($id);
-		//debug($username);
+		
 		/*Procura lista de amigos do utilizador em sessão (apenas pode aceder ao perfil de amigos)*/
 		$friends_username = $this->Friend->findUserFriends($this->Auth->user('username'));
 		//debug($friends_username);
+		//se o utilizador seguir alguma empresa, é adicionado o utilizador da empresa à lista de amigos
+		if(!empty($following_c_u) && !empty($friends_username))
+			array_push($friends_username, $following_c_u[0]);
+		
+		else if(!empty($following_c_u) && empty($friends_username))
+			$friends_username=$following_c_u[0];
+		//debug($friends_username);die;
 		/*Retorna verdadeiro se utilizador for encontrado na lista de amigos*/
 		$is_friend=$this->Friend->isFriend($friends_username, $username['Post']['user']);
-		//debug($is_friend);
+		//debug($is_friend);die;
 		if($username['Post']['user'] == $this->Auth->user('username'))
 			$is_friend=TRUE;
 		//se não for utilizador em sessão ou amigo dele redirecciona p/ página 404
@@ -280,11 +341,21 @@ class PostsController extends AppController {
 		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
 		$this->set('post', $this->Post->find('first', $options));
 
-		//$likes = $this->Post->countAllLikes($this->Auth->user('username'));
 		$likes = $this->Post->findIfPostLiked($this->Auth->user('username'), $id);
-		//debug($id);
+		
 		$this->set('likes',$likes);
-		//debug($likes);
+		
+		/*Desativado por questões de performance*/
+		/*$all_posts=$this->Post->find('all', array(
+			'conditions' => array(
+				'Post.user' => $username['Post']['user']
+				),
+				'fields' => 'Post.id','Post.title'
+				));*/
+
+		//debug($all_posts);die;
+		if(!empty($all_posts))
+			$this->set('all_posts',$all_posts);
 
 		//procurar informação sobre o post em questão
 		$current_post = $this->Post->find('first', array(
@@ -309,7 +380,7 @@ class PostsController extends AppController {
 		));
 		if(isset($comments))
 			$this->set('comments', $comments);
-		//debug($comments);
+		
 		//procurar informação dos utilizadores responsaveis pelos comentários
 		for($i=0; $i<count($comments); $i++){
 			$user_comment[$i] = $this->User->find('all', array(
@@ -319,7 +390,7 @@ class PostsController extends AppController {
 		}
 		if(isset($user_comment))
 			$this->set('user_comment', $user_comment);
-		//debug($user_comment);
+		
 
 		$likes_count = $this->Like->find('count', array(
 			'conditions' => array(
@@ -327,13 +398,12 @@ class PostsController extends AppController {
 			)));
 		if(isset($likes_count))
 			$this->set('likes_count', $likes_count);
-		//debug($likes_count);
+		
 
 		if ($this->request->is('post')) {
 			/*Se for um comentário*/
 			if(array_key_exists('Comment',$this->request->data)){
 				$this->Comment->create();
-				debug($this->request->data);
 				$post_id=$this->request->data['Comment']['post'];
 				$this->request->data['Comment']['datemade']=date('Y-m-d H:i:s');
 				if ($this->Comment->save($this->request->data)) {
@@ -372,7 +442,6 @@ class PostsController extends AppController {
 			/*Se for um Like*/
 			else if(array_key_exists('Like',$this->request->data)){
 				$this->Like->create();
-				//debug($this->request->data);
 				$post_id=$this->request->data['Like']['post_id'];
 				if ($this->Like->save($this->request->data)) {
 					$this->Session->setFlash(__('O seu like foi introduzido com sucesso.'), 'alert', array(
@@ -514,7 +583,7 @@ class PostsController extends AppController {
 				'class' => 'alert-success'
 				));
 					//$like=$this->Like->findById($id);
-					//debug($like);
+				
 					//return $this->redirect(array('controller'=>'posts','action' => '/view/'.$like['0']['Like']['post_id']));
 					return $this->redirect(array('action' => '/'));
 				} else {

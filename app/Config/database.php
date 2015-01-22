@@ -70,7 +70,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => 'root',
-		'database' => 'deliciaego_bd',
+		'database' => 'deliciae_2',
 		'prefix' => '',
 		'encoding' => 'utf8',
 	);

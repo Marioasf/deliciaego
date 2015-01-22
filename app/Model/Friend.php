@@ -74,4 +74,5 @@ class Friend extends AppModel {
 		}
 		return FALSE;
 	}
+
 }
