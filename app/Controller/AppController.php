@@ -121,7 +121,7 @@
         //carrega todas as notificações do utilizador em sessão excepto adicionar amigos
          $activity_list = $this->Activity->find('all', array(
         'conditions' => array(
-            'Activity.friend_username' => $this->Auth->user('username'), 'Activity.checked' => 0
+            'Activity.username !=' => $this->Auth->user('username'),'Activity.friend_username' => $this->Auth->user('username'), 'Activity.checked' => 0
             )
         ));
 

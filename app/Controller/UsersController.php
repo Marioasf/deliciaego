@@ -73,41 +73,6 @@
 			}
 	}
 
-	public function login3() {
-		debug($this->Auth->login());
-	    if ($this->Auth->login()) {
-	        $this->redirect($this->Auth->redirect());
-	    } else {
-	        $this->Session->setFlash(__('Invalid username or password, try again'));
-	    }
-	}
-
-	public function login2() {
-			/*if ($this->Session->read('Auth.User')) {
-			        $this->Session->setFlash('You are logged in!');
-			        return $this->redirect('/');
-			}*/
-			$this->layout = false;
-			if ($this->request->is('post')) {
-				$this->User->id=$this->User->findIdByUsername($this->request->data['User']['username']);
-					if($this->User->id != NULL){
-						$this->User->saveField('ip', $this->request->clientIp());
-						$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
-							if ($this->Auth->login()) {
-								return $this->redirect($this->Auth->loginRedirect);
-							}
-							$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-					}
-					$this->Session->setFlash(__('Ocorreu um erro ao fazer o login. Por favor tente novamente.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-			}
-		}
-
 
 	public function login() {
 
@@ -123,17 +88,20 @@
 							/*$this->User->id=$user['User']['id'];
 							$this->User->saveField('ip', $this->request->clientIp());
 							$this->User->saveField('lastlogin',date('Y-m-d H:i:s'));*/
-							if($this->Auth->login()){
-								
-								return $this->redirect($this->Auth->redirectUrl());
-							}
 
-							else
-							$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
-							'plugin' => 'BoostCake',
-							'class' => 'alert-danger'
-							));
-				
+							if ($this->request->is('post')) {
+								if($this->Auth->login()){
+									
+									return $this->redirect($this->Auth->redirectUrl());
+								}
+
+								else
+								$this->Session->setFlash(__('A sua password e/ou nome de utilizador estão incorretos.'), 'alert', array(
+								'plugin' => 'BoostCake',
+								'class' => 'alert-danger'
+								));
+						}
+					
 		
 	}
 

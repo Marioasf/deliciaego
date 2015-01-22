@@ -111,13 +111,9 @@ public function accept() {
 				$this->request->data['Activity']['datemade']=date('Y-m-d H:i:s');
 				$this->request->data['Activity']['checked']='1';
 
-				if($this->Activity->save($this->request->data)) {
-					$this->Session->setFlash(__('Actividade registada.'), 'alert', array(
-					'plugin' => 'BoostCake',
-					'class' => 'alert-success'
-					));
+				
 				}
-				//return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Amigo não adicionado.'), 'alert', array(
 			'plugin' => 'BoostCake',

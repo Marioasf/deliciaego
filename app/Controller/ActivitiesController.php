@@ -30,6 +30,7 @@ class ActivitiesController extends AppController {
 		$this->set('activities', $this->Paginator->paginate(
 			'Activity', array(
 				'Activity.checked' => 0,
+				 'Activity.username !=' => $this->Auth->user('username'),
 				'Activity.friend_username' => $this->Auth->user('username')
 				)
 		));
