@@ -36,9 +36,8 @@
                           <div class="blog-details">
                             <h4 class="blog-title"><a href="/items/view/'.$items[$i]['Item']['id'].'">'.$items[$i]['Item']['name'].'</a></h4>
                             <ul class="blog-meta">
-                              <li>By: <a href="#">'.$items[$i]['Item']['user'].'</a></li>
-                              <li>Jan 03, 2014</li>
-                              <li><a href="#">2 Comments</a></li>
+                              <li>Por: '.$items[$i]['Item']['user'].'</li>
+                              <li>'.$items[$i]['Item']['datemade'].'</li>
                                 <li>';
 
                                 if ($this->Session->read('Auth.User')) {

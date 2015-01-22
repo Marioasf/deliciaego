@@ -130,13 +130,16 @@
         
         <div class="authorpanel">
           <div class="media">
-            <a class="pull-left" href="#">
-              <?php echo '<img  style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />';?>
-            </a>
-            <div class="media-body event-body">
+          <?php if(!empty($user['User']['picture'])) 
+            echo '<a class="pull-left" href="#">
+                  <img style="width: 50px; height: 50px;" class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />
+                </a>';
+                if(!empty($user['User']['about']))
+            echo '<div class="media-body event-body">
               <h4 class="subtitle">Sobre o autor</h4>
-              <p><?php echo $user['User']['about']; ?></p>
-            </div>
+              <p>'. $user['User']['about'] .'</p>
+            </div>';
+            ?>
           </div><!-- media -->
         </div><!-- authorpanel -->
         

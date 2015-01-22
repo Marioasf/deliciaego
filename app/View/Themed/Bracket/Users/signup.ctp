@@ -413,6 +413,13 @@
 
 </div>
 <br />
+
+<div class="mb10">
+  <?php echo $this->Form->input('group_id', array(
+    'type' => 'hidden',
+    'value' => 2
+    )); ?>
+
 <?php
  echo $this->Form->submit('Registar', array(
   'class' => 'btn btn-success btn-block'

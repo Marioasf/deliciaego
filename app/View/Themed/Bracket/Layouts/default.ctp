@@ -8,6 +8,7 @@
   <link rel="shortcut icon" href="images/favicon.png" type="image/png">
 
   <title>Deliciaego, o seu portal de ofertas</title>
+  <?php //echo $this->element('sql_dump');?>
 
   <!--<link href="css/style.default.css" rel="stylesheet">-->
   <?php echo $this->Html->css('style.default');?>
@@ -48,7 +49,7 @@
             <li><a href="/users/edit/'.  $_SESSION['Auth']['User']['id']. '"><i class="fa fa-cog"></i> <span>Definições de conta</span></a></li>
             <li><a href="/companies/add"><i class="fa fa-folder-open"></i> <span>Está associado a uma empresa?</span></a></li>
             <li><a href="/pages/help"><i class="fa fa-question-circle"></i> <span>Ajuda</span></a></li>
-            <li><a href="/users/lock"><i class="fa fa-lock"></i> <span>Bloquear sessão</span></a></li>
+            <!--<li><a href="/users/lock"><i class="fa fa-lock"></i> <span>Bloquear sessão</span></a></li>-->
             <li><a href="/users/logout"><i class="fa fa-sign-out"></i> <span>Sair</span></a></li>
           </ul>
         </div>
@@ -219,8 +220,8 @@
                   <!-- Número de actividades a apresentar no icon-->
                   <span class="badge">';
 
-                  if(isset($activities)){
-                   if(count($activities)>0){echo count($activities);} 
+                  if(isset($activity_list)){
+                   if(count($activity_list)>0){echo count($activity_list);} 
                  }
                    echo'</span>
                 </button>
@@ -229,11 +230,11 @@
                 <!-- Número de actividades -->
                   <h5 class="title">';
 
-                  if(isset($activities)){
-                    if(count($activities)==1)
+                  if(isset($activity_list)){
+                    if(count($activity_list)==1)
                       echo 'Tens 1 notificação nova';
-                    else if(count($activities)>1)
-                      echo 'Tens '.count($activities).' notificações novas';
+                    else if(count($activity_list)>1)
+                      echo 'Tens '.count($activity_list).' notificações novas';
                     else
                       echo 'Não tens notificações novas';
                   }
@@ -243,21 +244,29 @@
                   <!-- Listagem das actividades -->
                    ';
 
-                   if(isset($activities)){
-                     if(count($activities)>0)
+                   if(isset($activity_list)){
+                     if(count($activity_list)>0)
                      {
-                       for($i=0;$i<count($activities);$i++){
+                       for($i=0;$i<count($activity_list);$i++){
                         echo '<li class="novo">';
-                          if($activities[$i]['Activity']['type']=='comment' || 'like' || 'post'){ echo '<a href="/posts/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
-                          else{ echo '<a href="/items/view/'.$activities[$i]['Activity']['activity_id'].'"">';}
-                            echo '<span class="thumb"><img src="'.$activity_user[0][$i]['User']['picture'].'"  /></span>
-                            <span class="desc">
-                              <span class="name">'.$activity_user[0][$i]['User']['first_name']." ".$activity_user[0][$i]['User']['last_name']."";
-                              if($activities[$i]['Activity']['checked']==0){echo '<span class="badge badge-success">novo</span>';}
-                              if($activities[$i]['Activity']['type']=='comment'){echo '<span class="msg">comentou uma publicação tua</span>';}
-                              if($activities[$i]['Activity']['type']=='like'){echo '<span class="msg">gostou de uma publicação tua</span>';}
-                              if($activities[$i]['Activity']['type']=='item'){echo '<span class="msg">publicou um produto</span>';}
-                              if($activities[$i]['Activity']['type']=='post'){echo '<span class="msg">fez uma publicação</span>';}
+                          if($activity_list[$i]['Activity']['type']=='comment' || $activity_list[$i]['Activity']['type']=='like' || $activity_list[$i]['Activity']['type']=='post')
+                            echo '<a href="/posts/view/'.$activity_list[$i]['Activity']['activity_id'].'"">';
+                          else
+                            echo '<a href="/items/view/'.$activity_list[$i]['Activity']['activity_id'].'"">';
+                          if(!empty($activity_user[$i]['User']['picture']))
+                            echo '<span class="thumb"><img src="'.$activity_user[$i]['User']['picture'].'"  /></span>';
+                            echo '<span class="desc">
+                              <span class="name">'.$activity_user[$i]['User']['first_name']." ".$activity_user[$i]['User']['last_name']."";
+                              if($activity_list[$i]['Activity']['checked']==0)
+                                echo '<span class="badge badge-success">novo</span>';
+                              if($activity_list[$i]['Activity']['type']=='comment')
+                                echo '<span class="msg">comentou uma publicação tua</span>';
+                              if($activity_list[$i]['Activity']['type']=='like')
+                                echo '<span class="msg">gostou de uma publicação tua</span>';
+                              if($activity_list[$i]['Activity']['type']=='item')
+                                echo '<span class="msg">publicou um produto</span>';
+                              if($activity_list[$i]['Activity']['type']=='post')
+                                echo '<span class="msg">fez uma publicação</span>';
                            echo ' </span>
                           </a>
                         </li>';
@@ -290,7 +299,7 @@
                     echo '<li><a href="/companies/add"><i class="glyphicon glyphicon-folder-open"></i> Está associado a uma empresa?</a></li>';
                   //}
                   echo '<li><a href="/pages/help"><i class="glyphicon glyphicon-question-sign"></i> Ajuda</a></li>
-                  <li><a href="/users/lock"><i class="glyphicon glyphicon-lock"></i> Bloquear</a></li>
+                  <!--<li><a href="/users/lock"><i class="glyphicon glyphicon-lock"></i> Bloquear</a></li>-->
                   <li><a href="/users/logout"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
                 </ul>
               </div>

@@ -3,119 +3,120 @@
       </div>';
       /*Se utilizador estiver autenticado, carrega os dados para a timeline*/
       if ($this->Session->read('Auth.User')) {
-      $this->Session->flash();
-      //var_dump($friend_posts);
-      echo '<div id="timeline-list" class="row vertical-align">
-        <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-dark panel-alt timeline-post">
-                <div class="panel-body">';              
-                    
+        $this->Session->flash();
+        //var_dump($friend_posts);
+        //var_dump($_SESSION["Auth"]["User"]);
+
+          echo '<div id="timeline-list" class="row vertical-align">
+          <div class="col-xs-12 col-sm-6">
+              <div class="panel panel-dark panel-alt timeline-post">
+                  <div class="panel-body">';
                       echo $this->Form->create('BoostCake');
-                         $user = $_SESSION["Auth"]["User"]["username"];
-                         echo $this->Form->input('text', array(
-                         'label' => '',
-                         'placeholder' => 'Título do seu post...',
-                         'name' => 'data[Post][user]',
-                         'required' => 'required',
-                         'maxlength' => 16,
-                         'type' => 'hidden',
-                         'value' => $user
-                       ));
-                               echo $this->Form->input('textarea', array(
-                                 'label' => '',
-                                 'placeholder' => 'Título do seu post...',
-                                 'name' => 'data[Post][title]',
-                                 'class' => 'form-control',
-                                 'required' => 'required',
-                                 'rows' => 1,
-                                 'onfocus' => 'this.rows=1',
-                                 'style' => 'resize:none;',
-                                 'maxlength' => 25
-                             ));
-                               echo $this->Form->input('textarea', array(
-                                 'label' => '',
-                                 'placeholder' => 'Diga algo sobre si...',
-                                 'rows' => 5,
-                                 'onfocus' => 'this.rows=5',
-                                 'class' => 'form-control',
-                                 'name' => 'data[Post][content]',
-                                 'maxlength' => 255,
-                                 'required' => 'required',
-                                 'style' => 'resize:none;'
-                             ));  
-                    
-                echo '</div><!-- panel-body -->
-                    <div class="panel-footer">
-                      <div class="timeline-btns text-center">
-                          
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"><a href="#" class="tooltips" data-toggle="tooltip" title="Foto" ><i class="glyphicon glyphicon-picture" ></i></a></button>
+                             $user = $_SESSION["Auth"]["User"]["username"];
+                                                          echo $this->Form->input('text', array(
+                             'label' => '',
+                             'placeholder' => 'Título do seu post...',
+                             'name' => 'data[Post][user]',
+                             'required' => 'required',
+                             'maxlength' => 16,
+                             'type' => 'hidden',
+                             'value' => $user
+                           ));
+                                   echo $this->Form->input('textarea', array(
+                                     'label' => '',
+                                     'placeholder' => 'Título do seu post...',
+                                     'name' => 'data[Post][title]',
+                                     'class' => 'form-control',
+                                     'required' => 'required',
+                                     'rows' => 1,
+                                     'onfocus' => 'this.rows=1',
+                                     'style' => 'resize:none;',
+                                     'maxlength' => 25
+                                 ));
+                                   echo $this->Form->input('textarea', array(
+                                     'label' => '',
+                                     'placeholder' => 'Diga algo sobre si...',
+                                     'rows' => 5,
+                                     'onfocus' => 'this.rows=5',
+                                     'class' => 'form-control',
+                                     'name' => 'data[Post][content]',
+                                     'maxlength' => 255,
+                                     'required' => 'required',
+                                     'style' => 'resize:none;'
+                                 ));  
+                      
+                  echo '</div><!-- panel-body -->
+                      <div class="panel-footer">
+                        <div class="timeline-btns text-center">
+                            
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"><a href="#" class="tooltips" data-toggle="tooltip" title="Foto" ><i class="glyphicon glyphicon-picture" ></i></a></button>
 
-                          <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                              <div class="modal-content">';
-                                  echo $this->Form->input('picture', array(
-                                    'label' => '',
-                                    'placeholder' => 'Introduza aqui o link da imagem.',
-                                    'rows' => 5,
-                                    'onfocus' => 'this.rows=5',
-                                    'class' => 'form-control',
-                                    'name' => 'data[Post][picture]',
-                                    'maxlength' => 255,
-                                    'style' => 'resize:none;'
-                                ));  
-                                echo '<div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-sm">
+                                <div class="modal-content">';
+                                    echo $this->Form->input('picture', array(
+                                      'label' => '',
+                                      'placeholder' => 'Introduza aqui o link da imagem.',
+                                      'rows' => 5,
+                                      'onfocus' => 'this.rows=5',
+                                      'class' => 'form-control',
+                                      'name' => 'data[Post][picture]',
+                                      'maxlength' => 255,
+                                      'style' => 'resize:none;'
+                                  ));  
+                                  echo '<div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                  </div>
                                 </div>
+                               
                               </div>
-                             
+
                             </div>
 
-                          </div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm2">
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Video" ><i class="glyphicon glyphicon-facetime-video"></i></a></button>
 
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm2">
-                          <a href="#" class="tooltips" data-toggle="tooltip" title="Video" ><i class="glyphicon glyphicon-facetime-video"></i></a></button>
-
-                          <div class="modal fade bs-example-modal-sm2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                              <div class="modal-content">';
-                                  echo $this->Form->input('video', array(
-                                    'label' => '',
-                                    'placeholder' => 'Introduza aqui o link do vídeo. Apenas suporta vídeos do Youtube.',
-                                    'rows' => 5,
-                                    'onfocus' => 'this.rows=5',
-                                    'class' => 'form-control',
-                                    'name' => 'data[Post][video]',
-                                    'maxlength' => 255,
-                                    'style' => 'resize:none;'
-                                ));  
-                                echo '<div class="modal-footer">
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                    </div>
+                            <div class="modal fade bs-example-modal-sm2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-sm">
+                                <div class="modal-content">';
+                                    echo $this->Form->input('video', array(
+                                      'label' => '',
+                                      'placeholder' => 'Introduza aqui o link do vídeo. Apenas suporta vídeos do Youtube.',
+                                      'rows' => 5,
+                                      'onfocus' => 'this.rows=5',
+                                      'class' => 'form-control',
+                                      'name' => 'data[Post][video]',
+                                      'maxlength' => 255,
+                                      'style' => 'resize:none;'
+                                  ));  
+                                  echo '<div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                      </div>
+                                </div>
+                               
                               </div>
-                             
-                            </div>
 
-                          </div>';
+                            </div>';
 
-                            echo $this->Form->submit('Submeter Post', array(
-                          'class' => 'btn btn-primary pull-right',
-                          'div' => false,
-                          'type' => 'submit',
-                          'value' => 'Submit',
-                          'action' => '/posts/index',
-                          'method' => 'post'
-                          ));  
-                              echo $this->Form->end();  
+                              echo $this->Form->submit('Submeter Post', array(
+                            'class' => 'btn btn-primary pull-right',
+                            'div' => false,
+                            'type' => 'submit',
+                            'value' => 'Submit',
+                            'action' => '/posts/index',
+                            'method' => 'post'
+                            ));  
+                                echo $this->Form->end();  
 
-                          echo '<!-- Localização e tags de utilizadores desativada
-                          <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" ><i class="glyphicon glyphicon-map-marker"></i></a>
-                          <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" ><i class="glyphicon glyphicon-user"></i></a>
-                          -->
-                      </div>
-                      </div><!-- panel-footer-->
-                
-            </div>
-        </div><!-- col-sm-6 -->';
+                            echo '<!-- Localização e tags de utilizadores desativada
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Localização" ><i class="glyphicon glyphicon-map-marker"></i></a>
+                            <a href="#" class="tooltips" data-toggle="tooltip" title="Identificar amigo" ><i class="glyphicon glyphicon-user"></i></a>
+                            -->
+                        </div>
+                        </div><!-- panel-footer-->
+                  
+              </div>
+          </div><!-- col-sm-6 -->';
 
        //var_dump($user_friend);die;
         if(isset($friend_posts)){
@@ -321,13 +322,12 @@
         }
         echo '</div>';
         //die();
-        
-}
+      }
 else{
         echo 
               '<div class="alert alert-info">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <strong>Atenção!</strong> Não te encontras autenticado. Clica aqui para te <a href="/users/signup" class="alert-link">registares</a> ou para fazeres <a href="/users/login" class="alert-link">login</a>!
+                <strong>Atenção!</strong> Não se encontras autenticado. Clique aqui para se <a href="/users/signup" class="alert-link">registar</a> ou para fazer <a href="/users/login" class="alert-link">login</a>!
               </div>';
             
 

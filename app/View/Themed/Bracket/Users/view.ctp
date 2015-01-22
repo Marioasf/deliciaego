@@ -5,7 +5,7 @@
       <div class="breadcrumb-wrapper">
         <span class="label">Caminho:</span>
         <ol class="breadcrumb">
-          <li><a href="/">Bracket</a></li>
+          <li><a href="/">Deliciaego</a></li>
           <li class="active"><?php echo h($user['User']['first_name']); echo " "; echo h($user['User']['last_name']);?></li>
         </ol>
       </div>
@@ -15,7 +15,13 @@
       
       <div class="row">
         <div class="col-sm-3">
-          <img src=<?php if(!empty($user['User']['picture'])) echo '"'.h($user['User']['picture']).'"';?> class="thumbnail img-responsive" alt="" />
+          <?php if(!empty($user['User']['picture'])) echo '<img src="'.h($user['User']['picture']).'"class="thumbnail img-responsive" alt="" />';
+                else echo 
+                '<div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  Foto não disponível.
+                </div>';
+              ?> 
           
           <div class="mb30"></div>
           <?php if(!empty($user['User']['about']))
@@ -208,22 +214,31 @@
              <?php 
              if(isset($friend_info) && count($friend_info)>0){
                for($i=0; $i<count($friend_info); $i++){
-                   echo ('<div class="media">
-                    <div class="media"><a href="users/view/'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
+                  echo '<div class="media">';
+                  if(!empty($friend_info[$i][0]['User']['picture'])){
+                   echo '<a href="'.$friend_info[$i][0]['User']['id'].'" class="pull-left">
                         <img alt="" src="'.$friend_info[$i][0]['User']['picture'].'" class="thumbnail media-object">
-                      </a>
-                    <div class="media-body">
-                      <h3 class="follower-name">'.$friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].'</h3>
-                      <div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>
-                      <div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</a></div>
+                      </a>';
+                    }
+                    echo '<div class="media-body">
+                    
+                      <h3 class="follower-name">
+                        <a href="'.$friend_info[$i][0]['User']['id'].'" class="pull-left">'.
+                          $friend_info[$i][0]['User']['first_name']." ".$friend_info[$i][0]['User']['last_name'].
+                        '</a>
+                      </h3>
+                      </br>';
+                      if(!empty($friend_info[$i][0]['User']['country'])) echo '<div class="profile-location"><i class="fa fa-map-marker"></i>'.$friend_info[$i][0]['User']['country'].'</div>';
+                      if(!empty($friend_info[$i][0]['User']['company'])) echo '<div class="profile-position"><i class="fa fa-briefcase"></i>'.$friend_info[$i][0]['User']['company'].'</div>';
                       
-                      <div class="mb20"></div>
+                      echo '<div class="mb20"></div>
                       
                       <button class="btn btn-sm btn-primary mr5"><i class="fa fa-check"></i> Amigos</button>
-                      <button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button>
+                      <a href="';
+                      echo('/chats/add/').$friend_info[$i][0]['User']['username'];
+                      echo'"><button class="btn btn-sm btn-white"><i class="fa fa-envelope-o"></i> Mensagem</button></a>
                     </div>
-                    </div>
-                  </div><!-- media -->');
+                  </div><!-- media -->';
                  }     
                }
                 else{

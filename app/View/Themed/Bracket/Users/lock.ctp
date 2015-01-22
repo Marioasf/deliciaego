@@ -31,15 +31,18 @@
         <div class="locked">
             <i class="fa fa-lock"></i>
         </div>
-        <div class="loginuser">
-            <img src="images/photos/loggeduser.png" alt="">
-        </div>
+        <?php
+        if(!empty($user['User']['picture'])) 
+          echo '<div class="loginuser">
+            <img src="'.$user['User']['picture'].'" alt="">
+        </div>';
+        ?>
         <div class="logged">
-            <h4><?php echo $user[0]['User']['first_name']; ?> <?php echo $user[0]['User']['last_name']; ?></h4>
-            <small class="text-muted"><?php echo $user[0]['User']['email']; ?></small>
+            <h4><?php echo $user['User']['first_name']; ?> <?php echo $user['User']['last_name']; ?></h4>
+            <small class="text-muted"><?php echo $user['User']['email']; ?></small>
         </div>
         <form method="post" action="/users/login">
-            <input type="hidden" class="form-control uname" placeholder="Utilizador" name="data[User][username]" maxlength="16" id="UserUsername" required="required" value="<?php echo $user[0]['User']['username']; ?>"/>
+            <input type="hidden" class="form-control uname" placeholder="Utilizador" name="data[User][username]" maxlength="16" id="UserUsername" required="required" value="<?php echo $user['User']['username']; ?>"/>
             <input type="password" class="form-control pword" placeholder="Palavra-passe" input name="data[User][password]" id="UserPassword" required="required"/>
             <button class="btn btn-success btn-block">Desbloquear</button>
         </form>

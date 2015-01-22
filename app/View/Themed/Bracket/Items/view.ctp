@@ -23,9 +23,19 @@
             <h3 class="blogsingle-title"><?php  echo h($item['Item']['name']); ?></h3>
             
             <ul class="blog-meta">
-              <li>Por: <a href="#"><?php echo h($item['Item']['name']); echo " ";?></a></li>
+              <li>Por: <?php echo h($item['Item']['user']); echo " ";?></li>
               <li><?php echo h($item['Item']['datemade']); ?></li>
-              <li><a href="#"><?php if(count($comments)>0)echo count($comments); echo " "; echo "Comentários"; ?></a></li>
+              <li><?php 
+              if(count($comments)>0){
+                echo count($comments); 
+              }
+              if(count($comments)==1) {
+                echo " Comentário"; 
+              }
+              if(count($comments)>1) {
+                echo "Comentários"; 
+              }
+              ?></li>
               <li>Preço <?php echo h($item['Item']['price']); ?>€</li>
             </ul>
 
@@ -37,22 +47,33 @@
         </div><!-- panel -->
         
         <div class="authorpanel">
-          <div class="media">
-            <a class="pull-left" href="#">
-             <?php echo '<img style="width: 50px; height: 50px; class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />'; ?>
-            </a>
-            <div class="media-body event-body">
-              <h4 class="subtitle">Sobre este utilizador</h4>
-              <?php echo $user['User']['about']; ?>
-            </div>
-          </div><!-- media -->
+        <?php 
+          echo '<div class="media">';
+           if(!empty($user['User']['picture']))
+            echo '<a class="pull-left" href="#">
+                     <img style="width: 50px; height: 50px; class="media-object thumbnail" src="'.$user['User']['picture'].'" alt="" />
+                 </a>';
+            
+            if(!empty($user['User']['about']))
+            echo '<div class="media-body event-body">
+              <h4 class="subtitle">Sobre este utilizador</h4>'
+               . $user['User']['about']. 
+            '</div>';?>
+          </div>
         </div><!-- authorpanel -->
         <?php if ($this->Session->read('Auth.User')) {
+        echo '<div class="mb30"></div>';
+        
+        if(count($comments)>0){
+          echo'<h5 class="subtitle">'. count($comments);
+        }
+        if(count($comments==1)){
+          echo " Comentário".'</h5>';
+        }
+        else if(count($comments>1)){
+          echo " Comentários".'</h5>';
+        }
         echo '<div class="mb30"></div>
-        <h5 class="subtitle">';
-        if(count($comments)>0)echo count($comments); echo " "; echo "Comentários";
-        echo '</h5>
-        <div class="mb30"></div>
         
         <ul class="media-list comment-list">';
           for($i=0; $i<count($comments); $i++){

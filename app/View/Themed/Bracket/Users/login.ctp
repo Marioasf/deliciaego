@@ -51,8 +51,11 @@
               <li><i class="fa fa-arrow-circle-o-right mr5"></i> Totalmente gratuito</li>
               <li><i class="fa fa-arrow-circle-o-right mr5"></i> e muito mais...</li>
             </ul>
-            <div class="mb20"></div>
-            <strong>Ainda não se registou? <a href="/users/signup">Faça-o agora</a></strong>
+            <div class="mb20">
+              <strong>Ainda não se registou? <a href="/users/signup">Faça-o agora</a></strong>
+              <br/>
+              <strong>Se preferir pode visitar o <a href="/">site</a> como convidado</strong>
+            </div>
           </div><!-- signin0-info -->
           
         </div><!-- col-sm-7 -->
